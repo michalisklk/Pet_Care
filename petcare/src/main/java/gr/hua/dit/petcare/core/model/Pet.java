@@ -1,6 +1,6 @@
 package gr.hua.dit.petcare.core.model;
-
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "pets")
@@ -10,39 +10,36 @@ public class Pet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Name is required")
     @Column(nullable = false)
     private String name;
 
+    @NotBlank(message = "Specie is required")
     @Column(nullable = false)
     private String species;   // π.χ. "Dog", "Cat"
 
     private String breed;    // ράτσα
 
+    @Min(value = 0, message = "The age cannot be negative")
     private int age;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "owner_id")
     private Person owner;
 
-    public Pet() {}//για το jpa
+    protected Pet() {}//για το jpa
 
-    public Pet(String name, String species, String breed,
-               Person owner) {
+    public Pet(String name, String species, String breed, int age, Person owner) {
         this.name = name;
         this.species = species;
         this.breed = breed;
+        this.age = age;
         this.owner = owner;
 
     }
 
     // getters / setters
-    public int getAge() {
-        return age;
-    }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
     public Long getId() {
         return id;
     }
@@ -68,6 +65,11 @@ public class Pet {
         this.breed = breed;
     }
 
+    public int getAge() { return age; }
+    public void setAge(int age) {
+        this.age = age;
+    }
+
     public Person getOwner() {
         return owner;
     }
@@ -75,4 +77,3 @@ public class Pet {
         this.owner = owner;
     }
 }
-
