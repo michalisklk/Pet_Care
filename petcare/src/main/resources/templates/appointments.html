@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Κλείσιμο Ραντεβού</title>
+</head>
+<body>
+
+<h1>Κλείσιμο ραντεβού για ιδιοκτήτη</h1>
+
+<p th:text="'Owner ID: ' + ${ownerId}"></p>
+
+<form th:action="@{/appointments}" method="post">
+    <input type="hidden" name="ownerId" th:value="${ownerId}"/>
+
+    <label>
+        Pet ID:
+        <input type="number" name="petId" required>
+    </label>
+    <br>
+
+    <label>
+        Vet ID:
+        <input type="number" name="vetId" required>
+    </label>
+    <br>
+
+    <label>
+        Start time:
+        <input type="datetime-local" name="start" required>
+    </label>
+    <br>
+
+    <label>
+        End time:
+        <input type="datetime-local" name="end" required>
+    </label>
+    <br>
+
+    <label>
+        Reason:
+        <textarea name="reason" rows="3"></textarea>
+    </label>
+    <br>
+
+    <button type="submit">Κλείσε ραντεβού</button>
+</form>
+
+<div th:if="${successMessage}">
+    <p th:text="${successMessage}" style="color: green;"></p>
+</div>
+<div th:if="${errorMessage}">
+    <p th:text="${errorMessage}" style="color: red;"></p>
+</div>
+
+</body>
+</html>
