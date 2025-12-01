@@ -22,10 +22,10 @@ public interface UserService {
     /**
      * Εύρεση χρήστη με το email (για το login)
      */
-    Optional<Person> findByEmail(String email);
+    Person findByEmail(String email);
 
     /**
      * Εύρεση χρήστη με το id
      */
-    Optional<Person> findById(Long id);
+    Person findById(Long id);
 }
