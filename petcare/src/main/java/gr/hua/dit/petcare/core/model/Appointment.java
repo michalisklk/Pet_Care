@@ -11,7 +11,7 @@ public class Appointment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id;//generated ID
 
     // κατοικίδιο
     @ManyToOne(optional = false)
@@ -28,14 +28,14 @@ public class Appointment {
     private Person owner;
 
     @Column(nullable = false)
-    private LocalDateTime startTime;
+    private LocalDateTime startTime;//αρχή ραντεβού
 
     @Column(nullable = false)
-    private LocalDateTime endTime;
+    private LocalDateTime endTime;//τέλος ραντεβού
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private AppointmentStatus status = AppointmentStatus.PENDING;
+    private AppointmentStatus status = AppointmentStatus.PENDING;//Τα ραντεβού θα ξεκινάνε ως pending γιατί περιμένουν την απάντησή του vet
 
     // λόγος επίσκεψης από ιδιοκτήτη
     @Column(length = 500)
@@ -64,7 +64,6 @@ public class Appointment {
         return owner;
     }
 
-    // αν ΘΕΛΕΙΣ οπωσδήποτε setter:
     public void setOwner(Person owner) {
         this.owner = owner;
     }

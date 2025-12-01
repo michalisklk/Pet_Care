@@ -37,32 +37,30 @@ public class AppointmentService {
                                          LocalDateTime end,
                                          String reason) {
 
-        Person owner = userRepository.findById(ownerId)
-                .orElseThrow(() -> new EntityNotFoundException("Owner not found"));
+        Person owner = userRepository.findById(ownerId).orElseThrow(() -> new EntityNotFoundException("Owner not found"));
 
-        Person vet = userRepository.findById(vetId)
-                .orElseThrow(() -> new EntityNotFoundException("Vet not found"));
+        Pet pet = petRepository.findById(petId).orElseThrow(() -> new EntityNotFoundException("Pet not found"));
 
-        Pet pet = petRepository.findById(petId)
-                .orElseThrow(() -> new EntityNotFoundException("Pet not found"));
+        Person vet = userRepository.findById(vetId).orElseThrow(() -> new EntityNotFoundException("Vet not found"));
 
-        // το pet πρέπει να ανήκει στον owner
+        //Έλεγχος ότι το pet ανήκει στον owner
         if (!pet.getOwner().getId().equals(owner.getId())) {
-            throw new IllegalStateException("This pet does not belong to this owner");
+            throw new IllegalStateException("Το κατοικίδιο δεν ανήκει σε αυτόν τον ιδιοκτήτη");
         }
 
-        // overlap check για τον vet
-        if (!appointmentRepository.findOverlappingForVet(vet, start, end).isEmpty()) {
-            throw new IllegalStateException("Vet already has appointment at that time");
-        }
-
-        Appointment appointment = new Appointment(pet, vet, start, end, reason);
+        Appointment appointment = new Appointment(
+                pet,
+                vet,
+                start,
+                end,
+                reason
+        );
         appointment.setStatus(AppointmentStatus.PENDING);
 
         return appointmentRepository.save(appointment);
     }
 
-
+//Δεν τα χρησιμοποιώ ακόμα άλλα θεωρώ οτι θα χρειαστούν σίγουρα μέτα
     // Λίστες ραντεβού
     // Owner βλέπει τα δικά του ραντεβού (με βάση ownerId)
     public List<Appointment> getAppointmentsForOwner(Long ownerId) {
@@ -77,7 +75,6 @@ public class AppointmentService {
                 .map(appointmentRepository::findByVet)
                 .orElse(List.of());
     }
-
 
     // vet ραντεβού
     public Appointment confirm(Long appointmentId, Person vet) {

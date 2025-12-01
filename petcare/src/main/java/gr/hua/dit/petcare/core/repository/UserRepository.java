@@ -2,6 +2,7 @@ package gr.hua.dit.petcare.core.repository;
 
 
 import gr.hua.dit.petcare.core.model.Person;
+import gr.hua.dit.petcare.core.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -28,4 +29,7 @@ public interface UserRepository extends JpaRepository<Person, Long>{
      * Χρησιμοποιείται από το Spring Security για το authentication.
      */
     Optional<Person> findByEmail(String email);
+
+    List<Person> findByRole(Role role);
+
 }

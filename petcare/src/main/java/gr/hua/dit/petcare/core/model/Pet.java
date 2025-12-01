@@ -16,7 +16,7 @@ public class Pet {
 
     @NotBlank(message = "Specie is required")
     @Column(nullable = false)
-    private String species;   // π.χ. "Dog", "Cat"
+    private String species;   // π.χ. Dog, Cat
 
     private String breed;    // ράτσα
 
