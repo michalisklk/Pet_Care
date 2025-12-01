@@ -7,7 +7,25 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Repository για το Person entity.
+ * Χρησιμοποιείται από το service layer και το Spring Security (login μέσω email)
+ */
 public interface UserRepository extends JpaRepository<Person, Long>{
-    List<Person> findByFullName(String fullName);//ΔΕΝ ΞΕΡΩ ΑΚΟΜ ΑΝ ΧΡΕΙΑΖΕΤΑΙ
+
+    /**
+     * Εύρεση χρήστη με το FullName
+     */
+    List<Person> findByFullName(String fullName);
+
+    /**
+     * Εύρεση χρήστη με το ID.
+     */
     Optional<Person> findById(Long id);
+
+    /**
+     * Εύρεση χρήστη με το email (για το login).
+     * Χρησιμοποιείται από το Spring Security για το authentication.
+     */
+    Optional<Person> findByEmail(String email);
 }
