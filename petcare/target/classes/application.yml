@@ -21,3 +21,10 @@ spring:
     console:
       enabled: true
       path: /h2-console
+
+# Ρυθμίσεις για εξωτερικές υπηρεσίες
+external:
+  sms-service:
+    # URL της εξωτερικής υπηρεσίας SMS (PetCare Notification Service)
+    # Η PetCare ΔΕΝ ξέρει την υλοποίηση, μόνο αυτό το endpoint.
+    url: http://localhost:8081/api/v1/sms
