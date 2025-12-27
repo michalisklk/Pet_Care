@@ -1,6 +1,7 @@
 package gr.hua.dit.petcare.core.dto;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
@@ -24,56 +25,24 @@ public class AppointmentDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime start;
 
-    // Πότε τελειώνει το ραντεβού αν και αυτό έλεγα να το βάλουμε αυτόματα να τελειώνει σε μια ή μίση ωρα
-    @NotNull(message = "End time is required")
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private LocalDateTime end;
-
+    // Προαιρετικό κείμενο
     @Size(max = 500, message = "Reason must be at most 500 characters")
     private String reason;
-    // Κενός constructor για το Thymeleaf
-    public AppointmentDto() {
-    }
-    //Setters / Getters
-    public Long getOwnerId() {
-        return ownerId;
-    }
-    public void setOwnerId(Long ownerId) {
-        this.ownerId = ownerId;
-    }
 
-    public Long getPetId() {
-        return petId;
-    }
-    public void setPetId(Long petId) {
-        this.petId = petId;
-    }
+    public AppointmentDto() {}
 
-    public Long getVetId() {
-        return vetId;
-    }
-    public void setVetId(Long vetId) {
-        this.vetId = vetId;
-    }
+    public Long getOwnerId() { return ownerId; }
+    public void setOwnerId(Long ownerId) { this.ownerId = ownerId; }
 
-    public LocalDateTime getStart() {
-        return start;
-    }
-    public void setStart(LocalDateTime start) {
-        this.start = start;
-    }
+    public Long getPetId() { return petId; }
+    public void setPetId(Long petId) { this.petId = petId; }
 
-    public LocalDateTime getEnd() {
-        return end;
-    }
-    public void setEnd(LocalDateTime end) {
-        this.end = end;
-    }
+    public Long getVetId() { return vetId; }
+    public void setVetId(Long vetId) { this.vetId = vetId; }
 
-    public String getReason() {
-        return reason;
-    }
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
+    public LocalDateTime getStart() { return start; }
+    public void setStart(LocalDateTime start) { this.start = start; }
+
+    public String getReason() { return reason; }
+    public void setReason(String reason) { this.reason = reason; }
 }

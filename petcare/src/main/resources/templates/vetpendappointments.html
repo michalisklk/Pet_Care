@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Vet - Pending Appointments</title>
+</head>
+<body>
+
+<h1 th:text="'Ραντεβού (Pending) για ' + ${vet.fullName}"></h1>
+<p th:text="'Vet ID: ' + ${vet.id}"></p>
+
+<div th:if="${#lists.isEmpty(pendingAppointments)}">
+    <p>Δεν υπάρχουν pending ραντεβού.</p>
+</div>
+
+<table border="1" th:if="${!#lists.isEmpty(pendingAppointments)}">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Owner</th>
+        <th>Pet</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Reason</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="a : ${pendingAppointments}">
+        <td th:text="${a.id}"></td>
+        <td th:text="${a.owner.fullName} + ' (ID: ' + ${a.owner.id} + ')'"></td>
+        <td th:text="${a.pet.name} + ' (ID: ' + ${a.pet.id} + ')'"></td>
+        <td th:text="${a.startTime}"></td>
+        <td th:text="${a.endTime}"></td>
+        <td th:text="${a.reason}"></td>
+        <td th:text="${a.status}"></td>
+
+        <td>
+            <!-- CONFIRM -->
+            <form th:action="@{'/vet/appointments/' + ${a.id} + '/confirm'}" method="post" style="display:inline;">
+                <input type="hidden" name="vetId" th:value="${vet.id}" />
+                <button type="submit">Confirm</button>
+            </form>
+
+            <!-- CANCEL με notes) -->
+            <form th:action="@{'/vet/appointments/' + ${a.id} + '/cancel'}" method="post" style="display:inline;">
+                <input type="hidden" name="vetId" th:value="${vet.id}" />
+                <input type="text" name="notes" placeholder="cancel notes (optional)" />
+                <button type="submit">Cancel</button>
+            </form>
+
+            <!-- COMPLETE (με notes) -->
+            <form th:action="@{'/vet/appointments/' + ${a.id} + '/complete'}" method="post" style="display:inline;">
+                <input type="hidden" name="vetId" th:value="${vet.id}" />
+                <input type="text" name="notes" placeholder="complete notes (optional)" />
+                <button type="submit">Complete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

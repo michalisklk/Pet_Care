@@ -90,7 +90,6 @@ public class AppointmentController {
                     appointmentDto.getPetId(),
                     appointmentDto.getVetId(),
                     appointmentDto.getStart(),
-                    appointmentDto.getEnd(),
                     appointmentDto.getReason()
             );
             //Αν ολα πίγαν καλά εμφανίζεται μυνημα επιτυχίας με το ID του ραντεβού

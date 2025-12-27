@@ -46,17 +46,14 @@
         </select>
     </div>
 
-
     <div>
         <label for="start">Start time:</label>
         <input id="start" type="datetime-local" th:field="*{start}" required/>
     </div>
 
     <div>
-        <label for="end">End time:</label>
-        <input id="end" type="datetime-local" th:field="*{end}" required/>
+        <p>End time (auto +30min):</p>
     </div>
-
 
     <div>
         <label for="reason">Reason:</label><br/>
