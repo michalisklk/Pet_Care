@@ -7,44 +7,40 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Ρυθμίσεις για OpenAPI / Swagger της εξωτερικής υπηρεσίας SMS.
+ * Ρυθμίσεις για OpenAPI / Swagger της εξωτερικής υπηρεσίας
+ * - Το Swagger UI είναι μια σελίδα που μας δείχνει τα endpoints και μας αφήνει να τα δοκιμάζουμε.
+ * - Το springdoc διαβάζει τους controllers και φτιάχνει αυτόματα το OpenAPI ( /v3/api-docs ).
  *
- * Εδώ ορίζουμε:
- * - τις βασικές πληροφορίες του API (τίτλος, έκδοση, περιγραφή)
- * - ένα group "sms-api" που περιλαμβάνει τα endpoints του /api/v1/sms
+ * βάζουμε:
+ * βασικές πληροφορίες του API (τίτλος, έκδοση, περιγραφή)
+ * ένα group στο Swagger για να είναι όλα μαζεμένα/τακτοποιημένα
  */
 @Configuration
 public class OpenApiConfig {
 
     /**
-     * Bean OpenAPI με βασικές πληροφορίες για το API.
-     * Το χρησιμοποιεί το springdoc για να εμφανίσει τίτλο, εκδοχή, περιγραφή
-     * στο Swagger UI και στο /v3/api-docs.
+     * Βασικά στοιχεία του API.
      */
     @Bean
     public OpenAPI api() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("PetCare Notification Service") // τίτλος του API
-                        .version("v1")                        // έκδοση του API
-                        .description("Stateless REST API για αποστολή SMS που χρησιμοποιείται από την εφαρμογή PetCare"));
+                        .title("PetCare Notification Service")   // τίτλος που θα φαίνεται στο Swagger
+                        .version("v1")                           // έκδοση (για εμάς είναι v1)
+                        .description("REST API για phone validation και αποστολή SMS, που καλείται από την PetCare."));
     }
 
     /**
-     * Ορισμός group "sms-api" στο Swagger.
-     *
-     * - group("sms-api"): όνομα ομάδας που θα φαίνεται στο Swagger UI
-     * - packagesToScan(...): από ποιο package θα διαβάσει controllers
-     * - pathsToMatch(...): ποια paths θα ανήκουν σε αυτό το group
+     * Group στο Swagger για όλα τα endpoints του /api/v1/** (sms + phone-numbers).
      */
     @Bean
-    public GroupedOpenApi smsApi() {
+    public GroupedOpenApi notificationApi() {
         return GroupedOpenApi.builder()
-                .group("sms-api")
-                // Εδώ είναι το package όπου βρίσκεται ο SmsResource controller
+                .group("notification-api")
+                // Σκανάρει τους controllers που είναι εδώ μέσα:
                 .packagesToScan("gr.hua.dit.notification_service.web.rest")
-                // Θα συμπεριλάβει όλα τα endpoints που ξεκινούν με /api/v1/sms
-                .pathsToMatch("/api/v1/sms/**")
+                // Θα δείξει όλα τα endpoints που ξεκινάνε με /api/v1/
+                .pathsToMatch("/api/v1/**")
                 .build();
     }
 }

@@ -1,1 +1,0 @@
-package gr.hua.dit.notification_service.web.rest;

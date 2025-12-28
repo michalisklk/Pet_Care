@@ -4,9 +4,8 @@ import gr.hua.dit.notification_service.core.model.SendSmsRequest;
 import gr.hua.dit.notification_service.core.model.SendSmsResult;
 
 /**
- * Βασικό interface για υπηρεσία αποστολής SMS.
- *
- * Ορίζει το "συμβόλαιο" που πρέπει να υλοποιεί κάθε κλάση που στέλνει SMS:
+ * interface για υπηρεσία αποστολής SMS.
+ * Ορίζει το συμβόλαιο που πρέπει να υλοποιεί κάθε κλάση που στέλνει SMS:
  * δέχεται ένα {@link SendSmsRequest} με τα στοιχεία του μηνύματος
  * και επιστρέφει ένα {@link SendSmsResult} με το αποτέλεσμα της αποστολής.
  */
