@@ -9,7 +9,6 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * Adapter της εφαρμογής PetCare προς την εξωτερική υπηρεσία ειδοποιήσεων
- *
  * Υλοποιεί το SmsNotificationPort και, εσωτερικά, καλεί το REST API
  * της εξωτερικής υπηρεσίας χρησιμοποιώντας RestTemplate.
  */

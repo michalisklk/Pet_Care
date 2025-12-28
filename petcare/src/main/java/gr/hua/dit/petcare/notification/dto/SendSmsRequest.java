@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 
 /**
  * Το αντικείμενο αυτό χρησιμοποιείται από τον adapter για να καλέσει
- * την εξωτερική υπηρεσία ειδοποιήσεων (Notification Service).
+ * την εξωτερική υπηρεσία ειδοποιήσεων Notification Service.
  */
 public record SendSmsRequest(
 
