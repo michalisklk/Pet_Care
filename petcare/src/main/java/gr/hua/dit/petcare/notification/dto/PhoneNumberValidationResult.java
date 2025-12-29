@@ -2,7 +2,7 @@ package gr.hua.dit.petcare.notification.dto;
 
 /**
  * DTO (Data Transfer Object) κουτί δεδομένων που χρησιμοποιούμε
- * για να διαβάσουμε ή κρατήσουμε την απάντηση (JSON) από την εξωτερική υπηρεσία.
+ * για να διαβάσουμε ή να κρατήσουμε την απάντηση (JSON) από την εξωτερική υπηρεσία.
  */
 public record PhoneNumberValidationResult(
         // Ο αριθμός όπως τον έδωσε ο χρήστης

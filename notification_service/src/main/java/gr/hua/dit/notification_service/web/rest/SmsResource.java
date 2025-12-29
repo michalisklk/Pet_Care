@@ -13,11 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * REST API Resource class for managing SMS (sends).
- *
- * @author Dimitris Gkoulis
- */
+
 @RestController
 @RequestMapping(value = "/api/v1/sms", produces = MediaType.APPLICATION_JSON_VALUE)
 public class SmsResource {

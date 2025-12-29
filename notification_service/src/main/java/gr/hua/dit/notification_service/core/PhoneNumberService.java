@@ -3,7 +3,7 @@ package gr.hua.dit.notification_service.core;
 import gr.hua.dit.notification_service.core.model.PhoneNumberValidationResult;
 
 /**
- * Αυτό είναι το "service interface" για έλεγχο τηλεφώνων μέσα στην εξωτερική υπηρεσία.
+ * Αυτό είναι για έλεγχο τηλεφώνων μέσα στην εξωτερική υπηρεσία.
  * - του δίνουμε ένα τηλέφωνο όπως το γράφει ο χρήστης (raw),
  * - και μας λέει αν είναι έγκυρο και μας το δίνει σε μορφή E.164 (+30...),
  */
