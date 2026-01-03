@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pet</title>
+</head>
+<body>
+
+<h1 th:text="${petId == null ? 'New Pet' : 'Edit Pet'}"></h1>
+
+<form th:action="${petId == null} ? @{/pets/new} : @{/pets/edit/{id}(id=${petId})}"
+      th:object="${pet}"
+      method="post">
+
+    <div>
+        <label>Name:</label>
+        <input type="text" th:field="*{name}" />
+        <div th:if="${#fields.hasErrors('name')}"
+             th:errors="*{name}" style="color:red"></div>
+    </div>
+
+    <div>
+        <label>Species:</label>
+        <input type="text" th:field="*{species}" />
+        <div th:if="${#fields.hasErrors('species')}"
+             th:errors="*{species}" style="color:red"></div>
+    </div>
+
+    <div>
+        <label>Breed:</label>
+        <input type="text" th:field="*{breed}" />
+    </div>
+
+    <div>
+        <label>Age:</label>
+        <input type="number" th:field="*{age}" min="0" />
+        <div th:if="${#fields.hasErrors('age')}"
+             th:errors="*{age}" style="color:red"></div>
+    </div>
+
+    <div>
+        <button type="submit">Save</button>
+    </div>
+
+</form>
+
+<p>
+    <a th:href="@{/pets}">Back to pets</a>
+</p>
+
+</body>
+</html>

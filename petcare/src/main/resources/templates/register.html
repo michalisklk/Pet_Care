@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+</head>
+<body>
+
+<h1>User Registration</h1>
+
+<!-- error από service -->
+<div th:if="${errorMessage}">
+    <p style="color: red;" th:text="${errorMessage}"></p>
+</div>
+
+<form th:action="@{/register}" th:object="${user}" method="post">
+
+    <div>
+        <label>Full Name:</label>
+        <input type="text" th:field="*{fullName}" />
+        <div th:if="${#fields.hasErrors('fullName')}"
+             th:errors="*{fullName}" style="color:red"></div>
+    </div>
+
+    <div>
+        <label>Email:</label>
+        <input type="email" th:field="*{email}" />
+        <div th:if="${#fields.hasErrors('email')}"
+             th:errors="*{email}" style="color:red"></div>
+    </div>
+
+    <div>
+        <label>Phone:</label>
+        <input type="text" th:field="*{mobile}" />
+        <div th:if="${#fields.hasErrors('mobile')}"
+             th:errors="*{mobile}" style="color:red"></div>
+    </div>
+
+    <div>
+        <label>Password:</label>
+        <input type="password" th:field="*{password}" />
+        <div th:if="${#fields.hasErrors('password')}"
+             th:errors="*{password}" style="color:red"></div>
+    </div>
+
+    <div>
+        <button type="submit">Register</button>
+    </div>
+
+</form>
+
+<p>
+    Already have an account?
+    <a th:href="@{/login}">Login</a>
+</p>
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Pets</title>
+</head>
+<body>
+
+<h1>My Pets</h1>
+
+<p>
+    <a th:href="@{/pets/new}">Add New Pet</a>
+</p>
+
+<div th:if="${#lists.isEmpty(pets)}">
+    <p>You haven’t registered any pets.</p>
+</div>
+
+<table border="1" th:if="${!#lists.isEmpty(pets)}">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Species</th>
+        <th>Breed</th>
+        <th>Age</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="pet : ${pets}">
+        <td th:text="${pet.name}"></td>
+        <td th:text="${pet.species}"></td>
+        <td th:text="${pet.breed}"></td>
+        <td th:text="${pet.age}"></td>
+        <td>
+            <a th:href="@{'/pets/edit/' + ${pet.id}}">Edit</a>
+
+            <form th:action="@{'/pets/delete/' + ${pet.id}}"
+                  method="post"
+                  style="display:inline;">
+                <button type="submit"
+                        onclick="return confirm('Are you sure you want to delete?')">Delete
+                </button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<p th:if="${!#lists.isEmpty(pets)}">
+    <a th:href="@{/appointments(ownerId=${pets[0].owner.id})}">
+        Book Appointment
+    </a>
+</p>
+
+<p>
+    <a th:href="@{/logout}">Logout</a>
+</p>
+
+</body>
+</html>

@@ -18,26 +18,26 @@ public class DevDataConfig {
         return args -> {
 
             Person owner = new Person(
-                    "Dummy Owner",
-                    "owner@gmail.com",
-                    "6900000000",
-                    "password", //demo
+                    "Dummy Owner1",
+                    "owner1@gmail.com",
+                    "6900000001",
+                    "$2a$10$.bL5STEZQo5QUALltT6mou499V1XtQ9NCRXfxO4XBIhUYabKxv4O2", //demo =password
                     Role.PET_OWNER
             );
             owner = userRepository.save(owner);
             Person owner2 = new Person(
                     "Dummy Owner2",
                     "owner2@gmail.com",
-                    "6900000003",
-                    "password", //demo
+                    "6900000002",
+                    "$2a$10$.bL5STEZQo5QUALltT6mou499V1XtQ9NCRXfxO4XBIhUYabKxv4O2", //demo =password
                     Role.PET_OWNER
             );
             owner2 = userRepository.save(owner2);
             Person vet = new Person(
-                    "Dummy Vet",
-                    "vet@example.com",
+                    "Dummy Vet1",
+                    "vet1@gmail.com",
                     "6900000001",
-                    "password",//demo
+                    "$2a$10$.bL5STEZQo5QUALltT6mou499V1XtQ9NCRXfxO4XBIhUYabKxv4O2",//demo =password
                     Role.VET
             );
             vet = userRepository.save(vet);
