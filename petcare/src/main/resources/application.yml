@@ -28,3 +28,7 @@ external:
     # URL της εξωτερικής υπηρεσίας SMS (PetCare Notification Service)
     # Η PetCare ΔΕΝ ξέρει την υλοποίηση, μόνο αυτό το endpoint.
     url: http://localhost:8081/api/v1/sms
+
+    # dummy
+  phone-service:
+    url: http://localhost

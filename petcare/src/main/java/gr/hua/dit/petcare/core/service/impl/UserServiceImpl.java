@@ -1,4 +1,4 @@
-/*package gr.hua.dit.petcare.core.service.impl;
+package gr.hua.dit.petcare.core.service.impl;
 
 import gr.hua.dit.petcare.core.dto.UserRegistrationDto;
 
@@ -68,7 +68,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      * Μέθοδος για τη χρήση του Spring Security.
      * Χρησιμοποιούμε email αντί για username.
      */
-/*
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
@@ -78,4 +77,4 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 );
     }
 }
-*/
+
