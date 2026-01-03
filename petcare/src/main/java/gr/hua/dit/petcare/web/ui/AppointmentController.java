@@ -1,10 +1,7 @@
 package gr.hua.dit.petcare.web.ui;
 
 import gr.hua.dit.petcare.core.dto.AppointmentDto;
-import gr.hua.dit.petcare.core.model.Appointment;
-import gr.hua.dit.petcare.core.model.Person;
-import gr.hua.dit.petcare.core.model.Pet;
-import gr.hua.dit.petcare.core.model.Role;
+import gr.hua.dit.petcare.core.model.*;
 import gr.hua.dit.petcare.core.repository.PetRepository;
 import gr.hua.dit.petcare.core.repository.UserRepository;
 import gr.hua.dit.petcare.core.service.AppointmentService;
@@ -38,7 +35,6 @@ public class AppointmentController {
     }
 
     //GET
-    // π.χ. http://localhost:8080/appointments?ownerId=1
     @GetMapping("/appointments")
     public String showAppointmentForm(@RequestParam("ownerId") Long ownerId,
                                       Model model) {
@@ -57,6 +53,8 @@ public class AppointmentController {
         model.addAttribute("pets", pets);
         model.addAttribute("vets", vets);
         model.addAttribute("appointment", dto);
+        model.addAttribute("reasons", AppointmentReason.values());
+
 
         return "appointments";
     }
@@ -76,6 +74,8 @@ public class AppointmentController {
         model.addAttribute("pets", pets);
         model.addAttribute("vets", vets);
         model.addAttribute("appointment", appointmentDto);
+        model.addAttribute("reasons", AppointmentReason.values());
+
 
         //Αν βρήκε λάθος γυρνάει πίσω στο appointments
         if (bindingResult.hasErrors()) {

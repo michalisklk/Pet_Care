@@ -37,9 +37,9 @@ public class Appointment {
     @Column(nullable = false)
     private AppointmentStatus status = AppointmentStatus.PENDING;//Τα ραντεβού θα ξεκινάνε ως pending γιατί περιμένουν την απάντησή του vet
 
-    // λόγος επίσκεψης από ιδιοκτήτη
-    @Column(length = 500)
-    private String reason;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AppointmentReason reason;
 
     // σημειώσεις / θεραπείες από κτηνίατρο
     @Column(length = 2000)
@@ -49,7 +49,7 @@ public class Appointment {
 
     public Appointment(Pet pet, Person vet,
                        LocalDateTime startTime, LocalDateTime endTime,
-                       String reason) {
+                       AppointmentReason  reason) {
         this.pet = pet;
         this.vet = vet;
         this.owner = pet.getOwner();
@@ -106,10 +106,10 @@ public class Appointment {
         this.status = status;
     }
 
-    public String getReason() {
+    public AppointmentReason  getReason() {
         return reason;
     }
-    public void setReason(String reason) {
+    public void setReason(AppointmentReason  reason) {
         this.reason = reason;
     }
 
@@ -119,5 +119,6 @@ public class Appointment {
     public void setVetNotes(String vetNotes) {
         this.vetNotes = vetNotes;
     }
+
 }
 

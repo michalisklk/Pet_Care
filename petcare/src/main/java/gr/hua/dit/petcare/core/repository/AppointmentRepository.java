@@ -1,14 +1,12 @@
 package gr.hua.dit.petcare.core.repository;
-import gr.hua.dit.petcare.core.model.Appointment;
-import gr.hua.dit.petcare.core.model.AppointmentStatus;
-import gr.hua.dit.petcare.core.model.Person;
-import gr.hua.dit.petcare.core.model.Pet;
+import gr.hua.dit.petcare.core.model.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 
@@ -50,7 +48,17 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     List<Appointment> findByPetAndStartTimeBetween(Pet pet,
                                                    LocalDateTime from,
                                                    LocalDateTime to);
+    /**
+     * Επιστρέφει τα ραντεβού ενός vet με συγκεκριμένο status
+     * ταξινομημένα με βάση το startTime.
+     */
     List<Appointment> findByVetIdAndStatusOrderByStartTimeAsc(Long vetId, AppointmentStatus status);
+
+    /**
+     * Επιστρέφει το πιο πρόσφατο ραντεβού για συγκεκριμένο pet και reason,
+     * αγνοεί όσα έχουν το status που δίνουμε (π.χ. CANCELLED).
+     */
+    Optional<Appointment> findFirstByPetAndReasonAndStatusNotOrderByStartTimeDesc(Pet pet, AppointmentReason reason, AppointmentStatus statusToExclude);
 
 }
 

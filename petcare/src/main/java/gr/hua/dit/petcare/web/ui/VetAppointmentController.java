@@ -49,7 +49,6 @@ public class VetAppointmentController {
     }
 
     //Vet βλέπει τα PENDING ραντεβου
-    // π.χ. http://localhost:8080/vet/appointments?vetId=3
     @GetMapping("/vet/appointments")
     public String vetPendingAppointments(@RequestParam("vetId") Long vetId,
                                          Model model) {

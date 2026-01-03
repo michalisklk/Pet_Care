@@ -1,5 +1,6 @@
 package gr.hua.dit.petcare.core.dto;
 
+import gr.hua.dit.petcare.core.model.AppointmentReason;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,9 +26,13 @@ public class AppointmentDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime start;
 
+    @NotNull
+    private AppointmentReason reason;
+
+
     // Προαιρετικό κείμενο
     @Size(max = 500, message = "Reason must be at most 500 characters")
-    private String reason;
+    private String otherreason;
 
     public AppointmentDto() {}
 
@@ -43,6 +48,10 @@ public class AppointmentDto {
     public LocalDateTime getStart() { return start; }
     public void setStart(LocalDateTime start) { this.start = start; }
 
-    public String getReason() { return reason; }
-    public void setReason(String reason) { this.reason = reason; }
+    public AppointmentReason getReason() { return reason; }
+    public void setReason(AppointmentReason reason) { this.reason = reason; }
+
+    public String getOtherreason() {return otherreason;}
+
+    public void setOtherreason(String otherreason) {this.otherreason = otherreason;}
 }

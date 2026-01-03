@@ -36,11 +36,20 @@ public class DevDataConfig {
             Person vet = new Person(
                     "Dummy Vet1",
                     "vet1@gmail.com",
-                    "6900000001",
+                    "6900000003",
                     "$2a$10$.bL5STEZQo5QUALltT6mou499V1XtQ9NCRXfxO4XBIhUYabKxv4O2",//demo =password
                     Role.VET
             );
             vet = userRepository.save(vet);
+
+            Person vet2 = new Person(
+                    "Dummy Vet2",
+                    "vet2@gmail.com",
+                    "6900000004",
+                    "$2a$10$.bL5STEZQo5QUALltT6mou499V1XtQ9NCRXfxO4XBIhUYabKxv4O2",//demo =password
+                    Role.VET
+            );
+            vet2 = userRepository.save(vet2);
             Pet pet = new Pet(
                     "Rex",
                     "Dog",
@@ -49,6 +58,7 @@ public class DevDataConfig {
                     owner
             );
             pet = petRepository.save(pet);
+
             Pet pet2 = new Pet(
                     "zizel",
                     "cat",
@@ -58,11 +68,22 @@ public class DevDataConfig {
             );
             pet2 = petRepository.save(pet2);
 
+            Pet pet3 = new Pet(
+                    "Max",
+                    "Dog",
+                    "Mixed",
+                    4,
+                    owner
+            );
+            pet3 = petRepository.save(pet3);
+
             System.out.println("Owner ID = " + owner.getId());
             System.out.println("Owner2 ID = " + owner2.getId());
             System.out.println("Vet ID   = " + vet.getId());
+            System.out.println("Vet2 ID = " + vet2.getId());
             System.out.println("Pet ID   = " + pet.getId());
             System.out.println("Pet2 ID   = " + pet2.getId());
+            System.out.println("Pet ID   = " + pet3.getId());
 
         };
     }

@@ -8,25 +8,21 @@
 
 <h1>Κλείσιμο ραντεβού για ιδιοκτήτη</h1>
 
-
 <p th:text="'Owner: ' + ${owner.fullName} + ' (ID: ' + ${owner.id} + ')'">
     Owner info
 </p>
-
 
 <p th:if="${successMessage}" th:text="${successMessage}" style="color: green;"></p>
 <p th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></p>
 
 <form th:action="@{/appointments}" th:object="${appointment}" method="post">
 
-
     <input type="hidden" th:field="*{ownerId}"/>
-
 
     <div>
         <label for="petId">Pet:</label>
         <select id="petId" th:field="*{petId}" required>
-            <option value="" disabled selected> Επιλέξτε κατοικίδιο </option>
+            <option value="" disabled>Επιλέξτε κατοικίδιο</option>
             <option th:each="p : ${pets}"
                     th:value="${p.id}"
                     th:text="${p.name} + ' (ID: ' + ${p.id} + ')'">
@@ -34,11 +30,10 @@
         </select>
     </div>
 
-
     <div>
         <label for="vetId">Vet:</label>
         <select id="vetId" th:field="*{vetId}" required>
-            <option value="" disabled selected>Επιλέξτε κτηνίατρο</option>
+            <option value="" disabled>Επιλέξτε κτηνίατρο</option>
             <option th:each="v : ${vets}"
                     th:value="${v.id}"
                     th:text="${v.fullName} + ' (ID: ' + ${v.id} + ')'">
@@ -52,17 +47,24 @@
     </div>
 
     <div>
-        <p>End time (auto +30min):</p>
+        <p>End time (auto +30min)</p>
     </div>
 
     <div>
-        <label for="reason">Reason:</label><br/>
-        <textarea id="reason" th:field="*{reason}" rows="3" cols="40"></textarea>
+        <label for="reason">Reason:</label>
+        <select id="reason" th:field="*{reason}" required>
+            <option value="" disabled>Επιλέξτε λόγο επίσκεψης</option>
+            <option th:each="r : ${reasons}"
+                    th:value="${r}"
+                    th:text="${r}">
+            </option>
+        </select>
     </div>
 
-    <div>
+    <div style="margin-top: 12px;">
         <button type="submit">Κλείσε ραντεβού</button>
     </div>
+
 </form>
 
 </body>
