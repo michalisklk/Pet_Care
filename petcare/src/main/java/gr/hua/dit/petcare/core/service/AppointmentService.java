@@ -57,12 +57,12 @@ public class AppointmentService {
 
         // ο χρήστης δεν θα μπορεί να κλείσει ραντεβού στο παρελθόν
         if (start.isBefore(now)) {
-            throw new IllegalStateException("Δεν μπορείς να κλείσεις ραντεβού στο παρελθόν");
+            throw new IllegalStateException("You cannot book an appointment in the past");
         }
 
         //Ο χρήστης θα πρέπει αν Κλείνει ραντεβού Μέτα απο μια ωρα καθώς δεν γίνεται να κλάσει ραντεβού για εκείνο ακριβώς τον χρόνο.
         if (start.isBefore(now.plusHours(1))) {
-            throw new IllegalStateException("Το ραντεβού πρέπει να κλείνεται τουλάχιστον 1 ωρα μετά από τώρα");
+            throw new IllegalStateException("The appointment must be booked at least 1 hour from now");
         }
 
         //διάρκειά κάθε ραντεβού 30 Είναι λεπτά
@@ -77,13 +77,13 @@ public class AppointmentService {
             throw new IllegalStateException("Pet has no owner");
         }
         if (!pet.getOwner().getId().equals(owner.getId())) {
-            throw new IllegalStateException("Το κατοικίδιο δεν ανήκει σε αυτόν τον ιδιοκτήτη");
+            throw new IllegalStateException("The pet does not belong to this owner");
         }
 
         // Δεν επιτρέπεται overlap στον ίδιο vet
         List<Appointment> overlaps = appointmentRepository.findOverlappingForVet(vet, start, end);
         if (!overlaps.isEmpty()) {
-            throw new IllegalStateException("Ο κτηνίατρος έχει ήδη ραντεβού σε αυτό το χρονικό διάστημα");
+            throw new IllegalStateException("The vet already has an appointment during this time slot");
         }
 
         //Ίδιο σημαντικό reason για ίδιο pet -> όχι νέο αν το προηγούμενο δεν έγινε COMPLETED επίσης αν είναι COMPLETED,
