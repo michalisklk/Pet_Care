@@ -9,12 +9,21 @@
 <h1 th:text="'Όλα τα ραντεβού για ' + ${vet.fullName}"></h1>
 <p th:text="'Vet ID: ' + ${vet.id}"></p>
 
-<p>
-    <a th:href="@{'/vet/appointments?vetId=' + ${vet.id}}">Δες μόνο Pending</a>
-</p>
-
 <div th:if="${#lists.isEmpty(allAppointments)}">
     <p>Δεν υπάρχουν ραντεβού.</p>
+</div>
+
+<p>
+    <a th:href="@{'/vet/appointments?vetId=' + ${vet.id}}">
+        <button type="button">Δες μόνο Pending</button>
+    </a>
+</p>
+
+
+<div style="margin-top: 12px;">
+    <a th:href="@{/logout}">
+        <button type="button"> Logout</button>
+    </a>
 </div>
 
 <table border="1" th:if="${!#lists.isEmpty(allAppointments)}">

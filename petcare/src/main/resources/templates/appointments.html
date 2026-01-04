@@ -65,6 +65,20 @@
         <button type="submit">Κλείσε ραντεβού</button>
     </div>
 
+    <div style="margin-top: 12px;">
+        <a th:href="@{/pets(ownerId=${owner.id})}">
+            <button type="button"> Go back to my Pets</button>
+        </a>
+    </div>
+
+
+    <div style="margin-top: 12px;">
+        <a th:href="@{/logout}">
+            <button type="button"> Logout</button>
+        </a>
+    </div>
+
+
 </form>
 
 </body>

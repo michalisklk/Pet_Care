@@ -73,7 +73,7 @@ public class DevDataConfig {
                     "Dog",
                     "Mixed",
                     4,
-                    owner
+                    owner2
             );
             pet3 = petRepository.save(pet3);
 
@@ -83,7 +83,7 @@ public class DevDataConfig {
             System.out.println("Vet2 ID = " + vet2.getId());
             System.out.println("Pet ID   = " + pet.getId());
             System.out.println("Pet2 ID   = " + pet2.getId());
-            System.out.println("Pet ID   = " + pet3.getId());
+            System.out.println("Pet3 ID   = " + pet3.getId());
 
         };
     }
