@@ -40,6 +40,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/test-notifications/**").permitAll()
                         .requestMatchers("/appointments/**").permitAll()
                         .requestMatchers("/ui/notifications/**").permitAll()
+                        .requestMatchers("/api/v1/**").permitAll()
+
 
                         // Προστατευμένα endpoints της εφαρμογής
                         .requestMatchers("/pets/**").authenticated()

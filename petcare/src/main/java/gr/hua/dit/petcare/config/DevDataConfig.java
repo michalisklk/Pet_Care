@@ -20,7 +20,7 @@ public class DevDataConfig {
             Person owner = new Person(
                     "Dummy Owner1",
                     "owner1@gmail.com",
-                    "6900000001",
+                    "6944991291",
                     "$2a$10$.bL5STEZQo5QUALltT6mou499V1XtQ9NCRXfxO4XBIhUYabKxv4O2", //demo =password
                     Role.PET_OWNER
             );
@@ -28,7 +28,7 @@ public class DevDataConfig {
             Person owner2 = new Person(
                     "Dummy Owner2",
                     "owner2@gmail.com",
-                    "6900000002",
+                    "6944991291",
                     "$2a$10$.bL5STEZQo5QUALltT6mou499V1XtQ9NCRXfxO4XBIhUYabKxv4O2", //demo =password
                     Role.PET_OWNER
             );
@@ -36,7 +36,7 @@ public class DevDataConfig {
             Person vet = new Person(
                     "Dummy Vet1",
                     "vet1@gmail.com",
-                    "6900000003",
+                    "6944991291",
                     "$2a$10$.bL5STEZQo5QUALltT6mou499V1XtQ9NCRXfxO4XBIhUYabKxv4O2",//demo =password
                     Role.VET
             );
@@ -45,7 +45,7 @@ public class DevDataConfig {
             Person vet2 = new Person(
                     "Dummy Vet2",
                     "vet2@gmail.com",
-                    "6900000004",
+                    "6944991291",
                     "$2a$10$.bL5STEZQo5QUALltT6mou499V1XtQ9NCRXfxO4XBIhUYabKxv4O2",//demo =password
                     Role.VET
             );

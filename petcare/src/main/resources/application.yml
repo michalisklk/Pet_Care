@@ -3,6 +3,7 @@ spring:
     name: PetCare
 
   datasource:
+    # H2 database - κρατάει δεδομένα στον φάκελο LOCAL_DATA
     url: jdbc:h2:file:./LOCAL_DATA/h2/app;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE
     username: sa
     password: changeme
@@ -10,7 +11,9 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create-drop  # dev only
+      # κάθε φορά που τρέχουμε την εφαρμογή,
+      # φτιάχνει ξανά τους πίνακες και στο τέλος τους σβήνει.
+      ddl-auto: create-drop
     open-in-view: false
     properties:
       hibernate:
@@ -20,15 +23,19 @@ spring:
   h2:
     console:
       enabled: true
+      # βλέπουμε τη βάση στον browser 
       path: /h2-console
 
-# Ρυθμίσεις για εξωτερικές υπηρεσίες
+# Εξωτερικές υπηρεσίες (black box)
+# Η PetCare τις καλεί μέσω HTTP
+
 external:
   sms-service:
     # URL της εξωτερικής υπηρεσίας SMS (PetCare Notification Service)
     # Η PetCare ΔΕΝ ξέρει την υλοποίηση, μόνο αυτό το endpoint.
     url: http://localhost:8081/api/v1/sms
 
-    # dummy
   phone-service:
-    url: http://localhost
+    # Base URL για έλεγχο/κανονικοποίηση τηλεφώνου (E.164)
+    # GET {url}/{phone}/validations
+    url: http://localhost:8081/api/v1/phone-numbers

@@ -1,14 +1,10 @@
-## Τρέξιμο του παραδείγματος
-Run the example:
+## Run (Windows)
+cd notification_service
+mvn clean spring-boot:run
 
-```shell
-cd DS-Lab-NOC
-./mvnw spring-boot:run  # MacOS / Linux
-./mvnw.cmd spring-boot:run  # Windows
-```
+## Run (Mac/Linux)
+cd notification_service
+mvn clean spring-boot:run
 
----
-
-Open in browser: [localhost:8081/swagger-ui](http://localhost:8081/swagger-ui/index.html)
-
----
+Swagger UI:
+http://localhost:8081/swagger-ui/index.html

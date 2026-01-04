@@ -36,12 +36,12 @@ public class MockSmsService implements SmsService {
         boolean sent = true;
 
         //κρατάμε ιστορικό για UI
-//        smsEventStore.add(new SmsEvent(
-//                LocalDateTime.now(),
-//                sendSmsRequest.e164(),
-//                sendSmsRequest.content(),
-//                sent
-//        ));
+        smsEventStore.add(new SmsEvent(
+                LocalDateTime.now(),
+                sendSmsRequest.e164(),
+                sendSmsRequest.content(),
+                sent
+        ));
 
         return new SendSmsResult(sent);
     }

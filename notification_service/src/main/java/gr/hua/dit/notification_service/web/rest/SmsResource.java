@@ -4,32 +4,29 @@ import gr.hua.dit.notification_service.core.SmsService;
 import gr.hua.dit.notification_service.core.model.SendSmsRequest;
 import gr.hua.dit.notification_service.core.model.SendSmsResult;
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-
+/**
+ * REST endpoint της εξωτερικής υπηρεσίας
+ * Η PetCare το καλεί σαν black box:
+ * POST /api/v1/sms  { e164, content }
+ */
 @RestController
 @RequestMapping(value = "/api/v1/sms", produces = MediaType.APPLICATION_JSON_VALUE)
 public class SmsResource {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SmsResource.class);
-
     private final SmsService smsService;
 
-    public SmsResource(final SmsService smsService) {
-        if (smsService == null) throw new NullPointerException();
+    // constructor injection: ο Spring δίνει το σωστό SmsService (Routee ή Mock)
+    public SmsResource(SmsService smsService) {
         this.smsService = smsService;
     }
 
-    @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SendSmsResult> sendSms(@RequestBody @Valid SendSmsRequest sendSmsRequest) {
-        final SendSmsResult sendSmsResult = this.smsService.send(sendSmsRequest);
-        return ResponseEntity.ok(sendSmsResult);
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<SendSmsResult> sendSms(@RequestBody @Valid SendSmsRequest req) {
+        SendSmsResult result = smsService.send(req);
+        return ResponseEntity.ok(result);
     }
 }
