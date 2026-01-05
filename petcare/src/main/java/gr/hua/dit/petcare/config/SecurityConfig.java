@@ -36,19 +36,17 @@ public class SecurityConfig {
                                 "/h2-console/**"
                         ).permitAll()
 
-                        // δημόσια endpoints
                         .requestMatchers("/api/test-notifications/**").permitAll()
-                        .requestMatchers("/appointments/**").permitAll()
-                        .requestMatchers("/ui/notifications/**").permitAll()
-                        .requestMatchers("/api/v1/**").permitAll()
 
+                        .requestMatchers("/appointments/**").authenticated()
+                        .requestMatchers("/ui/notifications/**").authenticated()
+                        .requestMatchers("/api/v1/**").authenticated()
 
-                        // Προστατευμένα endpoints της εφαρμογής
                         .requestMatchers("/pets/**").authenticated()
                         .requestMatchers("/vet/**").hasRole("VET")
 
-                        // οποιοδήποτε άλλο request απαιτεί authentication
                         .anyRequest().authenticated()
+
                 )
 
                 // φόρμα login
@@ -64,9 +62,13 @@ public class SecurityConfig {
                 // αποσύνδεση
                 .logout(logout -> logout
                         .logoutUrl("/logout")
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .deleteCookies("JSESSIONID")
                         .logoutSuccessUrl("/login?logout=true")
                         .permitAll()
                 );
+
 
         return http.build();
     }

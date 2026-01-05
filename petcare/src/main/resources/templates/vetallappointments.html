@@ -14,15 +14,19 @@
 </div>
 
 <p>
-    <a th:href="@{'/vet/appointments?vetId=' + ${vet.id}}">
-        <button type="button">Δες μόνο Pending</button>
+    <a th:href="@{/vet/appointments}">
+
+    <button type="button">Δες μόνο Pending</button>
     </a>
 </p>
 
 
 <div style="margin-top: 12px;">
-    <a th:href="@{/logout}">
-        <button type="button"> Logout</button>
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Logout</button>
+    </form>
+
+    <button type="button"> Logout</button>
     </a>
 </div>
 

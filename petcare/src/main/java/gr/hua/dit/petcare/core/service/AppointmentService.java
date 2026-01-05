@@ -216,13 +216,14 @@ public class AppointmentService {
                 .ifPresent(last -> {
 
                     // αν υπάρχει προηγούμενο ίδιο reason και δεν ολοκληρώθηκε, δεν αφήνουμε τον χρήστη να κλείσει άλλο
-                    if (last.getStatus() != AppointmentStatus.COMPLETED) {
-                        throw new IllegalStateException(
-                                "There is already a " + reason + " appointment in progress (date: "
-                                        + last.getStartTime() + " It must be completed first."
-                        );
+                    if(reason == AppointmentReason.VACCINES || reason == AppointmentReason.SURGERY || reason == AppointmentReason.DIET) {
+                        if (last.getStatus() != AppointmentStatus.COMPLETED) {
+                            throw new IllegalStateException(
+                                    "There is already a " + reason + " appointment in progress (date: "
+                                            + last.getStartTime() + " It must be completed first."
+                            );
+                        }
                     }
-
                     if (cooldown.isZero()) return;
 
                     // cooldown με βάση το startTime του τελευταίου COMPLETED

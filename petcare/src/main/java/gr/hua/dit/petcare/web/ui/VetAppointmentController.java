@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 
 import java.util.List;
 
@@ -27,96 +29,77 @@ public class VetAppointmentController {
     }
     //Vet βλέπει ολα τα ραντεβου
     @GetMapping("/vet/appointments/all")
-    public String getAppointmentsForVet(@RequestParam("vetId") Long vetId,Model model) {
+    public String getAppointmentsForVet(@AuthenticationPrincipal Person vet, Model model) {
 
-        //βρισκει τον vet με το id του απο την βαση
-        Person vet=userRepository.findById(vetId)
-                .orElseThrow(() -> new EntityNotFoundException("Vet not found"));
+        if (vet == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not logged in");
 
-        //Ελεγχος αν ο χρηστης ειναι οντως vet(ισωσ λιγο υπερβολικο αλλλα το εχω βαλει και πιο κατω)
-        if(vet.getRole()!=Role.VET){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User is not a vet");
-        }
-
-        //περνουμε τα απο το service ολα τα ραντεβου του vet
-        List<Appointment> all=appointmentService.getAppointmentsForVet(vetId);
-        //Στελνουμε στο thymleaf τον vet και την λιστα με τα appointments
+        List<Appointment> all = appointmentService.getAppointmentsForVet(vet.getId());
         model.addAttribute("vet", vet);
-        model.addAttribute("allAppointments", all);
+        model.addAttribute("appointments", all);
 
-        //επιστρεφη στο vetallappointments.html
-        return"vetallappointments";
+        return "vetallappointments";
     }
+
 
     //Vet βλέπει τα PENDING ραντεβου
     @GetMapping("/vet/appointments")
-    public String vetPendingAppointments(@RequestParam("vetId") Long vetId,
-                                         Model model) {
-        //βρισκει τον vet με το id του απο την βαση
-        Person vet = userRepository.findById(vetId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Vet not found"));
-        //Ελεγχος αν ο χρηστης ειναι οντως vet
-        if (vet.getRole() != Role.VET) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User is not a vet");
-        }
-        //περνουμε τα απο το service τα ραντεβου του vet που ειναι pending
-        List<Appointment> pending = appointmentService.getPendingAppointmentsForVet(vetId);
+    public String getPendingAppointmentsForVet(@AuthenticationPrincipal Person vet, Model model) {
 
-        //Στελνουμε στο thymleaf τον vet και την λιστα με τα pending appointments
+        if (vet == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not logged in");
+
+        List<Appointment> pending = appointmentService.getPendingAppointmentsForVet(vet.getId());
         model.addAttribute("vet", vet);
         model.addAttribute("pendingAppointments", pending);
-        //επιστρεφη στο vetpendappointments.html
+
         return "vetpendappointments";
     }
+
 
     //Confirm(το ραντεβου επιβεβαιωθηκε και θα γινει κανονικα)
     @PostMapping("/vet/appointments/{id}/confirm")
     public String confirm(@PathVariable("id") Long appointmentId,
-                          @RequestParam("vetId") Long vetId) {
-        //βρισκει τον vet με το id του απο την βαση
-        Person vet = userRepository.findById(vetId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Vet not found"));
+                          @AuthenticationPrincipal Person vet) {
+
+        if (vet == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not logged in");
 
         try {
-            //αλλαζει το ραντεβου confirm
             appointmentService.confirm(appointmentId, vet);
         } catch (EntityNotFoundException | IllegalStateException e) {}
 
-        return "redirect:/vet/appointments?vetId=" + vetId;
+        return "redirect:/vet/appointments";
     }
+
 
     //Cancel(το ραντεβου ακυρωθηκε και δεν θα γινει)
     @PostMapping("/vet/appointments/{id}/cancel")
     public String cancel(@PathVariable("id") Long appointmentId,
-                         @RequestParam("vetId") Long vetId,
+                         @AuthenticationPrincipal Person vet,
                          @RequestParam(value = "notes", required = false) String notes) {
-        //βρισκει τον vet με το id του απο την βαση
-        Person vet = userRepository.findById(vetId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Vet not found"));
+
+        if (vet == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not logged in");
 
         try {
-            //αλλαζει το ραντεβου σε cancel
             appointmentService.cancelAsVet(appointmentId, vet, notes);
-        } catch (EntityNotFoundException | IllegalStateException e) {
-        }
+        } catch (EntityNotFoundException | IllegalStateException e) {}
 
-        return "redirect:/vet/appointments?vetId=" + vetId;
+        return "redirect:/vet/appointments";
     }
+
 
     //Complete(το ραντεβου ολοκληρώθηκε επιτυχώς)
     @PostMapping("/vet/appointments/{id}/complete")
     public String complete(@PathVariable("id") Long appointmentId,
-                           @RequestParam("vetId") Long vetId,
+                           @AuthenticationPrincipal Person vet,
                            @RequestParam(value = "notes", required = false) String notes) {
-        //βρισκει τον vet με το id του απο την βαση
-        Person vet = userRepository.findById(vetId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Vet not found"));
+
+        if (vet == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not logged in");
 
         try {
-            appointmentService.complete(appointmentId, vet, notes);//αλλαζει το ραντεβου σε complete
-        } catch (EntityNotFoundException | IllegalStateException e) {
-        }
-        return "redirect:/vet/appointments?vetId=" + vetId;
+            appointmentService.complete(appointmentId, vet, notes);
+        } catch (EntityNotFoundException | IllegalStateException e) {}
+
+        return "redirect:/vet/appointments";
     }
+
 }
 

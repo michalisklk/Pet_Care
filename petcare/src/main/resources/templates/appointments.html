@@ -1,28 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="el" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Κλείσιμο ραντεβού</title>
 </head>
 <body>
 
-<h1>Κλείσιμο ραντεβού για ιδιοκτήτη</h1>
+<h1>Κλείσιμο ραντεβού</h1>
 
-<p th:text="'Owner: ' + ${owner.fullName} + ' (ID: ' + ${owner.id} + ')'">
+<p th:if="${owner != null}"
+   th:text="'Owner: ' + ${owner.fullName} + ' (ID: ' + ${owner.id} + ')'">
     Owner info
 </p>
 
 <p th:if="${successMessage}" th:text="${successMessage}" style="color: green;"></p>
 <p th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></p>
 
+<!-- FORM ΜΟΝΟ για submit appointment -->
 <form th:action="@{/appointments}" th:object="${appointment}" method="post">
-
-    <input type="hidden" th:field="*{ownerId}"/>
 
     <div>
         <label for="petId">Pet:</label>
         <select id="petId" th:field="*{petId}" required>
-            <option value="" disabled>Επιλέξτε κατοικίδιο</option>
+            <option value="" disabled selected>Επιλέξτε κατοικίδιο</option>
             <option th:each="p : ${pets}"
                     th:value="${p.id}"
                     th:text="${p.name} + ' (ID: ' + ${p.id} + ')'">
@@ -33,7 +33,7 @@
     <div>
         <label for="vetId">Vet:</label>
         <select id="vetId" th:field="*{vetId}" required>
-            <option value="" disabled>Επιλέξτε κτηνίατρο</option>
+            <option value="" disabled selected>Επιλέξτε κτηνίατρο</option>
             <option th:each="v : ${vets}"
                     th:value="${v.id}"
                     th:text="${v.fullName} + ' (ID: ' + ${v.id} + ')'">
@@ -42,21 +42,17 @@
     </div>
 
     <div>
-        <label for="start">Start time:</label>
+        <label for="start">Start:</label>
         <input id="start" type="datetime-local" th:field="*{start}" required/>
-    </div>
-
-    <div>
-        <p>End time (auto +30min)</p>
     </div>
 
     <div>
         <label for="reason">Reason:</label>
         <select id="reason" th:field="*{reason}" required>
-            <option value="" disabled>Επιλέξτε λόγο επίσκεψης</option>
+            <option value="" disabled selected>Επιλέξτε λόγο επίσκεψης</option>
             <option th:each="r : ${reasons}"
                     th:value="${r}"
-                    th:text="${r}">
+                    th:text="${r.label}">
             </option>
         </select>
     </div>
@@ -65,21 +61,19 @@
         <button type="submit">Κλείσε ραντεβού</button>
     </div>
 
-    <div style="margin-top: 12px;">
-        <a th:href="@{/pets(ownerId=${owner.id})}">
-            <button type="button"> Go back to my Pets</button>
-        </a>
-    </div>
-
-
-    <div style="margin-top: 12px;">
-        <a th:href="@{/logout}">
-            <button type="button"> Logout</button>
-        </a>
-    </div>
-
-
 </form>
+
+<!-- Go back -->
+<div style="margin-top: 12px;">
+    <a th:href="@{/pets}">Go back to my Pets</a>
+</div>
+
+<!-- Logout (POST) -->
+<div style="margin-top: 12px;">
+    <form th:action="@{/logout}" method="post" style="display:inline;">
+        <button type="submit">Logout</button>
+    </form>
+</div>
 
 </body>
 </html>

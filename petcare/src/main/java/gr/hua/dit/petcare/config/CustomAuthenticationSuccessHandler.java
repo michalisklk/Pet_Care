@@ -25,7 +25,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         // εαν ειναι κτηνίατρος εισέρχεται στη σελίδα /vet/appointments/all διαφορετικά στη σελίδα /pets
         if (user.getRole() == Role.VET) {
-            response.sendRedirect("/vet/appointments/all?vetId=" + user.getId());
+            response.sendRedirect("/vet/appointments/all");
+
         } else {
             response.sendRedirect("/pets");
         }

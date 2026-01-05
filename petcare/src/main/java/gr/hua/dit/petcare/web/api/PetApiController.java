@@ -8,6 +8,10 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import gr.hua.dit.petcare.core.model.Person;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.server.ResponseStatusException;
+
 
 import java.util.List;
 
@@ -26,11 +30,13 @@ public class PetApiController {
      * Επιστρέφει όλα τα pets ενός owner (JSON).
      */
     @GetMapping
-    public List<PetResponse> list(@RequestParam @NotNull Long ownerId) {
-        return petService.getPetsForOwner(ownerId).stream()
+    public List<PetResponse> list(@AuthenticationPrincipal Person user) {
+        if (user == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not logged in");
+        return petService.getPetsForOwner(user.getId()).stream()
                 .map(this::toResponse)
                 .toList();
     }
+
 
     /**
      * POST /api/v1/pets
@@ -38,16 +44,21 @@ public class PetApiController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public PetResponse create(@Valid @RequestBody CreatePetRequest req) {
+    public PetResponse create(@AuthenticationPrincipal Person user,
+                              @Valid @RequestBody CreatePetRequest req) {
+
+        if (user == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not logged in");
+
         PetDto dto = new PetDto();
         dto.setName(req.name());
         dto.setSpecies(req.species());
         dto.setBreed(req.breed());
         dto.setAge(req.age());
 
-        Pet saved = petService.createPet(req.ownerId(), dto);
+        Pet saved = petService.createPet(user.getId(), dto);
         return toResponse(saved);
     }
+
 
     private PetResponse toResponse(Pet p) {
         return new PetResponse(
@@ -65,10 +76,10 @@ public class PetApiController {
      * Validation: ownerId/name/species required, age >= 0.
      */
     public record CreatePetRequest(
-            @NotNull Long ownerId,
             @NotNull String name,
             @NotNull String species,
             String breed,
             int age
     ) {}
+
 }

@@ -8,6 +8,11 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import gr.hua.dit.petcare.core.model.Person;
+import gr.hua.dit.petcare.core.model.Role;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.server.ResponseStatusException;
+
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,9 +33,18 @@ public class AppointmentApiController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AppointmentResponse create(@Valid @RequestBody CreateAppointmentRequest req) {
+    public AppointmentResponse create(@AuthenticationPrincipal Person user,
+                                      @Valid @RequestBody CreateAppointmentRequest req) {
+
+        if (user == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not logged in");
+
+        // μόνο owner να δημιουργεί appointment
+        if (user.getRole() == Role.VET) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Vets cannot create appointments");
+        }
+
         Appointment saved = appointmentService.createAppointment(
-                req.ownerId(),
+                user.getId(),
                 req.petId(),
                 req.vetId(),
                 req.start(),
@@ -39,28 +53,26 @@ public class AppointmentApiController {
         return toResponse(saved);
     }
 
+
     /**
      * GET /api/v1/appointments?ownerId=1
      * ή  GET /api/v1/appointments?vetId=3
      */
     @GetMapping
-    public List<AppointmentResponse> list(
-            @RequestParam(required = false) Long ownerId,
-            @RequestParam(required = false) Long vetId
-    ) {
-        if (ownerId != null) {
-            return appointmentService.getAppointmentsForOwner(ownerId).stream()
-                    .map(this::toResponse)
-                    .toList();
-        }
-        if (vetId != null) {
-            return appointmentService.getAppointmentsForVet(vetId).stream()
+    public List<AppointmentResponse> list(@AuthenticationPrincipal Person user) {
+        if (user == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not logged in");
+
+        if (user.getRole() == Role.VET) {
+            return appointmentService.getAppointmentsForVet(user.getId()).stream()
                     .map(this::toResponse)
                     .toList();
         }
 
-        throw new IllegalArgumentException("Give either ownerId or vetId");
+        return appointmentService.getAppointmentsForOwner(user.getId()).stream()
+                .map(this::toResponse)
+                .toList();
     }
+
 
     private AppointmentResponse toResponse(Appointment a) {
         return new AppointmentResponse(
@@ -77,10 +89,10 @@ public class AppointmentApiController {
     }
 
     public record CreateAppointmentRequest(
-            @NotNull Long ownerId,
             @NotNull Long petId,
             @NotNull Long vetId,
             @NotNull LocalDateTime start,
             @NotNull AppointmentReason reason
     ) {}
+
 }

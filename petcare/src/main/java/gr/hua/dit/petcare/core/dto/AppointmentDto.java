@@ -9,10 +9,6 @@ import java.time.LocalDateTime;
 
 public class AppointmentDto {
 
-    //Ποιος είναι ο ιδιοκτήτης του ραντεβού
-    @NotNull(message = "Owner is required")
-    private Long ownerId;
-
     //Για ποιο pet Είναι το ραντεβού
     @NotNull(message = "Pet is required")
     private Long petId;
@@ -35,9 +31,6 @@ public class AppointmentDto {
     private String otherreason;
 
     public AppointmentDto() {}
-
-    public Long getOwnerId() { return ownerId; }
-    public void setOwnerId(Long ownerId) { this.ownerId = ownerId; }
 
     public Long getPetId() { return petId; }
     public void setPetId(Long petId) { this.petId = petId; }

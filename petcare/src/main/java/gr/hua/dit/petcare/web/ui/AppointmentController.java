@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 
 import java.util.List;
 
@@ -34,48 +36,45 @@ public class AppointmentController {
         this.petRepository = petRepository;
     }
 
-    //GET
     @GetMapping("/appointments")
-    public String showAppointmentForm(@RequestParam("ownerId") Long ownerId,
-                                      Model model) {
-        //Φέρνουμε από τη βάση τον owner με το δοσμένο ownerId.
-        Person owner = userRepository.findById(ownerId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Owner not found"));
-        //Φέρνουμε όλα τα κατοικίδια αυτού του ιδιοκτήτη
-        List<Pet> pets = petRepository.findByOwner(owner);
-        //Φέρνουμε όλους τους person με ρολό vet
-        List<Person> vets = userRepository.findByRole(Role.VET);
+    public String showAppointmentForm(@AuthenticationPrincipal Person owner, Model model) {
 
-        //Δημιουργούμε ένα κενό DTO για τη φόρμα και βάζουμε μέσα το ownerId
-        AppointmentDto dto = new AppointmentDto();
-        dto.setOwnerId(ownerId);
+        if (owner == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not logged in");
+        }
+
+        List<Pet> pets = petRepository.findByOwnerId(owner.getId());
+        List<Person> vets = userRepository.findByRole(Role.VET);
 
         model.addAttribute("owner", owner);
         model.addAttribute("pets", pets);
         model.addAttribute("vets", vets);
-        model.addAttribute("appointment", dto);
+        model.addAttribute("appointment", new AppointmentDto());
         model.addAttribute("reasons", AppointmentReason.values());
-
 
         return "appointments";
     }
 
-    //POST
+
     @PostMapping("/appointments")
-    public String submitAppointment(@Valid @ModelAttribute("appointment") AppointmentDto appointmentDto,
+    public String submitAppointment(@AuthenticationPrincipal Person owner,
+                                    @Valid @ModelAttribute("appointment") AppointmentDto appointmentDto,
                                     BindingResult bindingResult,
                                     Model model) {
 
-        // Ξαναφορτώνουμε τον owner & τα pets για το view είτε Έχει λάθη είτε οχι δεν είμαι σίγουρος οτι λειτουργεί 100% σωστά ακόμα
-        Person owner = userRepository.findById(appointmentDto.getOwnerId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Owner not found"));
-        List<Pet> pets = petRepository.findByOwner(owner);
-        List<Person> vets=userRepository.findByRole(Role.VET);
+        if (owner == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not logged in");
+        }
+
+        // Reload για να ξαναγεμίσουν τα dropdowns αν έχει λάθος
+        List<Pet> pets = petRepository.findByOwnerId(owner.getId());
+        List<Person> vets = userRepository.findByRole(Role.VET);
+
         model.addAttribute("owner", owner);
         model.addAttribute("pets", pets);
         model.addAttribute("vets", vets);
         model.addAttribute("appointment", appointmentDto);
         model.addAttribute("reasons", AppointmentReason.values());
-
 
         //Αν βρήκε λάθος γυρνάει πίσω στο appointments
         if (bindingResult.hasErrors()) {
@@ -84,15 +83,16 @@ public class AppointmentController {
 
         try {
             // Καλείτε το service που κάνει τα εξης:
-            //έλεγχο οτι υπάρχει ο owner τo pet και ο vet/οτι το pet ανηκει στον owner/overlap (ενα ραντεβού πάνω στο άλλο αν και αυτό δεν το εχω τσεκάρει ακόμα)
+            //έλεγχο οτι υπάρχει ο owner τo pet και ο vet/οτι το pet ανηκει στον owner/overlap
+            //(ενα ραντεβού πάνω στο άλλο αν και αυτό δεν το εχω τσεκάρει ακόμα)
             Appointment created = appointmentService.createAppointment(
-                    appointmentDto.getOwnerId(),
+                    owner.getId(),                 // owner από session
                     appointmentDto.getPetId(),
                     appointmentDto.getVetId(),
                     appointmentDto.getStart(),
                     appointmentDto.getReason()
             );
-            //Αν ολα πίγαν καλά εμφανίζεται μυνημα επιτυχίας με το ID του ραντεβού
+
             model.addAttribute("successMessage",
                     "Το ραντεβού δημιουργήθηκε με ID: " + created.getId());
 
@@ -101,7 +101,7 @@ public class AppointmentController {
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Ένα απρόσμενο σφάλμα συνέβη.");
         }
-        //Γυρνάμε πίσω στο appointments.html
+
         return "appointments";
     }
 }

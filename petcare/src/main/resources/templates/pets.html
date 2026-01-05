@@ -10,6 +10,8 @@
 
 <p>
     <a th:href="@{/pets/new}">Add New Pet</a>
+    <a th:href="@{/appointments}">Book Appointment</a>
+
 </p>
 
 <div th:if="${#lists.isEmpty(pets)}">
@@ -49,14 +51,18 @@
 </table>
 
 <p th:if="${!#lists.isEmpty(pets)}">
-    <a th:href="@{/appointments(ownerId=${pets[0].owner.id})}">
-        Book Appointment
+    <a th:href="@{/appointments}">
+
     </a>
 </p>
 
 <p>
-    <a th:href="@{/logout}">Logout</a>
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Logout</button>
+</form>
+
 </p>
+
 
 </body>
 </html>

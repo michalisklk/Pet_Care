@@ -14,14 +14,16 @@
 </div>
 
 <div style="margin: 12px 0;">
-    <a th:href="@{/vet/appointments/all(vetId=${vet.id})}">
-        <button type="button">Go back to All Appointments</button>
+    <a th:href="@{/vet/appointments/all}">
+
+    <button type="button">Go back to All Appointments</button>
     </a>
 </div>
 
 <div style="margin: 12px 0;">
-    <form th:action="@{/logout}" method="get">
-        <button type="submit">Logout</button>
+    <form th:action="@{/logout}" method="post">
+
+    <button type="submit">Logout</button>
     </form>
 </div>
 
@@ -53,14 +55,14 @@
             <!-- CONFIRM -->
             <form th:action="@{'/vet/appointments/' + ${a.id} + '/confirm'}"
                   method="post" style="display:inline;">
-                <input type="hidden" name="vetId" th:value="${vet.id}" />
+
                 <button type="submit">Confirm</button>
             </form>
 
             <!-- CANCEL -->
             <form th:action="@{'/vet/appointments/' + ${a.id} + '/cancel'}"
                   method="post" style="display:inline;">
-                <input type="hidden" name="vetId" th:value="${vet.id}" />
+
                 <input type="text" name="notes" placeholder="cancel notes (optional)" />
                 <button type="submit">Cancel</button>
             </form>
@@ -68,7 +70,7 @@
             <!-- COMPLETE -->
             <form th:action="@{'/vet/appointments/' + ${a.id} + '/complete'}"
                   method="post" style="display:inline;">
-                <input type="hidden" name="vetId" th:value="${vet.id}" />
+
                 <input type="text" name="notes" placeholder="complete notes (optional)" />
                 <button type="submit">Complete</button>
             </form>
