@@ -1,29 +1,73 @@
 package gr.hua.dit.petcare.config;
 
+import gr.hua.dit.petcare.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 public class SecurityConfig {
 
     private final CustomAuthenticationSuccessHandler successHandler;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    public SecurityConfig(CustomAuthenticationSuccessHandler successHandler) {
+    public SecurityConfig(CustomAuthenticationSuccessHandler successHandler,
+                          JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.successHandler = successHandler;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
+    // AuthenticationManager που χρησιμοποιεί το Spring Security για authentication
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
 
-        http
+    /**
+     * Για /api/**: απαιτείται JWT, δεν κρατάμε session, δεν γίνεται redirect
+     */
+    @Bean
+    @Order(1)
+    public SecurityFilterChain apiChain(HttpSecurity http) throws Exception {
+
+        return http
+                .securityMatcher("/api/**")
                 .csrf(csrf -> csrf.disable())
-
-                .headers(headers -> headers
-                        .frameOptions(frame -> frame.sameOrigin())
+                .headers(headers -> headers.frameOptions(frame -> frame.deny()))
+                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(eh -> eh
+                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 )
+                .authorizeHttpRequests(auth -> auth
+                        // Public API endpoints
+                        .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/api/test-notifications/**").permitAll()
 
+                        // Όλα τα υπόλοιπα /api/** θέλουν JWT
+                        .anyRequest().authenticated()
+                )
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
+    }
+
+    /**
+     * UI security
+     */
+    @Bean
+    @Order(2)
+    public SecurityFilterChain uiChain(HttpSecurity http) throws Exception {
+
+        return http
+                .csrf(csrf -> csrf.disable())
+                .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin())) // H2 console
                 .authorizeHttpRequests(auth -> auth
                         // δημόσια pages
                         .requestMatchers(
@@ -33,32 +77,29 @@ public class SecurityConfig {
                                 "/css/**",
                                 "/js/**",
                                 "/images/**",
-                                "/h2-console/**"
+                                "/h2-console/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**"
                         ).permitAll()
 
-                        .requestMatchers("/api/test-notifications/**").permitAll()
-
+                        // protected UI endpoints
                         .requestMatchers("/appointments/**").authenticated()
                         .requestMatchers("/ui/notifications/**").authenticated()
-                        .requestMatchers("/api/v1/**").authenticated()
-
                         .requestMatchers("/pets/**").authenticated()
                         .requestMatchers("/vet/**").hasRole("VET")
 
                         .anyRequest().authenticated()
-
                 )
-
                 // φόρμα login
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .usernameParameter("username") // email
+                        .usernameParameter("username")//email
                         .passwordParameter("password")
                         .successHandler(successHandler)
                         .failureUrl("/login?error=true")
                         .permitAll()
                 )
-
                 // αποσύνδεση
                 .logout(logout -> logout
                         .logoutUrl("/logout")
@@ -67,9 +108,7 @@ public class SecurityConfig {
                         .deleteCookies("JSESSIONID")
                         .logoutSuccessUrl("/login?logout=true")
                         .permitAll()
-                );
-
-
-        return http.build();
+                )
+                .build();
     }
 }

@@ -39,3 +39,9 @@ external:
     # Base URL για έλεγχο/κανονικοποίηση τηλεφώνου (E.164)
     # GET {url}/{phone}/validations
     url: http://localhost:8081/api/v1/phone-numbers
+
+security:
+  jwt:
+    issuer: petcare
+    secret: "password_changeme_secret_key_FF1234567890"
+    expiration-minutes: 120

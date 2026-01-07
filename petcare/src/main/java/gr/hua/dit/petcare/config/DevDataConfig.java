@@ -45,7 +45,7 @@ public class DevDataConfig {
             Person vet2 = new Person(
                     "Dummy Vet2",
                     "vet2@gmail.com",
-                    "6944991291",
+                    "6988031840",
                     "$2a$10$.bL5STEZQo5QUALltT6mou499V1XtQ9NCRXfxO4XBIhUYabKxv4O2",//demo =password
                     Role.VET
             );
