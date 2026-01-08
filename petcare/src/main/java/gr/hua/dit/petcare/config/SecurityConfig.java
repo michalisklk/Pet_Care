@@ -52,7 +52,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Public API endpoints
                         .requestMatchers("/api/v1/auth/**").permitAll()
-                        .requestMatchers("/api/test-notifications/**").permitAll()
+
 
                         // Όλα τα υπόλοιπα /api/** θέλουν JWT
                         .anyRequest().authenticated()

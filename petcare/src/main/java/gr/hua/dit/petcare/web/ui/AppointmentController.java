@@ -2,19 +2,18 @@ package gr.hua.dit.petcare.web.ui;
 
 import gr.hua.dit.petcare.core.dto.AppointmentDto;
 import gr.hua.dit.petcare.core.model.*;
-import gr.hua.dit.petcare.core.repository.PetRepository;
-import gr.hua.dit.petcare.core.repository.UserRepository;
 import gr.hua.dit.petcare.core.service.AppointmentService;
+import gr.hua.dit.petcare.core.service.PetService;
+import gr.hua.dit.petcare.core.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-
 
 import java.util.List;
 
@@ -22,18 +21,15 @@ import java.util.List;
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
-    private final UserRepository userRepository;
-    private final PetRepository petRepository;
+    private final UserService userService;
+    private final PetService petService;
 
     public AppointmentController(AppointmentService appointmentService,
-                                 UserRepository userRepository,
-                                 PetRepository petRepository) {
-        if (appointmentService == null || userRepository == null || petRepository == null) {
-            throw new NullPointerException("Dependencies are null");
-        }
+                                 UserService userService,
+                                 PetService petService) {
         this.appointmentService = appointmentService;
-        this.userRepository = userRepository;
-        this.petRepository = petRepository;
+        this.userService = userService;
+        this.petService = petService;
     }
 
     @GetMapping("/appointments")
@@ -43,8 +39,8 @@ public class AppointmentController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not logged in");
         }
 
-        List<Pet> pets = petRepository.findByOwnerIdAndActiveTrue(owner.getId());
-        List<Person> vets = userRepository.findByRole(Role.VET);
+        List<Pet> pets = petService.getPetsForOwner(owner.getId());
+        List<Person> vets = userService.getUsersByRole(Role.VET);
 
         model.addAttribute("owner", owner);
         model.addAttribute("pets", pets);
@@ -54,7 +50,6 @@ public class AppointmentController {
 
         return "appointments";
     }
-
 
     @PostMapping("/appointments")
     public String submitAppointment(@AuthenticationPrincipal Person owner,
@@ -67,10 +62,10 @@ public class AppointmentController {
         }
 
         // Reload για να ξαναγεμίσουν τα dropdowns αν έχει λάθος
-        List<Pet> pets = petRepository.findByOwnerIdAndActiveTrue(owner.getId());
-        List<Person> vets = userRepository.findByRole(Role.VET);
+        List<Pet> pets = petService.getPetsForOwner(owner.getId());
+        List<Person> vets = userService.getUsersByRole(Role.VET);
 
-        model.addAttribute("owner", owner);
+        model.addAttribute("owner", owner); // owner από session
         model.addAttribute("pets", pets);
         model.addAttribute("vets", vets);
         model.addAttribute("appointment", appointmentDto);
@@ -82,9 +77,8 @@ public class AppointmentController {
         }
 
         try {
-            //έλεγχο οτι υπάρχει ο owner τo pet και ο vet/οτι το pet ανηκει στον owner/overlap
             Appointment created = appointmentService.createAppointment(
-                    owner.getId(),                 // owner από session
+                    owner.getId(),
                     appointmentDto.getPetId(),
                     appointmentDto.getVetId(),
                     appointmentDto.getStart(),
@@ -106,14 +100,15 @@ public class AppointmentController {
     //Ο owner μπορεί να βλέπει τα ραντεβού του
     @GetMapping("/appointments/owners")
     public String ownerAppointments(@AuthenticationPrincipal Person user, Model model){
-        if(user == null) {
+        if (user == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not logged in");
         }
         if(user.getRole()!=Role.PET_OWNER){
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only pets can cancel");
         }
+
         model.addAttribute("owner", user);
-        model.addAttribute("appointments",appointmentService.getAppointmentsForOwner(user.getId()));
+        model.addAttribute("appointments", appointmentService.getAppointmentsForOwner(user.getId()));
         return "ownerappointments";
     }
 }

@@ -15,6 +15,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.List;
+
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -63,6 +66,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public Person findById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
+    @Override
+    public List<Person> getUsersByRole(Role role) {
+        return userRepository.findByRole(role);
+    }
+
 
     /**
      * Μέθοδος για τη χρήση του Spring Security.

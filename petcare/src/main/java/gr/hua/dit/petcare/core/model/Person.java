@@ -12,7 +12,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "persons")
-public class Person implements User, UserDetails{
+public class Person implements UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -87,7 +87,6 @@ public class Person implements User, UserDetails{
     public String getPasswordHash() { return passwordHash; }
     public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
 
-    @Override
     public Role getRole() { return role; }
     public void setRole(Role role) { this.role = role; }
 

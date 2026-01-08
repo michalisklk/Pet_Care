@@ -2,8 +2,12 @@ package gr.hua.dit.petcare.core.service;
 
 import gr.hua.dit.petcare.core.dto.UserRegistrationDto;
 import gr.hua.dit.petcare.core.model.Person;
+import gr.hua.dit.petcare.core.model.Role;
 
-import java.util.Optional;
+import java.util.List;
+
+
+
 
 /**
  * Service για τις λειτουργίες του χρήστη (Person).
@@ -28,4 +32,11 @@ public interface UserService {
      * Εύρεση χρήστη με το id
      */
     Person findById(Long id);
+
+    /**
+     * Επιστρέφει όλους τους χρήστες με συγκεκριμένο ρόλο
+     */
+    List<Person> getUsersByRole(Role role);
+
+
 }

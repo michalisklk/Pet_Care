@@ -6,6 +6,7 @@ import gr.hua.dit.petcare.core.model.Person;
 import gr.hua.dit.petcare.core.model.Role;
 import gr.hua.dit.petcare.core.service.AppointmentService;
 import gr.hua.dit.petcare.web.api.dto.AppointmentResponse;
+import gr.hua.dit.petcare.web.api.mapper.AppointmentMapper;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -38,7 +39,7 @@ public class AppointmentApiController {
 
     /**
      * POST /api/v1/appointments
-     * Body: { "ownerId":1, "petId":2, "vetId":3, "start":"2026-12-12T22:33:00", "reason":"VACCINES" }
+     * Body: { "petId":2, "vetId":3, "start":"2026-12-12T22:33:00", "reason":"VACCINES" }
      */
     @Operation(summary = "Δημιουργία ραντεβού", description = "Ο owner δημιουργεί ραντεβού για pet και vet.")
     @ApiResponses({
@@ -65,13 +66,10 @@ public class AppointmentApiController {
                 req.start(),
                 req.reason()
         );
-        return toResponse(saved);
+
+        return AppointmentMapper.toResponse(saved);
     }
 
-    /**
-     * GET /api/v1/appointments?ownerId=1
-     * ή  GET /api/v1/appointments?vetId=3
-     */
     @Operation(summary = "Λίστα ραντεβού", description = "Owner: τα ραντεβού του. Vet: τα ραντεβού του.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Επιστροφή λίστας ραντεβού"),
@@ -83,12 +81,12 @@ public class AppointmentApiController {
 
         if (user.getRole() == Role.VET) {
             return appointmentService.getAppointmentsForVet(user.getId()).stream()
-                    .map(this::toResponse)
+                    .map(AppointmentMapper::toResponse)
                     .toList();
         }
 
         return appointmentService.getAppointmentsForOwner(user.getId()).stream()
-                .map(this::toResponse)
+                .map(AppointmentMapper::toResponse)
                 .toList();
     }
 
@@ -104,7 +102,7 @@ public class AppointmentApiController {
         if (user.getRole() != Role.VET) throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only vets");
 
         return appointmentService.getPendingAppointmentsForVet(user.getId()).stream()
-                .map(this::toResponse)
+                .map(AppointmentMapper::toResponse)
                 .toList();
     }
 
@@ -120,10 +118,9 @@ public class AppointmentApiController {
         if (user.getRole() != Role.VET) throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only vets");
 
         return appointmentService.getCancelledAppointmentsForVet(user.getId()).stream()
-                .map(this::toResponse)
+                .map(AppointmentMapper::toResponse)
                 .toList();
     }
-
 
     @Operation(summary = "Confirm ραντεβού (Vet)", description = "Ο vet βλέπει τα confirm ραντεβού του.")
     @ApiResponses({
@@ -137,7 +134,7 @@ public class AppointmentApiController {
         if (user.getRole() != Role.VET) throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only vets");
 
         return appointmentService.getConfirmedAppointmentsForVet(user.getId()).stream()
-                .map(this::toResponse)
+                .map(AppointmentMapper::toResponse)
                 .toList();
     }
 
@@ -153,7 +150,7 @@ public class AppointmentApiController {
         if (user.getRole() != Role.VET) throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only vets");
 
         return appointmentService.getCompletedAppointmentsForVet(user.getId()).stream()
-                .map(this::toResponse)
+                .map(AppointmentMapper::toResponse)
                 .toList();
     }
 
@@ -170,7 +167,7 @@ public class AppointmentApiController {
         if (user.getRole() != Role.VET) throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only vets can confirm");
 
         Appointment updated = appointmentService.confirm(id, user);
-        return toResponse(updated);
+        return AppointmentMapper.toResponse(updated);
     }
 
     @Operation(summary = "Cancel ραντεβού (Vet)", description = "Ο vet ακυρώνει ραντεβού και μπορεί να βάλει σημείωση.")
@@ -188,7 +185,7 @@ public class AppointmentApiController {
         if (user.getRole() != Role.VET) throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only vets can cancel");
 
         Appointment updated = appointmentService.cancelAsVet(id, user, req.notes());
-        return toResponse(updated);
+        return AppointmentMapper.toResponse(updated);
     }
 
     @Operation(summary = "Complete ραντεβού (Vet)", description = "Ο vet ολοκληρώνει ραντεβού και μπορεί να βάλει σημείωση.")
@@ -206,21 +203,7 @@ public class AppointmentApiController {
         if (user.getRole() != Role.VET) throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only vets can complete");
 
         Appointment updated = appointmentService.complete(id, user, req.notes());
-        return toResponse(updated);
-    }
-
-    private AppointmentResponse toResponse(Appointment a) {
-        return new AppointmentResponse(
-                a.getId(),
-                a.getPet() != null ? a.getPet().getId() : null,
-                a.getOwner() != null ? a.getOwner().getId() : null,
-                a.getVet() != null ? a.getVet().getId() : null,
-                a.getStartTime(),
-                a.getEndTime(),
-                a.getStatus(),
-                a.getReason() != null ? a.getReason().name() : null, // enum to String
-                a.getVetNotes()
-        );
+        return AppointmentMapper.toResponse(updated);
     }
 
     public record CreateAppointmentRequest(
