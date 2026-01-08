@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Owner - My Appointments</title>
+</head>
+<body>
+
+<h1 th:text="'Τα ραντεβού μου (Owner) για ' + ${owner.fullName}"></h1>
+<p th:text="'Owner ID: ' + ${owner.id}"></p>
+
+<div th:if="${#lists.isEmpty(appointments)}">
+    <p>Δεν υπάρχουν ραντεβού.</p>
+</div>
+
+<div style="margin: 12px 0;">
+    <a th:href="@{/pets}">
+        <button type="button">Back to My Pets</button>
+    </a>
+</div>
+
+<div style="margin-top: 12px;">
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</div>
+
+<table border="1" th:if="${!#lists.isEmpty(appointments)}">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Pet</th>
+        <th>Vet</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Reason</th>
+        <th>Status</th>
+        <th>Vet Notes</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="a : ${appointments}">
+        <td th:text="${a.id}"></td>
+
+        <td th:text="${a.pet != null ? a.pet.name + ' (ID: ' + a.pet.id + ')' : '-'}"></td>
+
+        <td th:text="${a.vet != null ? a.vet.fullName + ' (ID: ' + a.vet.id + ')' : '-'}"></td>
+
+        <td th:text="${a.startTime}"></td>
+        <td th:text="${a.endTime}"></td>
+        <td th:text="${a.reason}"></td>
+        <td th:text="${a.status}"></td>
+        <td th:text="${a.vetNotes}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

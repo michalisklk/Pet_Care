@@ -59,6 +59,5 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
      * αγνοεί όσα έχουν το status που δίνουμε (π.χ. CANCELLED).
      */
     Optional<Appointment> findFirstByPetAndReasonAndStatusNotOrderByStartTimeDesc(Pet pet, AppointmentReason reason, AppointmentStatus statusToExclude);
-
 }
 

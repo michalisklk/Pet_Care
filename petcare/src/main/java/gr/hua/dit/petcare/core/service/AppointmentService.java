@@ -133,41 +133,65 @@ public class AppointmentService {
         return appointmentRepository.findByVetIdAndStatusOrderByStartTimeAsc(vetId, AppointmentStatus.PENDING);
     }
 
+    //Vet βλέπει τα CONFIRMED ραντεβού του
+    public List<Appointment> getConfirmedAppointmentsForVet(Long vetId) {
+        userRepository.findById(vetId).orElseThrow(() -> new EntityNotFoundException("Vet not found"));
+        return appointmentRepository.findByVetIdAndStatusOrderByStartTimeAsc(vetId, AppointmentStatus.CONFIRMED);
+    }
+
+    //Vet βλέπει τα CANCELLED ραντεβού του
+    public List<Appointment> getCancelledAppointmentsForVet(Long vetId) {
+        userRepository.findById(vetId).orElseThrow(() -> new EntityNotFoundException("Vet not found"));
+        return appointmentRepository.findByVetIdAndStatusOrderByStartTimeAsc(vetId, AppointmentStatus.CANCELLED);
+    }
+
+    //Vet βλέπει τα COMPLETED ραντεβού του
+    public List<Appointment> getCompletedAppointmentsForVet(Long vetId) {
+        userRepository.findById(vetId).orElseThrow(() -> new EntityNotFoundException("Vet not found"));
+        return appointmentRepository.findByVetIdAndStatusOrderByStartTimeAsc(vetId, AppointmentStatus.COMPLETED);
+    }
+
     public Appointment confirm(Long appointmentId, Person vet) {
         Appointment a = getAppointmentForVet(appointmentId, vet);
+
+        if (a.getStatus() != AppointmentStatus.PENDING) {
+            throw new IllegalStateException("Only PENDING appointments can be confirmed");
+        }
+
         a.setStatus(AppointmentStatus.CONFIRMED);
 
         Appointment saved = appointmentRepository.save(a);
-
-        // Trigger notifications
         appointmentNotificationService.onConfirmed(saved);
-
         return saved;
     }
 
     public Appointment cancelAsVet(Long appointmentId, Person vet, String notes) {
         Appointment a = getAppointmentForVet(appointmentId, vet);
+
+        if (a.getStatus() == AppointmentStatus.COMPLETED || a.getStatus() == AppointmentStatus.CANCELLED) {
+            throw new IllegalStateException("Completed/Cancelled appointments cannot be cancelled");
+        }
+
         a.setStatus(AppointmentStatus.CANCELLED);
         a.setVetNotes(notes);
 
         Appointment saved = appointmentRepository.save(a);
-
-        // Trigger notifications
         appointmentNotificationService.onCancelled(saved);
-
         return saved;
     }
 
     public Appointment complete(Long appointmentId, Person vet, String notes) {
         Appointment a = getAppointmentForVet(appointmentId, vet);
+
+        if (a.getStatus() != AppointmentStatus.CONFIRMED) {
+            throw new IllegalStateException("Only CONFIRMED appointments can be completed");
+        }
+
         a.setStatus(AppointmentStatus.COMPLETED);
         a.setVetNotes(notes);
 
         Appointment saved = appointmentRepository.save(a);
-
-        // Trigger notifications
         appointmentNotificationService.onCompleted(saved);
-
         return saved;
     }
 

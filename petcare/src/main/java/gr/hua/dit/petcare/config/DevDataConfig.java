@@ -1,20 +1,22 @@
 package gr.hua.dit.petcare.config;
 
-import gr.hua.dit.petcare.core.model.Person;
-import gr.hua.dit.petcare.core.model.Pet;
-import gr.hua.dit.petcare.core.model.Role;
+import gr.hua.dit.petcare.core.model.*;
+import gr.hua.dit.petcare.core.repository.AppointmentRepository;
 import gr.hua.dit.petcare.core.repository.UserRepository;
 import gr.hua.dit.petcare.core.repository.PetRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.LocalDateTime;
+
 @Configuration
 public class DevDataConfig {
 
     @Bean
     public CommandLineRunner initDummyData(UserRepository userRepository,
-                                           PetRepository petRepository) {
+                                           PetRepository petRepository,
+                                           AppointmentRepository appointmentRepository) {
         return args -> {
 
             Person owner = new Person(
@@ -76,6 +78,39 @@ public class DevDataConfig {
                     owner2
             );
             pet3 = petRepository.save(pet3);
+
+            // Dummy appointments
+            LocalDateTime start1 = LocalDateTime.parse("2026-12-12T22:33:00");
+            AppointmentReason reason1 = AppointmentReason.VACCINES;
+
+            // Δημιουργία appointment
+            LocalDateTime end1 = start1.plusMinutes(30);
+            Appointment a1 = new Appointment(pet, vet, start1, end1, reason1);
+            a1.setStatus(AppointmentStatus.PENDING);
+            appointmentRepository.save(a1);
+
+
+            // Dummy appointments
+            LocalDateTime start2 = LocalDateTime.parse("2026-12-13T10:00:00");
+            AppointmentReason reason2 = AppointmentReason.GENERAL_CHECKUP;
+
+            // Δημιουργία appointment
+            LocalDateTime end2 = start2.plusMinutes(30);
+            Appointment a2 = new Appointment(pet2, vet, start2, end2, reason2);
+            a2.setStatus(AppointmentStatus.CONFIRMED);
+            appointmentRepository.save(a2);
+
+
+            // Dummy appointments
+            LocalDateTime start3 = LocalDateTime.parse("2026-12-14T18:30:00");
+            AppointmentReason reason3 = AppointmentReason.DIET;
+
+            // Δημιουργία appointment
+            LocalDateTime end3 = start3.plusMinutes(30);
+            Appointment a3 = new Appointment(pet3, vet2, start3, end3, reason3);
+            a3.setStatus(AppointmentStatus.CANCELLED);
+            appointmentRepository.save(a3);
+
 
             System.out.println("Owner ID = " + owner.getId());
             System.out.println("Owner2 ID = " + owner2.getId());

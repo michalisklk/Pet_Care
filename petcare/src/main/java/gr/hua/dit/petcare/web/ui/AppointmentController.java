@@ -82,9 +82,7 @@ public class AppointmentController {
         }
 
         try {
-            // Καλείτε το service που κάνει τα εξης:
             //έλεγχο οτι υπάρχει ο owner τo pet και ο vet/οτι το pet ανηκει στον owner/overlap
-            //(ενα ραντεβού πάνω στο άλλο αν και αυτό δεν το εχω τσεκάρει ακόμα)
             Appointment created = appointmentService.createAppointment(
                     owner.getId(),                 // owner από session
                     appointmentDto.getPetId(),
@@ -103,5 +101,19 @@ public class AppointmentController {
         }
 
         return "appointments";
+    }
+
+    //Ο owner μπορεί να βλέπει τα ραντεβού του
+    @GetMapping("/appointments/owners")
+    public String ownerAppointments(@AuthenticationPrincipal Person user, Model model){
+        if(user == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not logged in");
+        }
+        if(user.getRole()!=Role.PET_OWNER){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only pets can cancel");
+        }
+        model.addAttribute("owner", user);
+        model.addAttribute("appointments",appointmentService.getAppointmentsForOwner(user.getId()));
+        return "ownerappointments";
     }
 }

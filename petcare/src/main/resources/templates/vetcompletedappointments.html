@@ -2,38 +2,30 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Vet - All Appointments</title>
+    <title>Vet - Completed Appointments</title>
 </head>
 <body>
 
-<h1 th:text="'Όλα τα ραντεβού για ' + ${vet.fullName}"></h1>
+<h1 th:text="'Ραντεβού (Completed) για ' + ${vet.fullName}"></h1>
 <p th:text="'Vet ID: ' + ${vet.id}"></p>
-
-<div th:if="${#lists.isEmpty(appointments)}">
-    <p>Δεν υπάρχουν ραντεβού.</p>
-</div>
 
 <div style="margin: 12px 0;">
     <a th:href="@{/vet/appointments}">
-        <button type="button">Δες μόνο Pending ραντεβού</button>
+        <button type="button">Back to Pending</button>
     </a>
-
     <a th:href="@{/vet/appointments/confirmed}">
-        <button type="button">Confirmed ραντεβού</button>
+        <button type="button">Confirmed Appointments</button>
     </a>
-
     <a th:href="@{/vet/appointments/cancelled}">
-        <button type="button">Cancelled ραντεβού</button>
-    </a>
-
-    <a th:href="@{/vet/appointments/completed}">
-        <button type="button">Completed ραντεβού</button>
+        <button type="button">Cancelled Appointments</button>
     </a>
 </div>
 
+<div th:if="${#lists.isEmpty(completedAppointments)}">
+    <p>Δεν υπάρχουν completed ραντεβού.</p>
+</div>
 
-
-<table border="1" th:if="${!#lists.isEmpty(appointments)}">
+<table border="1" th:if="${!#lists.isEmpty(completedAppointments)}">
     <thead>
     <tr>
         <th>ID</th>
@@ -48,7 +40,7 @@
     </thead>
 
     <tbody>
-    <tr th:each="a : ${appointments}">
+    <tr th:each="a : ${completedAppointments}">
         <td th:text="${a.id}"></td>
         <td th:text="${a.owner.fullName} + ' (ID: ' + ${a.owner.id} + ')'"></td>
         <td th:text="${a.pet.name} + ' (ID: ' + ${a.pet.id} + ')'"></td>
@@ -60,12 +52,6 @@
     </tr>
     </tbody>
 </table>
-
-<div style="margin-top: 12px;">
-    <form th:action="@{/logout}" method="post">
-        <button type="submit">Logout</button>
-    </form>
-</div>
 
 </body>
 </html>

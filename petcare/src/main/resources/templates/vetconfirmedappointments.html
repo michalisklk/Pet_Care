@@ -2,30 +2,32 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Vet - Pending Appointments</title>
+    <title>Vet - Confirmed Appointments</title>
 </head>
 <body>
 
-<h1 th:text="'Ραντεβού (Pending) για ' + ${vet.fullName}"></h1>
+<h1 th:text="'Ραντεβού (Confirmed) για ' + ${vet.fullName}"></h1>
 <p th:text="'Vet ID: ' + ${vet.id}"></p>
 
-<div th:if="${#lists.isEmpty(pendingAppointments)}">
-    <p>Δεν υπάρχουν pending ραντεβού.</p>
+<div th:if="${#lists.isEmpty(confirmedAppointments)}">
+    <p>Δεν υπάρχουν confirmed ραντεβού.</p>
 </div>
 
 <div style="margin: 12px 0;">
-    <a th:href="@{/vet/appointments/all}">
-        <button type="button">Go back to All Appointments</button>
+    <a th:href="@{/vet/appointments}">
+        <button type="button">Back to Pending</button>
+    </a>
+
+    <a th:href="@{/vet/appointments/cancelled}">
+        <button type="button">Cancelled Appointments</button>
+    </a>
+
+    <a th:href="@{/vet/appointments/completed}">
+        <button type="button">Completed Appointments</button>
     </a>
 </div>
 
-<div style="margin: 12px 0;">
-    <form th:action="@{/logout}" method="post">
-        <button type="submit">Logout</button>
-    </form>
-</div>
-
-<table border="1" th:if="${!#lists.isEmpty(pendingAppointments)}">
+<table border="1" th:if="${!#lists.isEmpty(confirmedAppointments)}">
     <thead>
     <tr>
         <th>ID</th>
@@ -40,7 +42,7 @@
     </thead>
 
     <tbody>
-    <tr th:each="a : ${pendingAppointments}">
+    <tr th:each="a : ${confirmedAppointments}">
         <td th:text="${a.id}"></td>
         <td th:text="${a.owner.fullName} + ' (ID: ' + ${a.owner.id} + ')'"></td>
         <td th:text="${a.pet.name} + ' (ID: ' + ${a.pet.id} + ')'"></td>
@@ -50,17 +52,17 @@
         <td th:text="${a.status}"></td>
 
         <td>
-            <!-- CONFIRM -->
-            <form th:action="@{'/vet/appointments/' + ${a.id} + '/confirm'}"
+            <!-- COMPLETE -->
+            <form th:action="@{'/vet/appointments/' + ${a.id} + '/complete'}"
                   method="post" style="display:inline;">
-                <button type="submit">Confirm</button>
+                <input type="text" name="notes" placeholder="complete notes (optional)" />
+                <button type="submit">Complete</button>
             </form>
 
             <!-- CANCEL -->
             <form th:action="@{'/vet/appointments/' + ${a.id} + '/cancel'}"
                   method="post" style="display:inline;">
-
-                <input type="hidden" name="from" value="pending"/>
+                <input type="hidden" name="from" value="confirmed"/>
                 <input type="text" name="notes" placeholder="cancel notes (optional)" />
                 <button type="submit">Cancel</button>
             </form>
