@@ -2,9 +2,12 @@ package gr.hua.dit.petcare.core.service.impl;
 
 import gr.hua.dit.petcare.core.dto.PetDto;
 
+import gr.hua.dit.petcare.core.model.Appointment;
+import gr.hua.dit.petcare.core.model.AppointmentStatus;
 import gr.hua.dit.petcare.core.model.Person;
 import gr.hua.dit.petcare.core.model.Pet;
 
+import gr.hua.dit.petcare.core.repository.AppointmentRepository;
 import gr.hua.dit.petcare.core.repository.PetRepository;
 import gr.hua.dit.petcare.core.repository.UserRepository;
 
@@ -21,11 +24,14 @@ public class PetServiceImpl implements PetService {
 
     private final PetRepository petRepository;
     private final UserRepository userRepository;
+    private final AppointmentRepository appointmentRepository;
 
     public PetServiceImpl(PetRepository petRepository,
-                          UserRepository userRepository) {
+                          UserRepository userRepository,
+                          AppointmentRepository appointmentRepository) {
         this.petRepository = petRepository;
         this.userRepository = userRepository;
+        this.appointmentRepository = appointmentRepository;
     }
 
     /**
@@ -54,7 +60,7 @@ public class PetServiceImpl implements PetService {
      */
     @Override
     public List<Pet> getPetsForOwner(Long ownerId) {
-        return petRepository.findByOwnerId(ownerId);
+        return petRepository.findByOwnerIdAndActiveTrue(ownerId);
     }
 
     /**
@@ -93,7 +99,21 @@ public class PetServiceImpl implements PetService {
             throw new ValidationException("Unauthorized operation: This pet does not belong to this owner.");
         }
 
-        petRepository.delete(pet);
+        // ακύρωση μελλοντικών ραντεβού
+        List<Appointment> toCancel =
+                appointmentRepository.findByPetIdAndStatusIn(
+                        petId,
+                        List.of(AppointmentStatus.PENDING, AppointmentStatus.CONFIRMED)
+                );
+
+        for (Appointment a : toCancel) {
+            a.setStatus(AppointmentStatus.CANCELLED);
+        }
+
+        appointmentRepository.saveAll(toCancel);
+
+        pet.setActive(false); // soft delete pet
+        petRepository.save(pet);
     }
 
     /**
@@ -101,6 +121,7 @@ public class PetServiceImpl implements PetService {
      */
     @Override
     public Pet getPetById(Long id) {
-        return petRepository.findById(id).orElse(null);
+        Pet pet = petRepository.findById(id).orElse(null);
+        return (pet != null && pet.isActive()) ? pet : null;
     }
 }

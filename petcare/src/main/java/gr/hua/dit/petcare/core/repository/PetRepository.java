@@ -14,15 +14,15 @@ import java.util.List;
 public interface PetRepository extends JpaRepository<Pet, Long> {
 
     /**
-     * Επιστρέφει όλα τα κατοικίδια ενός συγκεκριμένου ιδιοκτήτη
+     * Επιστρέφει όλα τα ενεργά κατοικίδια ενός συγκεκριμένου ιδιοκτήτη
      */
-    List<Pet> findByOwner(Person owner);
-
+    List<Pet> findByOwnerAndActiveTrue(Person owner);
+    
     /**
-     * Επιστρέφει τα κατοικίδια με το id του ιδιοκτήτη.
+     * Επιστρέφει τα ενεργά κατοικίδια με το id του ιδιοκτήτη.
      * (Χρήσιμο όταν έχουμε μόνο το ownerId από το session)
      */
-    List<Pet> findByOwnerId(Long ownerId);
+    List<Pet> findByOwnerIdAndActiveTrue(Long ownerId);
 
 }
 

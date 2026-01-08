@@ -13,7 +13,7 @@ public class PetDto {
     // Η ράτσα μπορεί να είναι κενή
     private String breed;
 
-    @Min(value = 0, message = "The age cannot be negative")
+    @Min(value = 1, message = "Age must be greater than 0")
     private int age;
 
     public PetDto() {}

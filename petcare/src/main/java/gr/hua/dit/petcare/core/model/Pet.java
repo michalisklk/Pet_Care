@@ -20,8 +20,11 @@ public class Pet {
 
     private String breed;    // ράτσα
 
-    @Min(value = 0, message = "The age cannot be negative")
+    @Min(value = 1, message = "Age must be greater than 0")
     private int age;
+
+    @Column(nullable = false)
+    private boolean active = true;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "owner_id")
@@ -35,7 +38,7 @@ public class Pet {
         this.breed = breed;
         this.age = age;
         this.owner = owner;
-
+        this.active = true;
     }
 
     // getters / setters
@@ -76,4 +79,7 @@ public class Pet {
     public void setOwner(Person owner) {
         this.owner = owner;
     }
+
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
 }

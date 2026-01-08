@@ -8,6 +8,7 @@ import gr.hua.dit.petcare.core.model.Pet;
 import gr.hua.dit.petcare.core.service.PetService;
 
 import jakarta.validation.Valid;
+import jakarta.validation.ValidationException;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * Controller για τις λειτουργίες (CRUD) των κατοικίδιων.
@@ -134,9 +136,15 @@ public class PetController {
     @PostMapping("/delete/{id}")
     public String deletePet(
             @PathVariable Long id,
-            @AuthenticationPrincipal Person user
+            @AuthenticationPrincipal Person user,
+            RedirectAttributes redirectAttributes
     ) {
-        petService.deletePet(id, user.getId());
+        try {
+            petService.deletePet(id, user.getId());
+        } catch (ValidationException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+
         return "redirect:/pets";
     }
 }

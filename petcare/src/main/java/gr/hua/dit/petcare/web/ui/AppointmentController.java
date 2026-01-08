@@ -43,7 +43,7 @@ public class AppointmentController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not logged in");
         }
 
-        List<Pet> pets = petRepository.findByOwnerId(owner.getId());
+        List<Pet> pets = petRepository.findByOwnerIdAndActiveTrue(owner.getId());
         List<Person> vets = userRepository.findByRole(Role.VET);
 
         model.addAttribute("owner", owner);
@@ -67,7 +67,7 @@ public class AppointmentController {
         }
 
         // Reload για να ξαναγεμίσουν τα dropdowns αν έχει λάθος
-        List<Pet> pets = petRepository.findByOwnerId(owner.getId());
+        List<Pet> pets = petRepository.findByOwnerIdAndActiveTrue(owner.getId());
         List<Person> vets = userRepository.findByRole(Role.VET);
 
         model.addAttribute("owner", owner);
