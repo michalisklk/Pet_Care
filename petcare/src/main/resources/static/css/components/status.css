@@ -1,0 +1,18 @@
+/* Status/response messages */
+
+.pc-status {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.3;
+    margin: 0;
+}
+
+/* Success message */
+.pc-status--success {
+    color: var(--color-status-success);
+}
+
+/* Error message */
+.pc-status--error {
+    color: var(--color-status-error);
+}

@@ -1,58 +1,90 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Register</title>
-</head>
-<body>
+<head th:replace="~{fragments/head :: head('Register')}"></head>
 
-<h1>User Registration</h1>
+<body class="pc-register">
 
-<!-- error από service -->
-<div th:if="${errorMessage}">
-    <p style="color: red;" th:text="${errorMessage}"></p>
+<!-- Logo πάνω αριστερά -->
+<div class="pc-register__logo">
+    <img th:src="@{/css/assets/brand/petcare_logo.svg}" alt="PetCare logo">
 </div>
 
-<form th:action="@{/register}" th:object="${user}" method="post">
+<main class="pc-register__main">
+    <section class="pc-register__card">
+        <div class="pc-register__grid">
 
-    <div>
-        <label>Full Name:</label>
-        <input type="text" th:field="*{fullName}" />
-        <div th:if="${#fields.hasErrors('fullName')}"
-             th:errors="*{fullName}" style="color:red"></div>
-    </div>
+            <div class="pc-register__illustration">
+                <img th:src="@{/css/assets/illustrations/register_page_img.svg}" alt="Register illustration">
+            </div>
 
-    <div>
-        <label>Email:</label>
-        <input type="email" th:field="*{email}" />
-        <div th:if="${#fields.hasErrors('email')}"
-             th:errors="*{email}" style="color:red"></div>
-    </div>
+            <div class="pc-register__content">
+                <!-- title -->
+                <h1 class="pc-register__title">Create Your Account</h1>
 
-    <div>
-        <label>Phone:</label>
-        <input type="text" th:field="*{mobile}" />
-        <div th:if="${#fields.hasErrors('mobile')}"
-             th:errors="*{mobile}" style="color:red"></div>
-    </div>
+                <form class="pc-register__form" th:action="@{/register}" method="post" th:object="${user}">
 
-    <div>
-        <label>Password:</label>
-        <input type="password" th:field="*{password}" />
-        <div th:if="${#fields.hasErrors('password')}"
-             th:errors="*{password}" style="color:red"></div>
-    </div>
+                    <!-- text fields -->
+                    <div class="pc-register__fields">
+                        <div th:replace="~{fragments/components/input :: input(
+                            'Full Name',
+                            'fullName',
+                            'text',
+                            'Enter Full Name',
+                            *{fullName},
+                            false
+                        )}"></div>
 
-    <div>
-        <button type="submit">Register</button>
-    </div>
+                        <div th:replace="~{fragments/components/input :: input(
+                            'Email',
+                            'email',
+                            'email',
+                            'Enter Email',
+                            *{email},
+                            false
+                        )}"></div>
 
-</form>
+                        <div th:replace="~{fragments/components/input :: input(
+                            'Phone',
+                            'mobile',
+                            'tel',
+                            'Enter Phone',
+                            *{mobile},
+                            false
+                        )}"></div>
 
-<p>
-    Already have an account?
-    <a th:href="@{/login}">Login</a>
-</p>
+                        <div th:replace="~{fragments/components/input :: input(
+                            'Password',
+                            'password',
+                            'password',
+                            'Enter Password',
+                            *{password},
+                            true
+                        )}"></div>
+                    </div>
+
+                    <p class="pc-register__link">
+                        Already have an account?
+                        <a th:href="@{/login}">Login</a>
+                    </p>
+
+                    <!-- Μηνύματα status -->
+                    <div class="pc-register__status">
+                        <div th:if="${errorMessage}">
+                            <div th:replace="~{fragments/components/status :: status(${errorMessage}, 'error')}"></div>
+                        </div>
+                    </div>
+
+                    <!-- register button -->
+                    <div class="pc-register__actions">
+                        <div th:replace="~{fragments/components/button :: button('Register', 'primary', true)}"></div>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </section>
+</main>
 
 </body>
 </html>

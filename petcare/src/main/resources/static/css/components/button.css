@@ -1,0 +1,56 @@
+
+/* Button component */
+
+.pc-btn {
+    /* adjust button size to text */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    border: none;
+
+    border-radius: 9px;
+    padding: 7px 47px;
+
+    font-size: 36px;
+    line-height: 1;
+    letter-spacing: 0;
+
+    cursor: pointer;
+    user-select: none;
+
+    color: var(--color-text-inverse);
+    background-color: var(--color-accent);
+
+    transition:
+        background-color 0.15s ease-out,
+        transform 0.12s ease-out;
+}
+
+/* Primary (orange) */
+.pc-btn--primary {
+    background-color: var(--color-accent);
+}
+
+.pc-btn--primary:hover {
+    background-color: var(--color-accent-dark);
+    transform: translateY(-2px);
+}
+
+.pc-btn--primary:active {
+    transform: translateY(1px);
+}
+
+/* Secondary (blue) */
+.pc-btn--secondary {
+    background-color: var(--color-primary);
+}
+
+.pc-btn--secondary:hover {
+    background-color: var(--color-primary-dark);
+    transform: translateY(-2px);
+}
+
+.pc-btn--secondary:active {
+    transform: translateY(1px);
+}

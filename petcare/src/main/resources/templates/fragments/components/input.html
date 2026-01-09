@@ -1,0 +1,31 @@
+<div xmlns:th="http://www.thymeleaf.org"
+     th:fragment="input(label, name, type, placeholder, value, hasIcon)"
+     class="pc-field">
+
+    <label class="pc-field__label" th:for="${name}" th:text="${label}">Label</label>
+
+    <div class="pc-field__control">
+        <input class="pc-input"
+               th:classappend="${hasIcon} ? ' pc-input--with-icon' : ''"
+               th:attr="data-pc-password=${hasIcon} ? 'true' : null"
+               th:id="${name}"
+               th:name="${name}"
+               th:type="${type}"
+               th:placeholder="${placeholder}"
+               th:value="${value}" />
+
+        <!-- slot για icon που εμφανίζεται μόνο αν hasIcon = true -->
+        <button th:if="${hasIcon}"
+                type="button"
+                class="pc-field__icon-btn js-pc-toggle-password"
+                aria-label="Εμφάνιση κωδικού"
+                th:attr="data-eye=@{/css/assets/icons/Eye.svg},
+                 data-eye-off=@{/css/assets/icons/Eye_off.svg}">
+
+            <img class="pc-field__icon"
+                 th:src="@{/css/assets/icons/Eye_off.svg}"
+                 alt="">
+        </button>
+
+    </div>
+</div>

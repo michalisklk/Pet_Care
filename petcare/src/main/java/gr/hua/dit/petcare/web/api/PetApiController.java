@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import gr.hua.dit.petcare.core.model.Person;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.server.ResponseStatusException;
-
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.ValidationException;
 
 import java.util.List;
 
@@ -72,14 +74,90 @@ public class PetApiController {
     }
 
     /**
+     * DELETE /api/v1/pets/{id}
+     * Soft-delete pet: active=false και ακύρωση PENDING/CONFIRMED ραντεβού (σύμφωνα με PetServiceImpl)
+     */
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@AuthenticationPrincipal Person user, @PathVariable Long id) {
+        if (user == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not logged in");
+
+        try {
+            petService.deletePet(id, user.getId());
+        } catch (ValidationException ex) {
+            String msg = ex.getMessage() == null ? "" : ex.getMessage().toLowerCase();
+            if (msg.contains("not found")) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage());
+            }
+            if (msg.contains("unauthorized")) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, ex.getMessage());
+            }
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage());
+        }
+    }
+
+    /**
+     * PATCH /api/v1/pets/{id}
+     * Μερική ενημέρωση πεδίων. Όσα δεν δοθούν μένουν όπως είναι.
+     */
+    @PatchMapping("/{id}")
+    public PetResponse patch(@AuthenticationPrincipal Person user,
+                             @PathVariable Long id,
+                             @Valid @RequestBody UpdatePetRequest req) {
+
+        if (user == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not logged in");
+
+        Pet existing = petService.getPetById(id);
+        if (existing == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pet not found");
+        }
+
+        // Έλεγχος ιδιοκτησίας ώστε να επιστρέφεται καθαρά 403 (και όχι generic 400)
+        if (existing.getOwner() == null || !existing.getOwner().getId().equals(user.getId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Unauthorized operation: This pet does not belong to this owner.");
+        }
+
+        // Δημιουργούμε πλήρες PetDto γιατί το PetDto έχει @NotBlank/@Min(1) και δεν επιτρέπει nulls
+        PetDto dto = new PetDto();
+        dto.setName(req.name() != null ? req.name() : existing.getName());
+        dto.setSpecies(req.species() != null ? req.species() : existing.getSpecies());
+        dto.setBreed(req.breed() != null ? req.breed() : existing.getBreed());
+        dto.setAge(req.age() != null ? req.age() : existing.getAge());
+
+        try {
+            Pet updated = petService.updatePet(id, user.getId(), dto);
+            return toResponse(updated);
+        } catch (ValidationException ex) {
+            String msg = ex.getMessage() == null ? "" : ex.getMessage().toLowerCase();
+            if (msg.contains("not found")) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage());
+            }
+            if (msg.contains("unauthorized")) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, ex.getMessage());
+            }
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage());
+        }
+    }
+
+    /**
      * Request DTO για create pet
      * Validation: ownerId/name/species required, age >= 0.
      */
     public record CreatePetRequest(
-            @NotNull String name,
-            @NotNull String species,
+            @NotBlank String name,
+            @NotBlank String species,
             String breed,
-            int age
+            @Min(value = 1, message = "Age must be greater than 0") int age
     ) {}
 
+    /**
+     * Request DTO for PATCH (όλα τα πεδία είναι optional)
+     * Validation εφαρμόζεται μόνο αν δοθεί age.
+     */
+    public record UpdatePetRequest(
+            String name,
+            String species,
+            String breed,
+            @Min(value = 1, message = "Age must be greater than 0") Integer age
+    ) {}
 }

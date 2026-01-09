@@ -1,0 +1,9 @@
+<button xmlns:th="http://www.thymeleaf.org"
+        th:fragment="button(text, variant, isSubmit)"
+        th:type="${isSubmit} ? 'submit' : 'button'"
+        class="pc-btn"
+        th:classappend="${variant} == 'secondary' ? ' pc-btn--secondary' : ' pc-btn--primary'">
+
+    <span th:text="${text}">Button</span>
+
+</button>

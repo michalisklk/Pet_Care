@@ -1,0 +1,8 @@
+<p xmlns:th="http://www.thymeleaf.org"
+   th:fragment="status(message, type)"
+   class="pc-status"
+   th:classappend="${type} == 'success' ? ' pc-status--success' : ' pc-status--error'">
+
+    <span th:text="${message}">Status message</span>
+
+</p>

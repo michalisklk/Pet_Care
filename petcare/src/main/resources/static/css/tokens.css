@@ -1,0 +1,36 @@
+:root {
+    /* Backgrounds */
+    --color-bg-base: #FBFBFB; /* Βασικό λευκό background */
+    --color-bg-surface: #EDEDED; /* Επιφάνειες (cards/boxes) */
+    --color-bg-input: #E6E6E6; /* Background input field */
+
+    /* Gradient */
+    --gradient-main: radial-gradient(
+        circle at left bottom,
+        #4F67C6 0%,
+        #BD8AEA 100%
+    );
+
+    /* Text */
+    --color-text-primary: #05091D; /* Κύριο κείμενο */
+    --color-text-secondary: #525252; /* Δευτερεύον κείμενο */
+    --color-text-muted: #C2C2C2; /* Βοηθητικό/placeholder */
+    --color-text-inverse: #FBFBFB; /* Κείμενο πάνω σε σκούρο */
+    --color-text-input: #525252; /* Κείμενο που γράφει ο χρήστης στο input */
+
+    /* Links */
+    --color-link-default: #B4B4B4;
+    --color-link-highlight: #D263E4;
+
+    /* Primary (blue family) */
+    --color-primary: #4F67C6;
+    --color-primary-dark: #2E428F;
+
+    /* Accent (orange family) */
+    --color-accent: #E85858;
+    --color-accent-dark: #9D1616;
+
+    /* Status */
+    --color-status-error: #E82929;
+    --color-status-success: #33B864;
+}

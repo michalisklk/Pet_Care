@@ -1,50 +1,85 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-<body>
+<head th:replace="~{fragments/head :: head('Login')}"></head>
 
-<h1>Login</h1>
+<body class="pc-auth">
 
-<!-- μήνυμα επιτυχίας εγγραφής -->
-<div th:if="${param.registered}">
-    <p style="color: green;">Registration completed successfully. You can log in.</p>
+<!-- Logo πάνω αριστερά -->
+<div class="pc-auth__logo">
+    <img th:src="@{/css/assets/brand/petcare_logo.svg}" alt="PetCare logo">
 </div>
 
-<!-- μήνυμα σφάλματος -->
-<div th:if="${param.error}">
-    <p style="color: red;">Incorrect email or password</p>
-</div>
+<main class="pc-auth__main">
+    <section class="pc-auth__card">
 
-<!-- μήνυμα αποσύνδεσης -->
-<div th:if="${param.logout}">
-    <p style="color: green;">You have logged out successfully.</p>
-</div>
+        <div class="pc-auth__content">
 
-<form th:action="@{/login}" method="post">
+            <!-- titles -->
+            <p class="pc-auth__subtitle">Welcome Back!</p>
+            <h1 class="pc-auth__title">Login to your account:</h1>
 
-    <div>
-        <label>Email:</label>
-        <input type="text" name="username" required />
-    </div>
+            <form class="pc-auth__form" th:action="@{/login}" method="post">
 
-    <div>
-        <label>Password:</label>
-        <input type="password" name="password" required />
-    </div>
+                <!-- text fields -->
+                <div class="pc-auth__fields">
+                    <div th:replace="~{fragments/components/input :: input(
+                            'Email',
+                            'username',
+                            'text',
+                            'Enter email',
+                            '',
+                            false
+                        )}"></div>
 
-    <div>
-        <button type="submit">Login</button>
-    </div>
+                    <div th:replace="~{fragments/components/input :: input(
+                            'Password',
+                            'password',
+                            'password',
+                            'Enter password',
+                            '',
+                            true
+                        )}"></div>
+                </div>
 
-</form>
+                <p class="pc-auth__link">
+                    Not registered yet?
+                    <a th:href="@{/register}">Get started here</a>
+                </p>
 
-<p>
-    Don’t have an account?
-    <a th:href="@{/register}">Register</a>
-</p>
+                <!-- Μηνύματα status -->
+                <div class="pc-auth__status">
+                    <div th:if="${param.registered}">
+                        <div th:replace="fragments/components/status :: status(
+                            'Registration completed successfully. You can log in.',
+                            'success'
+                        )"></div>
+                    </div>
+
+                    <div th:if="${param.error}">
+                        <div th:replace="fragments/components/status :: status(
+                            'Incorrect email or password',
+                            'error'
+                        )"></div>
+                    </div>
+
+                    <div th:if="${param.logout}">
+                        <div th:replace="fragments/components/status :: status(
+                            'You have logged out successfully.',
+                            'success'
+                        )"></div>
+                    </div>
+                </div>
+
+                <!-- login button -->
+                <div class="pc-auth__actions">
+                    <div th:replace="~{fragments/components/button :: button('Login', 'primary', true)}"></div>
+                </div>
+
+            </form>
+        </div>
+
+    </section>
+</main>
 
 </body>
 </html>

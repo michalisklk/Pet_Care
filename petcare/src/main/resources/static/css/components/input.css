@@ -1,0 +1,67 @@
+/* Input component */
+
+.pc-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.pc-field__label {
+    font-size: 26px;
+    color: var(--color-text-primary);
+    line-height: 1.1;
+    margin: 0 0 2px 0;
+}
+
+.pc-field__control {
+    position: relative;
+}
+
+.pc-input {
+    width: 434px;
+    border: none;
+    outline: none;
+
+    border-radius: 9px;
+    background-color: var(--color-bg-input);
+
+    font-size: 24px;
+    line-height: 1.2;
+
+    padding: 14px 18px;
+    color: var(--color-text-secondary);
+}
+
+.pc-input::placeholder {
+    color: var(--color-text-muted);
+}
+
+/* Icon μέσα στο field (show/hide password) */
+.pc-field__icon-btn {
+    position: absolute;
+    top: 50%;
+    right: 18px;
+    transform: translateY(-50%);
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+
+    color: var(--color-text-secondary);
+}
+
+/* Δίνει χώρο στο input όταν υπάρχει icon δεξιά */
+.pc-input--with-icon {
+    padding-right: 44px;
+}
+
+.pc-field__icon {
+    width: 22px;
+    height: 22px;
+    display: block;
+}
+

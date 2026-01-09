@@ -1,0 +1,141 @@
+/* Register page */
+
+.pc-register {
+    min-height: 100vh;
+    position: relative;
+}
+
+.pc-register::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-main);
+    z-index: 0;
+}
+
+.pc-register__logo {
+    position: absolute;
+    z-index: 1;
+    top: 15px;
+    left: 15px;
+    padding: 0;
+}
+
+.pc-register__logo img {
+    display: block;
+    height: 150px;
+    width: auto;
+}
+
+.pc-register__main {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 16px;
+}
+
+/* card */
+.pc-register__card {
+    width: 1339px;
+    height: 740px;
+    background: var(--color-bg-base);
+    border-radius: 18px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 18px;
+}
+
+/* 2 στήλες για illustration και form */
+.pc-register__grid {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 18px;
+}
+
+/* illustration panel */
+.pc-register__illustration {
+    background: var(--color-bg-surface);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.pc-register__illustration img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* form */
+.pc-register__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.pc-register__title {
+    margin: 0;
+    font-size: 40px;
+    color: var(--color-text-primary);
+    line-height: 1.05;
+    text-align: center;
+}
+
+/* Κενό πριν τα inputs */
+.pc-register__form {
+    width: 100%;
+    max-width: 434px;
+    margin-top: 32px;
+}
+
+.pc-register__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Link */
+.pc-register__link {
+    margin: 2px 0 0 0;
+    font-size: 20px;
+    color: var(--color-text-muted);
+    text-align: left;
+}
+
+.pc-register__link a {
+    color: var(--color-link-highlight);
+    text-decoration: none;
+}
+
+.pc-register__link a:hover {
+    text-decoration: underline;
+}
+
+/* Status messages */
+.pc-register__status {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+    min-height: 45px;
+}
+
+/* Button */
+.pc-register__actions {
+    margin-top: 18px;
+    display: flex;
+    justify-content: center;
+}
