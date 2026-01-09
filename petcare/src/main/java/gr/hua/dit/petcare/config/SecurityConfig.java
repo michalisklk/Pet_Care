@@ -42,7 +42,8 @@ public class SecurityConfig {
     public SecurityFilterChain apiChain(HttpSecurity http) throws Exception {
 
         return http
-                .securityMatcher("/api/**")
+                .securityMatcher("/api/v1/**")
+                .cors(cors -> {})
                 .csrf(csrf -> csrf.disable())
                 .headers(headers -> headers.frameOptions(frame -> frame.deny()))
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -114,7 +115,7 @@ public class SecurityConfig {
                 // φόρμα login
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .usernameParameter("username")//email
+                        .usernameParameter("email")
                         .passwordParameter("password")
                         .successHandler(successHandler)
                         .failureUrl("/login?error=true")

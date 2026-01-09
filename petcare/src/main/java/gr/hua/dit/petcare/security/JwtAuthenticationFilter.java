@@ -32,8 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
-        return path.startsWith("/api/v1/auth")
-                || path.startsWith("/api/test-notifications"); // αν το έχεις permitAll
+        return path.startsWith("/api/v1/auth/");
     }
 
     //Κάνει authenticate το request με JWT
@@ -43,11 +42,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
 
         String path = request.getRequestURI();
-        // Αφήνουμε τα auth endpoints χωρίς token
-        if (path.startsWith("/api/v1/auth")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
         //Παίρνουμε το Authorization header
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (header == null || !header.startsWith("Bearer ")) {
