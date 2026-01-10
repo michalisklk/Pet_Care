@@ -1,80 +1,95 @@
 <!DOCTYPE html>
-<html lang="el" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Κλείσιμο ραντεβού</title>
-</head>
-<body>
 
-<h1>Κλείσιμο ραντεβού</h1>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('PetCare | Book An Appointment', '/css/pages/appointments.css', null)}"></head>
 
-<p th:if="${owner != null}"
-   th:text="'Owner: ' + ${owner.fullName} + ' (ID: ' + ${owner.id} + ')'">
-    Owner info
-</p>
+<body class="pc-page pc-appointment">
 
-<p th:if="${successMessage}" th:text="${successMessage}" style="color: green;"></p>
-<p th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></p>
+<main class="pc-appointment__main">
 
-<!-- FORM ΜΟΝΟ για submit appointment -->
-<form th:action="@{/appointments}" th:object="${appointment}" method="post">
+    <div class="pc-appointment__wrapper">
+        <h1 class="pc-appointment__page-title">Book An Appointment:</h1>
 
-    <div>
-        <label for="petId">Pet:</label>
-        <select id="petId" th:field="*{petId}" required>
-            <option value="" disabled selected>Επιλέξτε κατοικίδιο</option>
-            <option th:each="p : ${pets}"
-                    th:value="${p.id}"
-                    th:text="${p.name} + ' (ID: ' + ${p.id} + ')'">
-            </option>
-        </select>
+        <div class="pc-appointment__ears-illustration">
+            <img th:src="@{/css/assets/brand/petcare_ears.svg}" alt="Ears Illustration">
+        </div>
+
+        <section class="pc-appointment__card">
+            <div class="pc-appointment__content">
+                <!-- Owner info -->
+                <p class="pc-appointment__owner"
+                    th:if="${owner != null}"
+                    th:text="'Owner: ' + ${owner.fullName}">
+                    Owner info
+                </p>
+
+                <form class="pc-appointment__form" th:action="@{/appointments}" th:object="${appointment}" method="post">
+                    <!-- text fields -->
+                    <div class="pc-appointment__fields">
+
+                        <div th:replace="~{fragments/components/field-select :: fieldSelect('Pet', 'petId', 'Choose your pet', ~{::petOptions})}">
+                            <th:block th:fragment="petOptions">
+                                <option th:each="p : ${pets}"
+                                        th:value="${p.id}"
+                                        th:text="${p.name}">
+                                </option>
+                            </th:block>
+                        </div>
+
+                        <div th:replace="~{fragments/components/field-input :: fieldInput(
+                            'Start', 'start', 'datetime-local', 'Select date & time', false, true
+                        )}"></div>
+
+                        <div th:replace="~{fragments/components/field-select :: fieldSelect('Vet', 'vetId', 'Choose your vet', ~{::vetOptions})}">
+                            <th:block th:fragment="vetOptions">
+                                <option th:each="v : ${vets}"
+                                        th:value="${v.id}"
+                                        th:text="${v.fullName} + ' (ID: ' + ${v.id} + ')'">
+                                </option>
+                            </th:block>
+                        </div>
+
+                        <div th:replace="~{fragments/components/field-select :: fieldSelect('What’s this appointment for?', 'reason', 'Enter reason for appointment', ~{::reasonOptions})}">
+                            <th:block th:fragment="reasonOptions">
+                                <option th:each="r : ${reasons}"
+                                        th:value="${r}"
+                                        th:text="${r.label}">
+                                </option>
+                            </th:block>
+                        </div>
+                    </div>
+
+                    <!-- Μηνύματα status -->
+                    <div class="pc-appointment__status">
+                        <div th:if="${successMessage}">
+                            <div th:replace="fragments/components/status :: status(
+                                ${successMessage},
+                                'success'
+                            )"></div>
+                        </div>
+
+                        <div th:if="${errorMessage}">
+                            <div th:replace="fragments/components/status :: status(
+                                ${errorMessage},
+                                'error'
+                            )"></div>
+                        </div>
+                    </div>
+
+                    <div class="pc-appointment__actions">
+                        <div th:replace="~{fragments/components/button :: button('Back to pets', 'secondary', false, @{/pets})}"></div>
+
+                        <div th:replace="~{fragments/components/button :: button('Book Now!', 'primary', true, null)}"></div>
+                    </div>
+                </form>
+            </div>
+        </section>
     </div>
+</main>
 
-    <div>
-        <label for="vetId">Vet:</label>
-        <select id="vetId" th:field="*{vetId}" required>
-            <option value="" disabled selected>Επιλέξτε κτηνίατρο</option>
-            <option th:each="v : ${vets}"
-                    th:value="${v.id}"
-                    th:text="${v.fullName} + ' (ID: ' + ${v.id} + ')'">
-            </option>
-        </select>
-    </div>
-
-    <div>
-        <label for="start">Start:</label>
-        <input id="start" type="datetime-local" th:field="*{start}" required/>
-    </div>
-
-    <div>
-        <label for="reason">Reason:</label>
-        <select id="reason" th:field="*{reason}" required>
-            <option value="" disabled selected>Επιλέξτε λόγο επίσκεψης</option>
-            <option th:each="r : ${reasons}"
-                    th:value="${r}"
-                    th:text="${r.label}">
-            </option>
-        </select>
-    </div>
-
-    <div style="margin-top: 12px;">
-        <button type="submit">Κλείσε ραντεβού</button>
-    </div>
-
-</form>
-
-<!-- Go back -->
-<div style="margin-top: 12px;">
-    <a th:href="@{/pets}">
-        <button type="button">GO back to my pets</button>
-    </a>
-</div>
-
-<!-- Logout (POST) -->
-<div style="margin-top: 12px;">
-    <form th:action="@{/logout}" method="post" style="display:inline;">
-        <button type="submit">Logout</button>
-    </form>
+<!-- Logo κάτω δεξιά -->
+<div class="pc-appointment__logo">
+    <img th:src="@{/css/assets/brand/petcare_logo_horizontal.svg}" alt="PetCare logo">
 </div>
 
 </body>

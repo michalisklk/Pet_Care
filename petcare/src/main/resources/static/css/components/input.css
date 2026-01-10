@@ -31,6 +31,24 @@
     color: var(--color-text-secondary);
 }
 
+/* date και time input variation */
+.pc-input[type="date"],
+.pc-input[type="time"],
+.pc-input[type="datetime-local"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+/* βελτιώσεις στο picker για το date */
+.pc-input[type="date"]::-webkit-calendar-picker-indicator,
+.pc-input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+.pc-input[type="time"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.85;
+}
+
+
 .pc-input::placeholder {
     color: var(--color-text-muted);
 }

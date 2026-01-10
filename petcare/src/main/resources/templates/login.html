@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head('Login')}"></head>
+<head th:replace="~{fragments/head :: head('PetCare | Login', '/css/pages/login.css', '/js/password-toggle.js')}"></head>
 
-<body class="pc-auth">
+<body class="pc-page pc-login">
 
 <!-- Logo πάνω αριστερά -->
-<div class="pc-auth__logo">
+<div class="pc-login__logo">
     <img th:src="@{/css/assets/brand/petcare_logo.svg}" alt="PetCare logo">
 </div>
 
-<main class="pc-auth__main">
-    <section class="pc-auth__card">
+<main class="pc-login__main">
+    <section class="pc-login__card">
 
-        <div class="pc-auth__content">
+        <div class="pc-login__content">
 
             <!-- titles -->
-            <p class="pc-auth__subtitle">Welcome Back!</p>
-            <h1 class="pc-auth__title">Login to your account:</h1>
+            <p class="pc-login__subtitle">Welcome Back!</p>
+            <h1 class="pc-login__title">Login to your account:</h1>
 
-            <form class="pc-auth__form" th:action="@{/login}" method="post">
+            <form class="pc-login__form" th:action="@{/login}" method="post">
 
                 <!-- text fields -->
-                <div class="pc-auth__fields">
-                    <div th:replace="~{fragments/components/input :: input(
+                <div class="pc-login__fields">
+                    <div th:replace="~{fragments/components/raw-input :: rawInput(
                             'Email',
                             'email',
                             'text',
@@ -31,7 +31,7 @@
                             false
                         )}"></div>
 
-                    <div th:replace="~{fragments/components/input :: input(
+                    <div th:replace="~{fragments/components/raw-input :: rawInput(
                             'Password',
                             'password',
                             'password',
@@ -41,13 +41,13 @@
                         )}"></div>
                 </div>
 
-                <p class="pc-auth__link">
+                <p class="pc-login__link">
                     Not registered yet?
                     <a th:href="@{/register}">Get started here</a>
                 </p>
 
                 <!-- Μηνύματα status -->
-                <div class="pc-auth__status">
+                <div class="pc-login__status">
                     <div th:if="${param.registered}">
                         <div th:replace="fragments/components/status :: status(
                             'Registration completed successfully. You can log in.',
@@ -71,8 +71,8 @@
                 </div>
 
                 <!-- login button -->
-                <div class="pc-auth__actions">
-                    <div th:replace="~{fragments/components/button :: button('Login', 'primary', true)}"></div>
+                <div class="pc-login__actions">
+                    <div th:replace="~{fragments/components/button :: button('Login', 'primary', true, null)}"></div>
                 </div>
 
             </form>

@@ -1,0 +1,22 @@
+<div xmlns:th="http://www.thymeleaf.org"
+     th:fragment="fieldSelect(label, name, placeholder, optionsFrag)"
+     class="pc-field">
+
+    <label class="pc-field__label"
+           th:for="${name}"
+           th:text="${label}">
+        Label
+    </label>
+
+    <div class="pc-field__control">
+        <select class="pc-select"
+                th:id="${name}"
+                th:field="*{__${name}__}">
+
+            <option value="" disabled th:text="${placeholder}">Placeholder</option>
+
+            <!-- τα options ερχονται απο τον caller -->
+            <th:block th:replace="${optionsFrag}"></th:block>
+        </select>
+    </div>
+</div>

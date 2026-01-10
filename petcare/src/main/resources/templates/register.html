@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head('Register')}"></head>
+<head th:replace="~{fragments/head :: head('PetCare | Register', '/css/pages/register.css', '/js/password-toggle.js')}"></head>
 
-<body class="pc-register">
+<body class="pc-page pc-register">
 
 <!-- Logo πάνω αριστερά -->
 <div class="pc-register__logo">
@@ -25,7 +25,7 @@
 
                     <!-- text fields -->
                     <div class="pc-register__fields">
-                        <div th:replace="~{fragments/components/input :: input(
+                        <div th:replace="~{fragments/components/raw-input :: rawInput(
                             'Full Name',
                             'fullName',
                             'text',
@@ -34,7 +34,7 @@
                             false
                         )}"></div>
 
-                        <div th:replace="~{fragments/components/input :: input(
+                        <div th:replace="~{fragments/components/raw-input :: rawInput(
                             'Email',
                             'email',
                             'email',
@@ -43,7 +43,7 @@
                             false
                         )}"></div>
 
-                        <div th:replace="~{fragments/components/input :: input(
+                        <div th:replace="~{fragments/components/raw-input :: rawInput(
                             'Phone',
                             'mobile',
                             'tel',
@@ -52,7 +52,7 @@
                             false
                         )}"></div>
 
-                        <div th:replace="~{fragments/components/input :: input(
+                        <div th:replace="~{fragments/components/raw-input :: rawInput(
                             'Password',
                             'password',
                             'password',
@@ -76,7 +76,7 @@
 
                     <!-- register button -->
                     <div class="pc-register__actions">
-                        <div th:replace="~{fragments/components/button :: button('Register', 'primary', true)}"></div>
+                        <div th:replace="~{fragments/components/button :: button('Register', 'primary', true, null)}"></div>
                     </div>
 
                 </form>

@@ -1,5 +1,4 @@
-<head xmlns:th="http://www.thymeleaf.org"
-      th:fragment="head(title)">
+<head xmlns:th="http://www.thymeleaf.org" th:fragment="head(title, pageCss, pageJs)">
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,14 +17,14 @@
 
     <!-- Components -->
     <link rel="stylesheet" th:href="@{/css/components/button.css}">
-    <link rel="stylesheet" th:href="@{/css/components/input.css}">\
+    <link rel="stylesheet" th:href="@{/css/components/input.css}">
     <link rel="stylesheet" th:href="@{/css/components/status.css}">
+    <link rel="stylesheet" th:href="@{/css/components/select.css}">
 
-    <!-- Pages -->
-    <link rel="stylesheet" th:href="@{/css/pages/login.css}">
-    <link rel="stylesheet" th:href="@{/css/pages/register.css}">
+    <!-- Optional page CSS -->
+    <link th:if="${pageCss != null}" rel="stylesheet" th:href="@{${pageCss}}">
 
-    <!-- JS -->
-    <script th:src="@{/js/password-toggle.js}" defer></script>
+    <!-- Optional page JS -->
+    <script th:if="${pageJs != null}" th:src="@{${pageJs}}" defer></script>
 
 </head>

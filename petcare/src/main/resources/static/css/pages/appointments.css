@@ -1,0 +1,103 @@
+/* Page layout */
+.pc-appointment__main {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+}
+
+.pc-appointment__wrapper {
+    width: 1106px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    position: relative;
+}
+
+/* Title πανω απο card */
+.pc-appointment__page-title {
+    font-size: 64px;
+    color: var(--color-text-inverse);
+    margin: 0;
+    align-self: flex-start
+}
+
+/* petcare ears */
+.pc-appointment__ears-illustration {
+    position: absolute;
+    top: -130px;
+    right: -60px;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.pc-appointment__ears-illustration img {
+    display: block;
+    height: 239px;
+    width: auto;
+}
+
+/* appointment card */
+.pc-appointment__card {
+    width: 1106px;
+    height: 553px;
+    background: var(--color-bg-base);
+    border-radius: 18px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+    padding: 60px 90px;
+}
+
+/* Owner title */
+.pc-appointment__owner {
+    margin: 0 0 30px 0;
+    font-size: 48px;
+    color: var(--color-text-primary);
+}
+
+/* Form */
+.pc-appointment__form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* 2-column grid */
+.pc-appointment__fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 35px 55px;
+}
+
+/* Status messages */
+.pc-appointment__status {
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+    min-height: 45px;
+}
+
+/* Actions */
+.pc-appointment__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+/* Logo κάτω δεξιά */
+.pc-appointment__logo {
+    position: absolute;
+    z-index: 1;
+    bottom: 10px;
+    right: 15px;
+    padding: 0;
+}
+
+.pc-appointment__logo img {
+    display: block;
+    height: 78px;
+    width: auto;
+}

@@ -1,52 +1,93 @@
 <!DOCTYPE html>
+
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Pet</title>
-</head>
-<body>
+<head th:replace="~{fragments/head :: head('PetCare | Pet-form', '/css/pages/pet-form.css', null)}"></head>
 
-<h1 th:text="${petId == null ? 'New Pet' : 'Edit Pet'}"></h1>
+<body class="pc-page pc-petform">
 
-<form th:action="${petId == null} ? @{/pets/new} : @{/pets/edit/{id}(id=${petId})}"
-      th:object="${pet}"
-      method="post">
+<main class="pc-petform__main">
+    <section class="pc-petform__card">
 
-    <div>
-        <label>Name:</label>
-        <input type="text" th:field="*{name}" />
-        <div th:if="${#fields.hasErrors('name')}"
-             th:errors="*{name}" style="color:red"></div>
-    </div>
+        <div class="pc-petform__content">
+            <!-- title -->
+            <h1 class="pc-petform__title" th:text="${petId == null ? 'New Pet' : 'Edit Pet’s info'}"></h1>
 
-    <div>
-        <label>Species:</label>
-        <input type="text" th:field="*{species}" />
-        <div th:if="${#fields.hasErrors('species')}"
-             th:errors="*{species}" style="color:red"></div>
-    </div>
+            <form class="pc-petform__form"
+                  th:action="${petId == null} ? @{/pets/new} : @{/pets/edit/{id}(id=${petId})}"
+                  th:object="${pet}"
+                  method="post">
 
-    <div>
-        <label>Breed:</label>
-        <input type="text" th:field="*{breed}" />
-    </div>
+                <!-- text fields -->
+                <div class="pc-petform__fields">
+                    <div th:replace="~{fragments/components/raw-input :: rawInput(
+                            'Name',
+                            'name',
+                            'text',
+                            'Enter pet’s Name',
+                            *{name},
+                            false
+                        )}"></div>
 
-    <div>
-        <label>Age:</label>
-        <input type="number" th:field="*{age}" min="1" />
-        <div th:if="${#fields.hasErrors('age')}"
-             th:errors="*{age}" style="color:red"></div>
-    </div>
+                    <div th:replace="~{fragments/components/raw-input :: rawInput(
+                            'Specie',
+                            'species',
+                            'text',
+                            'Enter Pet’s Specie',
+                            *{species},
+                            false
+                        )}"></div>
 
-    <div>
-        <button type="submit">Save</button>
-    </div>
+                    <div th:replace="~{fragments/components/raw-input :: rawInput(
+                            'Breed',
+                            'breed',
+                            'text',
+                            'Enter Pet’s Breed',
+                            *{breed},
+                            false
+                        )}"></div>
 
-</form>
+                    <div th:replace="~{fragments/components/raw-input :: rawInput(
+                            'Age',
+                            'age',
+                            'number',
+                            'Enter Pet’s Age',
+                            *{age},
+                            false
+                        )}"></div>
+                </div>
 
-<p>
-    <a th:href="@{/pets}">Back to pets</a>
-</p>
+                <!-- Μηνύματα status -->
+                <div class="pc-petform__status">
+                    <div th:if="${#fields.hasErrors()}">
+                        <div th:replace="~{fragments/components/status :: status(
+                        ${#fields.errors('*')[0]},
+                        'error')}"></div>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="pc-petform__actions">
+                    <div th:replace="~{fragments/components/button :: button('Back to pets', 'secondary', false, @{/pets})}"></div>
+
+                    <div th:replace="~{fragments/components/button :: button('Save', 'primary', true, null)}"></div>
+                </div>
+
+            </form>
+        </div>
+
+        <!-- Bunny overlay -->
+        <img class="pc-petform__bunny"
+             th:src="@{/css/assets/illustrations/bunny_pop.svg}"
+             alt=""
+             aria-hidden="true">
+
+    </section>
+</main>
+
+<!-- Logo κάτω δεξιά -->
+<div class="pc-petform__logo">
+    <img th:src="@{/css/assets/brand/petcare_logo_horizontal.svg}" alt="PetCare logo">
+</div>
 
 </body>
 </html>

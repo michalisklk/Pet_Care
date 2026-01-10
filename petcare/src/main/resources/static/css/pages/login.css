@@ -1,23 +1,7 @@
 /* Login page */
 
-.pc-auth {
-    min-height: 100vh;
-    position: relative;
-}
-
-/* Background gradient από κάτω αριστερά */
-.pc-auth::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: var(--gradient-main);
-    background-repeat: no-repeat;
-    background-position: left bottom;
-    z-index: 0;
-}
-
 /* Logo πάνω αριστερά */
-.pc-auth__logo {
+.pc-login__logo {
     position: absolute;
     z-index: 1;
     top: 15px;
@@ -25,14 +9,14 @@
     padding: 0;
 }
 
-.pc-auth__logo img {
+.pc-login__logo img {
     display: block;
     height: 150px;
     width: auto;
 }
 
 /* center the card */
-.pc-auth__main {
+.pc-login__main {
     position: relative;
     z-index: 1;
     min-height: 100vh;
@@ -43,7 +27,7 @@
 }
 
 /* Login card */
-.pc-auth__card {
+.pc-login__card {
     width: 520px;
     height: 560px;
     background: var(--color-bg-base);
@@ -55,7 +39,7 @@
 }
 
 /* Περιεχόμενο μέσα στο card */
-.pc-auth__content {
+.pc-login__content {
     width: 100%;
     max-width: 434px;
     display: flex;
@@ -64,7 +48,7 @@
 }
 
 /* Τίτλοι */
-.pc-auth__title {
+.pc-login__title {
     margin: 0;
     font-size: 40px;
     color: var(--color-text-primary);
@@ -72,7 +56,7 @@
     text-align: center;
 }
 
-.pc-auth__subtitle {
+.pc-login__subtitle {
     margin: 2px 0 0 0;
     font-size: 32px;
     color: var(--color-text-secondary);
@@ -81,36 +65,36 @@
 }
 
 /* Κενό πριν τα inputs */
-.pc-auth__form {
+.pc-login__form {
     width: 100%;
     margin-top: 45px;
 }
 
-.pc-auth__fields {
+.pc-login__fields {
     display: flex;
     flex-direction: column;
     gap: 23px;
 }
 
 /* Link κάτω από το τελευταίο input */
-.pc-auth__link {
+.pc-login__link {
     margin: 2px 0 0 0;
     font-size: 20px;
     color: var(--color-text-secondary);
     text-align: left;
 }
 
-.pc-auth__link a {
+.pc-login__link a {
     color: var(--color-link-highlight);
     text-decoration: none;
 }
 
-.pc-auth__link a:hover {
+.pc-login__link a:hover {
     text-decoration: underline;
 }
 
 /* Status messages */
-.pc-auth__status {
+.pc-login__status {
     margin-top: 5px;
     display: flex;
     flex-direction: column;
@@ -120,7 +104,7 @@
 }
 
 /* login button */
-.pc-auth__actions {
+.pc-login__actions {
     margin-top: 14px;
     display: flex;
     justify-content: center;

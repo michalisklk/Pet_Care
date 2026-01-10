@@ -22,3 +22,34 @@ select,
 textarea {
     font-family: inherit;
 }
+
+.pc-page {
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Background gradient από κάτω αριστερά */
+.pc-page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-main);
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    z-index: 0;
+}
+
+/* υπόλοιπο content πάνω απο το background */
+.pc-page > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* pc-page variant για τους appointment lists */
+.pc-page--light::before {
+    display: none;
+}
+
+.pc-page--light {
+    background-color: var(--color-bg-base);
+}

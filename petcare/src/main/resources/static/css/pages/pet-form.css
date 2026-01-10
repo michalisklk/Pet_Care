@@ -1,0 +1,104 @@
+/* Pet-form page */
+
+/* center the card */
+.pc-petform__main {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 16px;
+}
+
+/* Login card */
+.pc-petform__card {
+    width: 628px;
+    height: 717px;
+    background: var(--color-bg-base);
+    border-radius: 18px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: visible;
+}
+
+/* Περιεχόμενο μέσα στο card */
+.pc-petform__content {
+    width: 100%;
+    max-width: 434px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    z-index: 2;
+}
+
+/* Τίτλοι */
+.pc-petform__title {
+    font-size: 64px;
+    color: var(--color-text-primary);
+    line-height: 1.05;
+    text-align: left;
+    margin: 0;
+}
+
+/* Κενό πριν τα inputs */
+.pc-petform__form {
+    width: 100%;
+    margin-top: 12px;
+}
+
+.pc-petform__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 23px;
+}
+
+/* Status messages */
+.pc-petform__status {
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+    min-height: 45px;
+}
+
+/* buttons */
+.pc-petform__actions {
+    margin: 0px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+/* Bunny overlay */
+.pc-petform__bunny {
+    position: absolute;
+    right: -230px;
+    bottom: 70px;
+    width: 305px;
+    height: auto;
+
+    z-index: 3; /* πανω απο τα υπόλοιπα στοιχεία */
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Logo κάτω δεξιά */
+.pc-petform__logo {
+    position: absolute;
+    z-index: 1;
+    bottom: 10px;
+    right: 15px;
+    padding: 0;
+}
+
+.pc-petform__logo img {
+    display: block;
+    height: 78px;
+    width: auto;
+}

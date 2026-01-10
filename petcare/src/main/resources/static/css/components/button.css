@@ -18,6 +18,7 @@
 
     cursor: pointer;
     user-select: none;
+    text-decoration: none;
 
     color: var(--color-text-inverse);
     background-color: var(--color-accent);

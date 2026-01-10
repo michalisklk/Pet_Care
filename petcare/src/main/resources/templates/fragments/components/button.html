@@ -1,9 +1,18 @@
-<button xmlns:th="http://www.thymeleaf.org"
-        th:fragment="button(text, variant, isSubmit)"
-        th:type="${isSubmit} ? 'submit' : 'button'"
-        class="pc-btn"
-        th:classappend="${variant} == 'secondary' ? ' pc-btn--secondary' : ' pc-btn--primary'">
+<th:div xmlns:th="http://www.thymeleaf.org"
+          th:fragment="button(text, variant, isSubmit, href)">
 
-    <span th:text="${text}">Button</span>
+    <button th:unless="${href != null}"
+            th:type="${isSubmit} ? 'submit' : 'button'"
+            class="pc-btn"
+            th:classappend="${variant} == 'secondary' ? ' pc-btn--secondary' : ' pc-btn--primary'">
+        <span th:text="${text}">Button</span>
+    </button>
 
-</button>
+    <!-- optional link button -->
+    <a th:if="${href != null}"
+       th:href="${href}"
+       class="pc-btn"
+       th:classappend="${variant} == 'secondary' ? ' pc-btn--secondary' : ' pc-btn--primary'">
+        <span th:text="${text}">Button</span>
+    </a>
+</th:div>

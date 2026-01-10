@@ -1,10 +1,9 @@
 <!DOCTYPE html>
+
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Vet - Cancelled Appointments</title>
-</head>
-<body>
+<head th:replace="~{fragments/head :: head('PetCare | Vet Cancelled Appointments', null, null)}"></head>
+
+<body class="pc-page pc-page--light pc-vet-cancelled-appointments">
 
 <h1 th:text="'Ραντεβού (Cancelled) για ' + ${vet.fullName}"></h1>
 <p th:text="'Vet ID: ' + ${vet.id}"></p>

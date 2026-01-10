@@ -1,12 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <script th:src="@{/js/auto-reload.js}" defer></script>
 
-    <meta charset="UTF-8">
-    <title>Vet - Pending Appointments</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('PetCare | Vet Pending Appointments', null, null)}"></head>
+
+<body class="pc-page pc-page--light pc-vet-pending-appointments">
 
 <h1 th:text="'Ραντεβού (Pending) για ' + ${vet.fullName}"></h1>
 <p th:text="'Vet ID: ' + ${vet.id}"></p>

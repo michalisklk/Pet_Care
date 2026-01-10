@@ -1,18 +1,5 @@
 /* Register page */
 
-.pc-register {
-    min-height: 100vh;
-    position: relative;
-}
-
-.pc-register::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: var(--gradient-main);
-    z-index: 0;
-}
-
 .pc-register__logo {
     position: absolute;
     z-index: 1;
