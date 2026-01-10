@@ -57,7 +57,8 @@ public class AppointmentNotificationService {
             var validation = phonePort.validate(mobile);
             if (validation == null || !validation.valid() || isBlank(validation.e164())) return;
 
-            smsPort.sendSms(validation.e164(), message);
+            smsPort.sendSms(validation.e164(), safeSms(message));
+
         } catch (Exception e) {
             log.warn("Owner SMS failed (ignored): {}", e.getMessage());
         }
@@ -122,7 +123,8 @@ public class AppointmentNotificationService {
 
     private String reasonPart(Appointment a) {
         if (a == null || a.getReason() == null) return "";
-        return " | Reason: " + a.getReason();
+        return " | Reason: " + a.getReason().getLabel();
+
     }
 
     // --------- μικρά helpers (για να μην τρώμε nulls) ---------
@@ -147,5 +149,13 @@ public class AppointmentNotificationService {
     private static boolean isBlank(String s) {
         return s == null || s.trim().isEmpty();
     }
+
+    private static String safeSms(String msg) {
+        if (msg == null) return "";
+        String oneLine = msg.replaceAll("\\s+", " ").trim();
+        if (oneLine.length() <= 160) return oneLine;
+        return oneLine.substring(0, 157) + "...";
+    }
+
 
 }

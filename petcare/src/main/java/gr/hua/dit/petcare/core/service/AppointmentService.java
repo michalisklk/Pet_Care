@@ -42,6 +42,11 @@ public class AppointmentService {
 
         Pet pet = petRepository.findById(petId)
                 .orElseThrow(() -> new EntityNotFoundException("Pet not found"));
+        //Για να μην παίρνει διεγραμμένο pet
+        if (!pet.isActive()) {
+            throw new IllegalStateException("Pet is not active");
+        }
+
 
         Person vet = userRepository.findById(vetId)
                 .orElseThrow(() -> new EntityNotFoundException("Vet not found"));
@@ -55,10 +60,6 @@ public class AppointmentService {
 
         LocalDateTime now = LocalDateTime.now();
 
-        // ο χρήστης δεν θα μπορεί να κλείσει ραντεβού στο παρελθόν
-        if (start.isBefore(now)) {
-            throw new IllegalStateException("You cannot book an appointment in the past");
-        }
 
         //Ο χρήστης θα πρέπει αν Κλείνει ραντεβού Μέτα απο μια ωρα καθώς δεν γίνεται να κλάσει ραντεβού για εκείνο ακριβώς τον χρόνο.
         if (start.isBefore(now.plusHours(1))) {

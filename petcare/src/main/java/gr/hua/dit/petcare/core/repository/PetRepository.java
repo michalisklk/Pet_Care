@@ -13,10 +13,6 @@ import java.util.List;
  */
 public interface PetRepository extends JpaRepository<Pet, Long> {
 
-    /**
-     * Επιστρέφει όλα τα ενεργά κατοικίδια ενός συγκεκριμένου ιδιοκτήτη
-     */
-    List<Pet> findByOwnerAndActiveTrue(Person owner);
     
     /**
      * Επιστρέφει τα ενεργά κατοικίδια με το id του ιδιοκτήτη.

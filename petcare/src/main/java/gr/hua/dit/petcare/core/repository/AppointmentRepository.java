@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 
-    boolean existsByPetId(Long petId);
+
 
     /**
      * Owner: βλέπει τα ραντεβού του μέσω των pets του.
@@ -18,11 +18,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
      */
     List<Appointment> findByPetOwner(Person owner);
 
-    /**
-     * Owner: ίδια λογική, αλλά με ownerId.
-     * Δηλαδή: appointment.pet.owner.id = ownerId
-     */
-    List<Appointment> findByPetOwnerId(Long ownerId);
 
     /**
      * Vet: βλέπει τα ραντεβού όπου είναι ο ίδιος κτηνίατρος.
@@ -44,12 +39,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
                                             @Param("startTime") LocalDateTime startTime,
                                             @Param("endTime") LocalDateTime endTime);
 
-    /**
-     * Επιστρέφει ραντεβού ενός pet μέσα σε χρονικό διάστημα (π.χ. για min gap rule).
-     */
-    List<Appointment> findByPetAndStartTimeBetween(Pet pet,
-                                                   LocalDateTime from,
-                                                   LocalDateTime to);
     /**
      * Επιστρέφει τα ραντεβού ενός vet με συγκεκριμένο status
      * ταξινομημένα με βάση το startTime.

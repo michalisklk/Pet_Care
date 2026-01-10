@@ -26,8 +26,10 @@ public class MonitorResource {
      */
     @GetMapping("/sms-events")
     public List<SmsEvent> latest(@RequestParam(defaultValue = "50") int limit) {
-        return store.latest(limit);
+        int capped = Math.min(50, Math.max(0, limit));
+        return store.latest(capped);
     }
+
 
     /**
      * Καθαρίζει τα events (κουμπί Clear στο UI).

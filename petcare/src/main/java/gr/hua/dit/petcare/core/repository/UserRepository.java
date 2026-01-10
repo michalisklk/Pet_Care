@@ -14,10 +14,6 @@ import java.util.Optional;
  */
 public interface UserRepository extends JpaRepository<Person, Long>{
 
-    /**
-     * Εύρεση χρήστη με το FullName
-     */
-    List<Person> findByFullName(String fullName);
 
     /**
      * Εύρεση χρήστη με το ID.

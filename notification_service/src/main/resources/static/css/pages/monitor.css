@@ -1,0 +1,205 @@
+.pc-hidden {
+    display: none !important;
+}
+
+.pc-mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+/* Logo πάνω αριστερά */
+.pc-monitor__logo {
+    position: absolute;
+    z-index: 2;
+    top: 15px;
+    left: 15px;
+    padding: 0;
+}
+
+.pc-monitor__logo img {
+    display: block;
+    height: 120px;
+    width: auto;
+}
+
+/* Main layout */
+.pc-monitor__main {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 16px;
+}
+
+.pc-monitor__wrapper {
+    width: min(1106px, 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: relative;
+}
+
+/* Header */
+.pc-monitor__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.pc-monitor__title {
+    margin: 0;
+    font-size: 56px;
+    line-height: 1.05;
+    color: var(--color-text-inverse);
+}
+
+.pc-monitor__meta {
+    margin: 8px 0 0 0;
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.pc-monitor__dot {
+    opacity: 0.8;
+}
+
+.pc-monitor__actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+/* Make PetCare buttons smaller on this page */
+.pc-monitor .pc-btn {
+    font-size: 18px;
+    padding: 10px 18px;
+    border-radius: 12px;
+}
+
+/* Card (λευκό πλαίσιο με SMS) */
+.pc-monitor__card {
+    background: var(--color-bg-base);
+    border-radius: 18px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+
+    /* anchor για το bunny */
+    position: relative;
+    overflow: visible; /* για να βγαίνει το bunny έξω δεξιά */
+}
+
+/* Table wrapper (κρατάμε το scroll εδώ, όχι στο card) */
+.pc-monitor__table-wrap {
+    overflow: auto;
+    border-radius: 18px;
+}
+
+/* Table */
+.pc-monitor__table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.pc-monitor__table thead th {
+    background: rgba(79, 103, 198, 0.18);
+    color: var(--color-text-primary);
+    text-align: left;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    white-space: nowrap;
+}
+
+.pc-monitor__table tbody td {
+    padding: 14px 16px;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    vertical-align: top;
+}
+
+.pc-monitor__table tbody tr:hover td {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.pc-monitor__status-cell {
+    white-space: nowrap;
+}
+
+/* Empty state */
+.pc-monitor__empty {
+    text-align: center;
+    padding: 32px 16px;
+    color: rgba(0, 0, 0, 0.55);
+}
+
+/* Pills (status) */
+.pc-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+}
+
+.pc-pill--success {
+    color: #0b5a2b;
+    background: rgba(51, 184, 100, 0.18);
+    border: 1px solid rgba(51, 184, 100, 0.35);
+}
+
+.pc-pill--error {
+    color: #7a0f0f;
+    background: rgba(232, 41, 41, 0.14);
+    border: 1px solid rgba(232, 41, 41, 0.35);
+}
+
+/* Footer */
+.pc-monitor__footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.pc-monitor__json {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Bunny δίπλα στο card */
+.pc-monitor__bunny {
+    position: absolute;
+    right: -75px;
+    bottom: 0px;
+    width: 100px;
+    height: auto;
+    z-index: 10;
+    pointer-events: none;
+    user-select: none;
+}
+
+@media (max-width: 900px) {
+    .pc-monitor__bunny {
+        display: none;
+    }
+}
+
+@media (max-width: 700px) {
+    .pc-monitor__title {
+        font-size: 40px;
+    }
+
+    .pc-monitor__logo img {
+        height: 96px;
+    }
+}

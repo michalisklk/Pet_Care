@@ -106,7 +106,6 @@ public class SecurityConfig {
 
                         // protected UI endpoints
                         .requestMatchers("/appointments/**").authenticated()
-                        .requestMatchers("/ui/notifications/**").authenticated()
                         .requestMatchers("/pets/**").authenticated()
                         .requestMatchers("/vet/**").hasRole("VET")
 

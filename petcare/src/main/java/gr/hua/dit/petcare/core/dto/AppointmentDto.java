@@ -28,7 +28,7 @@ public class AppointmentDto {
 
     // Προαιρετικό κείμενο
     @Size(max = 500, message = "Reason must be at most 500 characters")
-    private String otherreason;
+
 
     public AppointmentDto() {}
 
@@ -44,7 +44,4 @@ public class AppointmentDto {
     public AppointmentReason getReason() { return reason; }
     public void setReason(AppointmentReason reason) { this.reason = reason; }
 
-    public String getOtherreason() {return otherreason;}
-
-    public void setOtherreason(String otherreason) {this.otherreason = otherreason;}
 }

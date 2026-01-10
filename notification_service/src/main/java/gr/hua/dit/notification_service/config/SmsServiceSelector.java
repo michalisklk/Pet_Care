@@ -28,7 +28,9 @@ public class SmsServiceSelector {
 
         // Αν υπάρχουν credentials, πάμε σε real provider
         boolean hasCreds = StringUtils.hasText(routeeProperties.getAppId())
-                && StringUtils.hasText(routeeProperties.getAppSecret());
+                && StringUtils.hasText(routeeProperties.getAppSecret())
+                && StringUtils.hasText(routeeProperties.getSender());
+
 
         if (hasCreds) {
             log.info("Using RouteeSmsService (real SMS)");

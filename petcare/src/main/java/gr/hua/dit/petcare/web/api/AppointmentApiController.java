@@ -10,6 +10,7 @@ import gr.hua.dit.petcare.web.api.mapper.AppointmentMapper;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -213,7 +214,8 @@ public class AppointmentApiController {
             @NotNull AppointmentReason reason
     ) {}
 
-    public record NotesRequest(
-            @NotBlank String notes
+    record NotesRequest(
+            @Size(max = 2000, message = "notes must be at most 2000 characters") String notes
     ) {}
+
 }

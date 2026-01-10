@@ -1,0 +1,28 @@
+<head xmlns:th="http://www.thymeleaf.org" th:fragment="head(title, pageCss, pageJs)">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title th:text="${title}">PetCare</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cuprum:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <!-- Global styles -->
+    <link rel="stylesheet" th:href="@{/css/tokens.css}">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+
+    <!-- Components -->
+    <link rel="stylesheet" th:href="@{/css/components/button.css}">
+    <link rel="stylesheet" th:href="@{/css/components/status.css}">
+
+    <!-- Optional page CSS -->
+    <link th:if="${pageCss != null}" rel="stylesheet" th:href="@{${pageCss}}">
+
+    <!-- Optional page JS -->
+    <script th:if="${pageJs != null}" th:src="@{${pageJs}}" defer></script>
+
+</head>
