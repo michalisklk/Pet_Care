@@ -26,12 +26,11 @@
 
 <div th:if="${!#lists.isEmpty(completedAppointments)}">
     <th:block th:replace="~{fragments/components/table-card :: tableCard(
-        'Appointments',
+        'Completed Appointments',
         ~{fragments/tables/vet-appointments-notes-table :: headers},
-        ~{fragments/tables/vet-appointments-notes-table :: rows(appointments=${appointments})}
+        ~{fragments/tables/vet-appointments-notes-table :: rows(appointments=${completedAppointments})}
     )}"/>
 </div>
-
 
 </body>
 </html>
