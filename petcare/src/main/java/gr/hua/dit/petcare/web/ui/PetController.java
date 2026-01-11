@@ -98,7 +98,8 @@ public class PetController {
         // μετατροπή του Entity σε DTO
         PetDto dto = new PetDto();
         dto.setName(pet.getName());
-        dto.setSpecies(pet.getSpecies());
+        dto.setSpecies(normalizeSpecies(pet.getSpecies()));
+
         dto.setBreed(pet.getBreed());
         dto.setAge(pet.getAge());
 
@@ -147,4 +148,14 @@ public class PetController {
 
         return "redirect:/pets";
     }
+
+    /**
+     * "Dog" --> "DOG".
+     */
+    private static String normalizeSpecies(String species) {
+        if (species == null) return null;
+        return species.trim().toUpperCase();
+    }
+
+
 }

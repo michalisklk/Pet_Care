@@ -11,7 +11,8 @@
     <div class="pc-field__control">
         <select class="pc-select"
                 th:id="${name}"
-                th:field="*{__${name}__}">
+                th:field="*{__${name}__}"
+        required>
 
             <option value="" disabled th:text="${placeholder}">Placeholder</option>
 

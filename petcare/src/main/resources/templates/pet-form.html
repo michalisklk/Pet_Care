@@ -28,14 +28,19 @@
                             false
                         )}"></div>
 
-                    <div th:replace="~{fragments/components/raw-input :: rawInput(
-                            'Specie',
-                            'species',
-                            'text',
-                            'Enter Pet’s Specie',
-                            *{species},
-                            false
-                        )}"></div>
+                    <div th:replace="~{fragments/components/field-select :: fieldSelect('Specie', 'species', 'Choose specie', ~{::speciesOptions})}">
+                        <th:block th:fragment="speciesOptions">
+                            <option value="DOG">DOG</option>
+                            <option value="CAT">CAT</option>
+                            <option value="BIRD">BIRD</option>
+                            <option value="RABBIT">RABBIT</option>
+                            <option value="HAMSTER">HAMSTER</option>
+                            <option value="REPITILES">REPITILES</option>
+                            <option value="OTHER">OTHER</option>
+                        </th:block>
+                    </div>
+
+
 
                     <div th:replace="~{fragments/components/raw-input :: rawInput(
                             'Breed',

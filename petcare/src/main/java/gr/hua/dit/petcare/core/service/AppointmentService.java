@@ -245,7 +245,7 @@ public class AppointmentService {
                         if (last.getStatus() != AppointmentStatus.COMPLETED) {
                             throw new IllegalStateException(
                                     "There is already a " + reason + " appointment in progress (date: "
-                                            + last.getStartTime() + " It must be completed first."
+                                            + last.getStartTime() + ") It must be completed first."
                             );
                         }
                     }

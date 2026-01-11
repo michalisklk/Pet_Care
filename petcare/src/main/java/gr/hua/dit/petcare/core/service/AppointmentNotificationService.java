@@ -86,44 +86,52 @@ public class AppointmentNotificationService {
     // --------- Εδώ σχηματίζονται τα μηνύματα ---------
 
     private String msgCreatedOwner(Appointment a) {
-        return "PetCare: Appointment request created for "
+        return ownerHello(a) +
+                "PetCare: Appointment request created for "
                 + petName(a) + " on " + time(a)
                 + " with vet " + vetName(a) + "."
                 + reasonPart(a) + ".";
     }
 
+
     // SMS στον vet με link στα pending
     private String msgCreatedVet(Appointment a) {
-        return "PetCare: New appointment request (PENDING) on "
-                + time(a) + " for " + petName(a) + ". "
-                + "Login to accept/decline/complete: "
-                + reasonPart(a) + ".";
+        return "Hi " + vetName(a) + "! [VET] PetCare: New appointment request (PENDING) on "
+                + time(a) + " for " + petName(a) + "."
+                + reasonPart(a);
     }
 
+
     private String msgConfirmed(Appointment a) {
-        return "PetCare: The appointment for "
+        return ownerHello(a) +
+                "PetCare: The appointment for "
                 + petName(a) + " on " + time(a)
                 + " has been confirmed."
                 + reasonPart(a) + ".";
     }
 
+
     private String msgCancelled(Appointment a) {
-        return "PetCare: The appointment for "
+        return ownerHello(a) +
+                "PetCare: The appointment for "
                 + petName(a) + " on " + time(a)
                 + " has been cancelled."
                 + reasonPart(a) + ".";
     }
 
+
     private String msgCompleted(Appointment a) {
-        return "PetCare: The appointment for "
+        return ownerHello(a) +
+                "PetCare: The appointment for "
                 + petName(a) + " on " + time(a)
                 + " has been completed."
                 + reasonPart(a) + ".";
     }
 
+
     private String reasonPart(Appointment a) {
         if (a == null || a.getReason() == null) return "";
-        return " | Reason: " + a.getReason().getLabel();
+        return " | Reason: " + a.getReason().getLabel() + ".";
 
     }
 
@@ -144,6 +152,18 @@ public class AppointmentNotificationService {
         if (a == null || a.getVet() == null) return "vet";
         return a.getVet().getFullName();
     }
+
+    private String ownerName(Appointment a) {
+        if (a == null || a.getOwner() == null) return "there";
+        String n = a.getOwner().getFullName();
+        if (isBlank(n)) return "there";
+        return n;
+    }
+
+    private String ownerHello(Appointment a) {
+        return "Hi " + ownerName(a) + "! ";
+    }
+
 
 
     private static boolean isBlank(String s) {

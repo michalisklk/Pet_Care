@@ -46,7 +46,7 @@ public class PetServiceImpl implements PetService {
         // Δημιουργία entity Pet
         Pet pet = new Pet(
                 dto.getName(),
-                dto.getSpecies(),
+                normalizeSpecies(dto.getSpecies()),
                 dto.getBreed(),
                 dto.getAge(),
                 owner
@@ -79,7 +79,8 @@ public class PetServiceImpl implements PetService {
 
         // ενημέρωση των στοιχείων
         pet.setName(dto.getName());
-        pet.setSpecies(dto.getSpecies());
+        pet.setSpecies(normalizeSpecies(dto.getSpecies()));
+
         pet.setBreed(dto.getBreed());
         pet.setAge(dto.getAge());
 
@@ -124,4 +125,13 @@ public class PetServiceImpl implements PetService {
         Pet pet = petRepository.findById(id).orElse(null);
         return (pet != null && pet.isActive()) ? pet : null;
     }
+
+    /**
+     *"Dog" --> "DOG".
+     */
+    private static String normalizeSpecies(String species) {
+        if (species == null) return null;
+        return species.trim().toUpperCase();
+    }
+
 }
