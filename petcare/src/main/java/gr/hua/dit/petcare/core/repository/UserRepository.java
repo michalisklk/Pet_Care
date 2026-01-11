@@ -14,6 +14,9 @@ import java.util.Optional;
  */
 public interface UserRepository extends JpaRepository<Person, Long>{
 
+    boolean existsByMobile(String mobile);
+
+
 
     /**
      * Εύρεση χρήστη με το ID.

@@ -13,8 +13,10 @@ public class PetDto {
     // Η ράτσα μπορεί να είναι κενή
     private String breed;
 
+    @NotNull(message = "Age must not be empty")
     @Min(value = 1, message = "Age must be greater than 0")
-    private int age;
+    private Integer age;
+
 
     public PetDto() {}
 
@@ -41,10 +43,10 @@ public class PetDto {
         this.breed = breed;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 }

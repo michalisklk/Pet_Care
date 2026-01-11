@@ -1,4 +1,4 @@
-package gr.hua.dit.notification_service.web.ui.model;
+package gr.hua.dit.notification_service.core.monitor;
 
 import java.time.LocalDateTime;
 

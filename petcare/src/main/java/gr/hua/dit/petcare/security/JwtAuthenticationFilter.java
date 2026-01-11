@@ -41,34 +41,50 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        String path = request.getRequestURI();
-        //Παίρνουμε το Authorization header
+        // token είτε από Authorization header είτε από query param t
+        String token = null;
+
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (header == null || !header.startsWith("Bearer ")) {
-            // Χωρίς Bearer token αφήνουμε το request να συνεχίσει (θα κοπεί από security αν χρειάζεται)
+        if (header != null && header.startsWith("Bearer ")) {
+            token = header.substring(7);
+        }
+
+        if (token == null || token.isBlank()) {
+            token = request.getParameter("t"); // <-- per-tab token
+        }
+
+        // Αν δεν υπάρχει token, συνεχίζει κανονικά
+        if (token == null || token.isBlank()) {
             filterChain.doFilter(request, response);
             return;
         }
-
-        String token = header.substring(7);
 
         try {
             Claims claims = jwtService.parseClaims(token);
             String email = claims.getSubject();
 
             Person user = userRepository.findByEmail(email).orElse(null);
-            // Αν ο χρήστης βρέθηκε και δεν έχει γίνει auth, το κάνουμε τώρα
-            if (user != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            if (user != null) {
+
+                var currentAuth = SecurityContextHolder.getContext().getAuthentication();
+                boolean sameUser = false;
+
+                if (currentAuth != null && currentAuth.getPrincipal() instanceof Person p) {
+                    sameUser = p.getEmail() != null && p.getEmail().equalsIgnoreCase(user.getEmail());
+                }
 
                 // Μετατροπή role σε authority: ROLE_VET / ROLE_OWNER
-                String roleName = "ROLE_" + user.getRole().name(); // π.χ. ROLE_VET
-                var auth = new UsernamePasswordAuthenticationToken(
-                        user,
-                        null,
-                        List.of(new SimpleGrantedAuthority(roleName))
-                );
-                //Θέτουμε Authentication στο SecurityContext (από εδώ και πέρα θεωρείται logged-in)
-                SecurityContextHolder.getContext().setAuthentication(auth);
+                // αν υπάρχει token, κάνει authenticate ΑΚΟΜΑ ΚΙ ΑΝ υπάρχει ήδη session auth
+                if (!sameUser) {
+                    String roleName = "ROLE_" + user.getRole().name(); // ROLE_VET / ROLE_PET_OWNER
+                    var auth = new UsernamePasswordAuthenticationToken(
+                            user,
+                            null,
+                            List.of(new SimpleGrantedAuthority(roleName))
+                    );
+                    //Θέτουμε Authentication στο SecurityContext (από εδώ και πέρα θεωρείται logged-in)
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+                }
             }
 
         } catch (Exception ex) {
@@ -78,4 +94,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
+
 }

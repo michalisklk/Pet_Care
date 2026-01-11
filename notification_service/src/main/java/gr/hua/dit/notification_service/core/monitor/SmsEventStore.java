@@ -1,6 +1,5 @@
-package gr.hua.dit.notification_service.web.ui.store;
+package gr.hua.dit.notification_service.core.monitor;
 
-import gr.hua.dit.notification_service.web.ui.model.SmsEvent;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

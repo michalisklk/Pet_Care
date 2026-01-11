@@ -1,7 +1,7 @@
 package gr.hua.dit.notification_service.web.ui;
 
-import gr.hua.dit.notification_service.web.ui.model.SmsEvent;
-import gr.hua.dit.notification_service.web.ui.store.SmsEventStore;
+import gr.hua.dit.notification_service.core.monitor.SmsEvent;
+import gr.hua.dit.notification_service.core.monitor.SmsEventStore;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

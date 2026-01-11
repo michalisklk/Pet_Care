@@ -16,6 +16,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+
 @Configuration
 public class SecurityConfig {
 
@@ -105,12 +106,20 @@ public class SecurityConfig {
                         ).permitAll()
 
                         // protected UI endpoints
-                        .requestMatchers("/appointments/**").authenticated()
-                        .requestMatchers("/pets/**").authenticated()
                         .requestMatchers("/vet/**").hasRole("VET")
+                        .requestMatchers("/appointments/**").hasRole("PET_OWNER")
+                        .requestMatchers("/pets/**").hasRole("PET_OWNER")
+
+
 
                         .anyRequest().authenticated()
                 )
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+
+                .exceptionHandling(eh -> eh
+                        .accessDeniedPage("/login?denied")
+                )
+
                 // φόρμα login
                 .formLogin(form -> form
                         .loginPage("/login")
