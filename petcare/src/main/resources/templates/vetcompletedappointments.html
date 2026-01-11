@@ -1,36 +1,34 @@
 <!DOCTYPE html>
-
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head('PetCare | Vet Completed Appointments', null, null)}"></head>
+<head th:replace="~{fragments/head :: head('PetCare | Vet Completed Appointments', '/css/pages/vet-appointments.css', null)}"></head>
 
-<body class="pc-page pc-page--light pc-vet-completed-appointments">
+<body class="pc-page pc-page--light pc-vet-appts">
 
-<h1 th:text="'Ραντεβού (Completed) για ' + ${vet.fullName}"></h1>
-<p th:text="'Vet ID: ' + ${vet.id}"></p>
+<div th:replace="~{fragments/components/vet-topbar :: vetTopbar(@{/vet/appointments}, ${vet.fullName})}"></div>
 
-<div style="margin: 12px 0;">
-    <a th:href="@{/vet/appointments}">
-        <button type="button">Back to Pending</button>
-    </a>
-    <a th:href="@{/vet/appointments/confirmed}">
-        <button type="button">Confirmed Appointments</button>
-    </a>
-    <a th:href="@{/vet/appointments/cancelled}">
-        <button type="button">Cancelled Appointments</button>
-    </a>
-</div>
+<main class="pc-vet-appts__main">
+    <div class="pc-vet-appts__container" th:with="emptyMsg=|There are no completed appointments.|">
 
-<div th:if="${#lists.isEmpty(completedAppointments)}">
-    <p>Δεν υπάρχουν completed ραντεβού.</p>
-</div>
+        <div class="pc-vet-appts__actions">
+            <div class="pc-vet-appts__actions-left">
+                <div th:replace="~{fragments/components/button :: button('All Appointments', 'primary pc-btn--nav', false, @{/vet/appointments/all})}"></div>
+            </div>
 
-<div th:if="${!#lists.isEmpty(completedAppointments)}">
-    <th:block th:replace="~{fragments/components/table-card :: tableCard(
-        'Completed Appointments',
-        ~{fragments/tables/vet-appointments-notes-table :: headers},
-        ~{fragments/tables/vet-appointments-notes-table :: rows(appointments=${completedAppointments})}
-    )}"/>
-</div>
+            <div class="pc-vet-appts__actions-right">
+                <div th:replace="~{fragments/components/button :: button('Pending', 'secondary pc-btn--nav', false, @{/vet/appointments})}"></div>
+                <div th:replace="~{fragments/components/button :: button('Cancelled', 'secondary pc-btn--nav', false, @{/vet/appointments/cancelled})}"></div>
+                <div th:replace="~{fragments/components/button :: button('Confirmed', 'secondary pc-btn--nav', false, @{/vet/appointments/confirmed})}"></div>
+            </div>
+        </div>
+
+        <th:block th:replace="~{fragments/components/table-card :: tableCard(
+            'My Appointments:',
+            ~{fragments/tables/vet-appointments-notes-table :: headers},
+            ~{fragments/tables/vet-notes-rows-or-empty :: rowsOrEmpty(appts=${completedAppointments}, emptyMessage=${emptyMsg})}
+        )}"/>
+
+    </div>
+</main>
 
 </body>
 </html>

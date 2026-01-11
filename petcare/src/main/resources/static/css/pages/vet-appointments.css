@@ -1,0 +1,127 @@
+/* Vet appointments view (prototype style) */
+
+.pc-vet-appts {
+    background: var(--color-bg-base);
+}
+
+/*  Top bar  */
+.pc-vet-appts__topbar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 22px 26px;
+}
+
+.pc-vet-appts__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    /* WHITE + BOLD */
+    color: #FFFFFF;
+    font-weight: 700;
+
+    font-size: 30px;
+    line-height: 1;
+
+    text-decoration: none;
+
+    /* button-as-link */
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.pc-vet-appts__back:hover {
+    text-decoration: underline;
+}
+
+
+
+.pc-vet-appts__arrow {
+    font-size: 34px;
+    line-height: 1;
+}
+
+.pc-vet-appts__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.pc-vet-appts__logo {
+    height: 60px;
+    width: auto;
+    display: block;
+}
+
+/*  Main layout */
+.pc-vet-appts__main {
+    padding: 18px 24px 80px;
+    display: flex;
+    justify-content: center;
+}
+
+.pc-vet-appts__container {
+    width: min(1200px, 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+/* Actions row */
+.pc-vet-appts__actions {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.pc-vet-appts__actions-left,
+.pc-vet-appts__actions-right {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+/* όταν δεν υπάρχει left group, θέλουμε centered κουμπιά */
+.pc-vet-appts__actions--center {
+    justify-content: center;
+}
+
+/* small nav-sized buttons (για να μοιάζουν με prototype tabs) */
+.pc-btn--nav {
+    font-size: 25px;
+    padding: 7px 35px;
+}
+
+/* empty state */
+.pc-vet-appts__empty {
+    margin-top: 10px;
+}
+
+.pc-vet-appts .pc-table-card__title {
+    color: var(--color-text-primary);
+}
+
+.pc-vet-appts .pc-table__empty {
+    padding: 26px 12px;
+    text-align: center;
+    font-size: 22px;
+    color: var(--color-text-primary);
+    font-weight: 600;
+}
+.pc-vet-appts .pc-table thead th {
+    color: var(--color-text-primary);
+    font-weight: 700;
+    opacity: 1;
+}
+

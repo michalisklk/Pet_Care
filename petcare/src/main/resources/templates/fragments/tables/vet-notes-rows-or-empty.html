@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<th:block th:fragment="rowsOrEmpty(appts, emptyMessage)">
+
+    <!-- EMPTY -->
+    <th:block th:if="${appts == null or appts.isEmpty()}">
+        <th:block th:replace="~{fragments/tables/empty-row :: emptyRow(colspan=8, message=${emptyMessage})}"></th:block>
+    </th:block>
+
+    <!-- ROWS -->
+    <th:block th:if="${appts != null and !appts.isEmpty()}">
+        <th:block th:replace="~{fragments/tables/vet-appointments-notes-table :: rows(appointments=${appts})}"></th:block>
+    </th:block>
+
+</th:block>
+
+</body>
+</html>

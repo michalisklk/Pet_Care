@@ -1,0 +1,20 @@
+<div xmlns:th="http://www.thymeleaf.org"
+     th:fragment="vetTopbar(backHref, fullName)"
+     class="pc-vet-appts__topbar">
+
+    <!-- LEFT: logout (arrow + name) -->
+    <form th:action="@{/logout}" method="post">
+        <button type="submit" class="pc-vet-appts__back" aria-label="Logout">
+            <span class="pc-vet-appts__arrow" aria-hidden="true">←</span>
+            <span th:text="${fullName != null ? fullName : 'Logout'}">Dummy Vet</span>
+        </button>
+    </form>
+
+    <!-- RIGHT: only logo-->
+    <div class="pc-vet-appts__brand">
+        <img class="pc-vet-appts__logo"
+             th:src="@{/css/assets/brand/petcare_logo_horizontal.svg}"
+             alt="PetCare">
+    </div>
+
+</div>

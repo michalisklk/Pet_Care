@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<table>
+    <tbody>
+    <tr th:fragment="emptyRow(colspan, message)">
+        <td class="pc-table__empty"
+            th:attr="colspan=${colspan}">
+            <span th:text="${message}">There are no appointments.</span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

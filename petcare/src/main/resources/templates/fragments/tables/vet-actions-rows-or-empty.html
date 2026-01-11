@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Pending -->
+<th:block th:fragment="rowsOrEmptyPending(pendingAppts, emptyMessage)">
+
+    <th:block th:if="${pendingAppts == null or pendingAppts.isEmpty()}">
+        <th:block th:replace="~{fragments/tables/empty-row :: emptyRow(colspan=8, message=${emptyMessage})}"></th:block>
+    </th:block>
+
+    <th:block th:if="${pendingAppts != null and !pendingAppts.isEmpty()}">
+        <th:block th:replace="~{fragments/tables/vet-appointments-actions-table :: rowsPending(pendingAppointments=${pendingAppts})}"></th:block>
+    </th:block>
+
+</th:block>
+
+
+<!-- Confirmed -->
+<th:block th:fragment="rowsOrEmptyConfirmed(confirmedAppts, emptyMessage)">
+
+    <th:block th:if="${confirmedAppts == null or confirmedAppts.isEmpty()}">
+        <th:block th:replace="~{fragments/tables/empty-row :: emptyRow(colspan=8, message=${emptyMessage})}"></th:block>
+    </th:block>
+
+    <th:block th:if="${confirmedAppts != null and !confirmedAppts.isEmpty()}">
+        <th:block th:replace="~{fragments/tables/vet-appointments-actions-table :: rowsConfirmed(confirmedAppointments=${confirmedAppts})}"></th:block>
+    </th:block>
+
+</th:block>
+
+</body>
+</html>
