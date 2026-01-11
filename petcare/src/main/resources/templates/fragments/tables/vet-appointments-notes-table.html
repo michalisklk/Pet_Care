@@ -1,0 +1,32 @@
+<div xmlns:th="http://www.thymeleaf.org">
+
+    <!-- Headers -->
+    <th:block th:fragment="headers">
+        <th>ID</th>
+        <th>Owner</th>
+        <th>Pet</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Reason</th>
+        <th>Status</th>
+        <th>Vet Notes</th>
+    </th:block>
+
+    <!-- Rows -->
+    <th:block th:fragment="rows(appointments)">
+        <tr th:each="a : ${appointments}">
+            <td th:text="${a.id}"></td>
+
+            <td th:text="${a.owner.fullName + ' (ID: ' + a.owner.id + ')'}"></td>
+
+            <td th:text="${a.pet.name + ' (ID: ' + a.pet.id + ')'}"></td>
+
+            <td th:text="${a.startTime}"></td>
+            <td th:text="${a.endTime}"></td>
+            <td th:text="${a.reason}"></td>
+            <td th:text="${a.status}"></td>
+            <td th:text="${a.vetNotes}"></td>
+        </tr>
+    </th:block>
+
+</div>

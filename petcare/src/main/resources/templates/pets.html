@@ -6,64 +6,32 @@
 
 <h1>My Pets</h1>
 
-<p>
+<div>
     <a th:href="@{/pets/new}">Add New Pet</a>
     <a th:href="@{/appointments}">Book Appointment</a>
-    <a th:href="@{/appointments/owners}"><button type="button">Δες όλα τα ραντεβού σου</button></a>
+    <a th:href="@{/appointments/owners}">
+        <button type="button">Δες όλα τα ραντεβού σου</button>
+    </a>
     <p th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;"></p>
-
-
-</p>
+</div>
 
 <div th:if="${#lists.isEmpty(pets)}">
     <p>You haven’t registered any pets.</p>
 </div>
 
-<table border="1" th:if="${!#lists.isEmpty(pets)}">
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Species</th>
-        <th>Breed</th>
-        <th>Age</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
+<div th:if="${!#lists.isEmpty(pets)}">
+    <th:block th:replace="~{fragments/components/table-card :: tableCard(
+        'My Pets:',
+        ~{fragments/tables/pets-table :: headers},
+        ~{fragments/tables/pets-table :: rows(pets=${pets})}
+    )}"/>
+</div>
 
-    <tbody>
-    <tr th:each="pet : ${pets}">
-        <td th:text="${pet.name}"></td>
-        <td th:text="${pet.species}"></td>
-        <td th:text="${pet.breed}"></td>
-        <td th:text="${pet.age}"></td>
-        <td>
-            <a th:href="@{'/pets/edit/' + ${pet.id}}">Edit</a>
-
-            <form th:action="@{'/pets/delete/' + ${pet.id}}"
-                  method="post"
-                  style="display:inline;">
-                <button type="submit"
-                        onclick="return confirm('Are you sure you want to delete?')">Delete
-                </button>
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
-
-<p th:if="${!#lists.isEmpty(pets)}">
-    <a th:href="@{/appointments}">
-
-    </a>
-</p>
-
-<p>
-<form th:action="@{/logout}" method="post">
-    <button type="submit">Logout</button>
-</form>
-
-</p>
-
+<div>
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</div>
 
 </body>
 </html>

@@ -1,0 +1,44 @@
+<div xmlns:th="http://www.thymeleaf.org">
+
+    <!-- Headers -->
+    <th:block th:fragment="headers">
+        <th>Name</th>
+        <th>Species</th>
+        <th>Breed</th>
+        <th>Age</th>
+        <th class="pc-table__actions">Actions</th>
+    </th:block>
+
+    <!-- Rows -->
+    <th:block th:fragment="rows(pets)">
+        <tr th:each="pet : ${pets}">
+            <td th:text="${pet.name}"></td>
+            <td th:text="${pet.species}"></td>
+            <td th:text="${pet.breed}"></td>
+            <td th:text="${pet.age}"></td>
+
+            <td class="pc-table__actions">
+                <div class="pc-table__actions-inner">
+
+                    <th:block th:replace="~{fragments/components/button :: button(
+                        'Edit',
+                        'secondary-inverse',
+                        false,
+                        @{/pets/edit/{id}(id=${pet.id})}
+                    )}"/>
+
+                    <form th:action="@{/pets/delete/{id}(id=${pet.id})}" method="post">
+                        <th:block th:replace="~{fragments/components/button :: button(
+                            'Delete',
+                            'primary-inverse',
+                            true,
+                            null
+                        )}"/>
+                    </form>
+                </div>
+            </td>
+
+        </tr>
+    </th:block>
+
+</div>

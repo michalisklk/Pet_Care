@@ -32,33 +32,17 @@
 
 
 
-<table border="1" th:if="${!#lists.isEmpty(appointments)}">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Owner</th>
-        <th>Pet</th>
-        <th>Start</th>
-        <th>End</th>
-        <th>Reason</th>
-        <th>Status</th>
-        <th>Vet Notes</th>
-    </tr>
-    </thead>
+<div th:if="${#lists.isEmpty(appointments)}">
+    <p>No appointments assigned.</p>
+</div>
 
-    <tbody>
-    <tr th:each="a : ${appointments}">
-        <td th:text="${a.id}"></td>
-        <td th:text="${a.owner.fullName} + ' (ID: ' + ${a.owner.id} + ')'"></td>
-        <td th:text="${a.pet.name} + ' (ID: ' + ${a.pet.id} + ')'"></td>
-        <td th:text="${a.startTime}"></td>
-        <td th:text="${a.endTime}"></td>
-        <td th:text="${a.reason}"></td>
-        <td th:text="${a.status}"></td>
-        <td th:text="${a.vetNotes}"></td>
-    </tr>
-    </tbody>
-</table>
+<div th:if="${!#lists.isEmpty(appointments)}">
+    <th:block th:replace="~{fragments/components/table-card :: tableCard(
+        'Appointments',
+        ~{fragments/tables/vet-appointments-notes-table :: headers},
+        ~{fragments/tables/vet-appointments-notes-table :: rows(appointments=${appointments})}
+    )}"/>
+</div>
 
 <div style="margin-top: 12px;">
     <form th:action="@{/logout}" method="post">

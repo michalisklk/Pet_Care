@@ -16,6 +16,17 @@ body {
     background-color: var(--color-bg-base);
 }
 
+body.pc-page {
+    min-height: 100vh;
+    background: var(--gradient-main);
+    background-repeat: no-repeat;
+    background-position: left bottom;
+}
+
+html, body {
+    overflow-x: hidden;
+}
+
 button,
 input,
 select,
@@ -31,12 +42,13 @@ textarea {
 /* Background gradient από κάτω αριστερά */
 .pc-page::before {
     content: "";
-    position: absolute;
+    position: fixed;
     inset: 0;
     background: var(--gradient-main);
     background-repeat: no-repeat;
     background-position: left bottom;
     z-index: 0;
+    pointer-events: none;
 }
 
 /* υπόλοιπο content πάνω απο το background */

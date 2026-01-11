@@ -4,7 +4,7 @@
     <button th:unless="${href != null}"
             th:type="${isSubmit} ? 'submit' : 'button'"
             class="pc-btn"
-            th:classappend="${variant} == 'secondary' ? ' pc-btn--secondary' : ' pc-btn--primary'">
+            th:classappend="${variant != null ? ' pc-btn--' + variant : ''}">
         <span th:text="${text}">Button</span>
     </button>
 
@@ -12,7 +12,7 @@
     <a th:if="${href != null}"
        th:href="${href}"
        class="pc-btn"
-       th:classappend="${variant} == 'secondary' ? ' pc-btn--secondary' : ' pc-btn--primary'">
+       th:classappend="${variant != null ? ' pc-btn--' + variant : ''}">
         <span th:text="${text}">Button</span>
     </a>
 </th:div>

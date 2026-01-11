@@ -1,0 +1,20 @@
+<div xmlns:th="http://www.thymeleaf.org"
+     th:fragment="tableCard(title, headersFrag, rowsFrag)"
+     class="pc-table-card">
+
+    <h2 class="pc-table-card__title" th:text="${title}">TABLE</h2>
+    <div class="pc-table-card__spacer"></div>
+
+    <div class="pc-table-card__scroll">
+        <table class="pc-table">
+            <thead>
+            <tr>
+                <th:block th:replace="${headersFrag}"></th:block>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:replace="${rowsFrag}"></th:block>
+            </tbody>
+        </table>
+    </div>
+</div>

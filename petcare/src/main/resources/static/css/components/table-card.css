@@ -1,0 +1,102 @@
+/* Table Card wrapper */
+.pc-table-card {
+    background: var(--color-bg-surface);
+    border-radius: 18px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+    padding: 16px;
+    width: fit-content; /* shrink to content */
+    max-width: 1800px;
+    min-width: 1100px;
+    box-sizing: border-box;
+}
+
+.pc-table-card__scroll {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+
+/* Title */
+.pc-table-card__title {
+    margin: 0;
+    text-align: center;
+    font-size: 64px;
+    line-height: 1;
+    color: var(--color-text-muted);
+}
+
+/* gap under title */
+.pc-table-card__spacer {
+    height: 11px;
+}
+
+/* Table base */
+.pc-table {
+    width: max-content; /* ο πίνακας ορίζει μόνος του το μέγεθός του */
+    min-width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Cells */
+.pc-table th,
+.pc-table td {
+    padding: 12px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 25px;
+}
+
+/* Headers */
+.pc-table thead th {
+    color: var(--color-text-muted);
+}
+
+/* info cells */
+.pc-table tbody td {
+    color: var(--color-text-secondary);
+}
+
+/* first column */
+.pc-table tbody td:first-child {
+    color: var(--color-text-primary);
+}
+
+/* Header row */
+.pc-table thead th {
+    background: var(--color-bg-input);
+    font-weight: 600;
+}
+
+/* Body rows */
+.pc-table tbody td {
+    background: var(--color-bg-base);
+    font-weight: 400;
+}
+
+/* separators between each row */
+.pc-table thead th,
+.pc-table tbody td {
+    border-bottom: 4px solid rgba(0, 0, 0, 0.06);
+}
+.pc-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+/* Actions */
+.pc-table__actions {
+    white-space: nowrap;
+}
+
+.pc-table__actions-inner {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* allow horizontal scroll on very narrow screens */
+.pc-table-card__scroll {
+    overflow-x: auto;
+}
