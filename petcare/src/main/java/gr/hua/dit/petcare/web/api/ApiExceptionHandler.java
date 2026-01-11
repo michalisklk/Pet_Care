@@ -6,6 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.validation.FieldError;
+import jakarta.validation.ConstraintViolationException;
+
 
 @RestControllerAdvice
 public class ApiExceptionHandler {
@@ -28,6 +32,38 @@ public class ApiExceptionHandler {
         return ResponseEntity
                 .status(e.getStatusCode())
                 .body(new ErrorResponse(e.getStatusCode().toString(), e.getReason()));
+    }
+    /**
+     * @Valid αποτυχία σε @RequestBody (JSON) -> MethodArgumentNotValidException
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ErrorResponse methodArgumentNotValid(MethodArgumentNotValidException e) {
+
+        // Παίρνουμε το πρώτο field error για απλό/καθαρό μήνυμα
+        FieldError fe = e.getBindingResult().getFieldErrors().stream().findFirst().orElse(null);
+
+        String msg;
+        if (fe != null) {
+            msg = fe.getField() + ": " + fe.getDefaultMessage();
+        } else {
+            msg = "Validation error";
+        }
+
+        return new ErrorResponse("BAD_REQUEST", msg);
+    }
+
+    /**
+     * @Validated αποτυχία σε query params/path vars (π.χ. @RequestParam @Min) -> ConstraintViolationException
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ErrorResponse constraintViolation(ConstraintViolationException e) {
+        String msg = e.getConstraintViolations().stream()
+                .findFirst()
+                .map(v -> v.getPropertyPath() + ": " + v.getMessage())
+                .orElse("Validation error");
+        return new ErrorResponse("BAD_REQUEST", msg);
     }
 
     public record ErrorResponse(String code, String message) {}
