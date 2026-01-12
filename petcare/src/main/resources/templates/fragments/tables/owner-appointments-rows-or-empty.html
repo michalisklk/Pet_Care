@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<th:block th:fragment="rowsOrEmpty(appointments, emptyMessage)">
+
+    <!-- EMPTY -->
+    <th:block th:if="${appointments == null or appointments.isEmpty()}">
+        <th:block th:replace="~{fragments/tables/empty-row :: emptyRow(
+            colspan=8,
+            message=${emptyMessage}
+        )}"></th:block>
+    </th:block>
+
+    <!-- ROWS -->
+    <th:block th:if="${appointments != null and !appointments.isEmpty()}">
+        <th:block th:replace="~{fragments/tables/owner-appointments-table :: rows(
+            appointments=${appointments}
+        )}"></th:block>
+    </th:block>
+
+</th:block>
+
+</body>
+</html>

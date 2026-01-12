@@ -16,13 +16,6 @@ body {
     background-color: var(--color-bg-base);
 }
 
-body.pc-page {
-    min-height: 100vh;
-    background: var(--gradient-main);
-    background-repeat: no-repeat;
-    background-position: left bottom;
-}
-
 html, body {
     overflow-x: hidden;
 }

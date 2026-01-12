@@ -8,7 +8,6 @@
 
 <main class="pc-vet-appts__main">
     <div class="pc-vet-appts__container" th:with="emptyMsg=|There are no confirmed appointments.|">
-
         <div class="pc-vet-appts__actions">
             <div class="pc-vet-appts__actions-left">
                 <div th:replace="~{fragments/components/button :: button('All Appointments', 'primary pc-btn--nav', false, @{/vet/appointments/all})}"></div>
@@ -26,7 +25,6 @@
             ~{fragments/tables/vet-appointments-actions-table :: headers},
             ~{fragments/tables/vet-actions-rows-or-empty :: rowsOrEmptyConfirmed(confirmedAppts=${confirmedAppointments}, emptyMessage=${emptyMsg})}
         )}"/>
-
     </div>
 </main>
 

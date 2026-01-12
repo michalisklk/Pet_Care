@@ -3,18 +3,23 @@
      class="pc-vet-appts__topbar">
 
     <!-- LEFT: logout (arrow + name) -->
-    <form th:action="@{/logout}" method="post">
-        <button type="submit" class="pc-vet-appts__back" aria-label="Logout">
-            <span class="pc-vet-appts__arrow" aria-hidden="true">←</span>
-            <span th:text="${fullName != null ? fullName : 'Logout'}">Dummy Vet</span>
+    <form th:action="@{/logout}" method="post" class="pc-vet-appts__logout">
+        <button type="submit" aria-label="Logout">
+            <img class="pc-vet-appts__logout-icon"
+                 th:src="@{/css/assets/icons/logout_gradient.svg}"
+                 alt="">
         </button>
+
+        <span class="pc-vet-appts__user-name"
+              th:text="${fullName != null ? fullName : 'Logout'}">
+            Dummy Vet
+        </span>
     </form>
 
     <!-- RIGHT: only logo-->
     <div class="pc-vet-appts__brand">
         <img class="pc-vet-appts__logo"
-             th:src="@{/css/assets/brand/petcare_logo_horizontal.svg}"
+             th:src="@{/css/assets/brand/petcare_logo_gradient_horizontal.svg}"
              alt="PetCare">
     </div>
-
 </div>

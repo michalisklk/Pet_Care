@@ -1,17 +1,11 @@
 /* Vet appointments view (prototype style) */
 
-.pc-vet-appts {
-    background: var(--color-bg-base);
-}
-
 /*  Top bar  */
 .pc-vet-appts__topbar {
+    position: relative;
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
     padding: 22px 26px;
+    min-height: 110px;
 }
 
 .pc-vet-appts__back {
@@ -20,7 +14,7 @@
     gap: 10px;
 
     /* WHITE + BOLD */
-    color: #FFFFFF;
+    color: var(--color-text-inverse);
     font-weight: 700;
 
     font-size: 30px;
@@ -35,27 +29,64 @@
     cursor: pointer;
 }
 
-.pc-vet-appts__back:hover {
-    text-decoration: underline;
+/* left group form */
+.pc-vet-appts__logout {
+    position: absolute;
+    top: 22px;
+    left: 10px;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
 }
 
 
+/* icon button */
+.pc-vet-appts__logout button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
-.pc-vet-appts__arrow {
-    font-size: 34px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+
+    cursor: pointer;
     line-height: 1;
 }
 
-.pc-vet-appts__brand {
-    display: inline-flex;
-    align-items: center;
-    gap: 14px;
+/* remove default focus outline */
+.pc-vet-appts__logout button:focus {
+    outline: none;
 }
 
-.pc-vet-appts__logo {
-    height: 60px;
-    width: auto;
+/* icon size */
+.pc-vet-appts__logout-icon {
     display: block;
+    width: 62px;
+    height: auto;
+}
+
+/* name styling */
+.pc-vet-appts__user-name {
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--color-primary);
+    line-height: 1;
+    cursor: default;
+}
+
+/* Logo πάνω δεξιά */
+.pc-vet-appts__logo {
+    position: absolute;
+    z-index: 1;
+    top: 10px;
+    right: 20px;
+    padding: 0;
+    display: block;
+    height: 78px;
+    width: auto;
 }
 
 /*  Main layout */
@@ -66,11 +97,13 @@
 }
 
 .pc-vet-appts__container {
-    width: min(1200px, 100%);
+    width: fit-content;
+    max-width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 14px;
+    overflow: visible;
+    padding-top: 60px;
 }
 
 /* Actions row */
@@ -79,7 +112,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     gap: 18px;
     flex-wrap: wrap;
 }
@@ -107,21 +139,3 @@
 .pc-vet-appts__empty {
     margin-top: 10px;
 }
-
-.pc-vet-appts .pc-table-card__title {
-    color: var(--color-text-primary);
-}
-
-.pc-vet-appts .pc-table__empty {
-    padding: 26px 12px;
-    text-align: center;
-    font-size: 22px;
-    color: var(--color-text-primary);
-    font-weight: 600;
-}
-.pc-vet-appts .pc-table thead th {
-    color: var(--color-text-primary);
-    font-weight: 700;
-    opacity: 1;
-}
-

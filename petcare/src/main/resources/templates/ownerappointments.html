@@ -1,35 +1,50 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head('PetCare | My-Appointments', null, null)}"></head>
+<head th:replace="~{fragments/head :: head('PetCare | My-Appointments', '/css/pages/ownerappointments.css', null)}"></head>
 
-<body class="pc-page pc-myappointments">
+<body class="pc-page pc-page--light pc-my-appointments">
 
-<h1 th:text="'Τα ραντεβού μου (Owner) για ' + ${owner.fullName}"></h1>
-<p th:text="'Owner ID: ' + ${owner.id}"></p>
+<div class="pc-my-appointments__topbar">
 
-<div style="margin: 12px 0;">
-    <a th:href="@{/pets}">
-        <button type="button">Back to My Pets</button>
-    </a>
-</div>
+    <!-- LEFT: logout (arrow + name) -->
+    <form th:action="@{/logout}" method="post" class="pc-my-appointments__logout">
+        <button type="submit" aria-label="Logout">
+            <img class="pc-my-appointments__logout-icon"
+                 th:src="@{/css/assets/icons/logout_gradient.svg}"
+                 alt="">
+        </button>
 
-<div style="margin-top: 12px;">
-    <form th:action="@{/logout}" method="post">
-        <button type="submit">Logout</button>
+        <span class="pc-my-appointments__user-name"
+              th:text="${owner.fullName}">
+            User
+        </span>
     </form>
+
+    <!-- RIGHT: only logo-->
+    <div class="pc-my-appointments__brand">
+        <img class="pc-my-appointments__logo"
+             th:src="@{/css/assets/brand/petcare_logo_gradient_horizontal.svg}"
+             alt="PetCare">
+    </div>
 </div>
 
-<div th:if="${#lists.isEmpty(appointments)}">
-    <p>You don’t have any appointments.</p>
-</div>
+<main class="pc-my-appointments__main">
+    <div class="pc-my-appointments__container" th:with="emptyMsg=|You don’t have any appointments.|">
 
-<div th:if="${!#lists.isEmpty(appointments)}">
-    <th:block th:replace="~{fragments/components/table-card :: tableCard(
-        'My Appointments',
-        ~{fragments/tables/owner-appointments-table :: headers},
-        ~{fragments/tables/owner-appointments-table :: rows(appointments=${appointments})}
-    )}"/>
-</div>
+        <div class="pc-my-appointments__actions">
+            <div th:replace="~{fragments/components/button :: button('back to pets', 'primary', false, @{/pets})}"></div>
+        </div>
+
+        <th:block th:replace="~{fragments/components/table-card :: tableCard(
+            'My Appointments',
+            ~{fragments/tables/owner-appointments-table :: headers},
+            ~{fragments/tables/owner-appointments-rows-or-empty :: rowsOrEmpty(
+                appointments=${appointments},
+                emptyMessage=${emptyMsg}
+            )}
+        )}"/>
+    </div>
+</main>
 
 </body>
 </html>

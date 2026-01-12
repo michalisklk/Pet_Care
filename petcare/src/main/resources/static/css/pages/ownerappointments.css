@@ -1,0 +1,93 @@
+/*  Top bar  */
+.pc-my-appointments__topbar {
+    position: relative;
+    width: 100%;
+    padding: 22px 26px;
+    min-height: 110px;
+}
+
+/* left group form */
+.pc-my-appointments__logout {
+    position: absolute;
+    top: 22px;
+    left: 10px;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+/* icon button */
+.pc-my-appointments__logout button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+
+    cursor: pointer;
+    line-height: 1;
+}
+
+/* remove default focus outline */
+.pc-my-appointments__logout button:focus {
+    outline: none;
+}
+
+/* icon size */
+.pc-my-appointments__logout-icon {
+    display: block;
+    width: 62px;
+    height: auto;
+}
+
+/* name styling */
+.pc-my-appointments__user-name {
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--color-primary);
+    line-height: 1;
+    cursor: default;
+}
+
+/* Logo πάνω δεξιά */
+.pc-my-appointments__logo {
+    position: absolute;
+    z-index: 1;
+    top: 10px;
+    right: 20px;
+    padding: 0;
+    display: block;
+    height: 78px;
+    width: auto;
+}
+
+/*  Main layout */
+.pc-my-appointments__main {
+    padding: 18px 24px 80px;
+    display: flex;
+    justify-content: center;
+}
+
+.pc-my-appointments__container {
+    width: fit-content;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    overflow: visible;
+    padding-top: 70px;
+}
+
+.pc-my-appointments__actions {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}

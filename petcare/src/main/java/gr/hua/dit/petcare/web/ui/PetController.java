@@ -48,6 +48,7 @@ public class PetController {
             Model model
     ) {
         model.addAttribute("pets", petService.getPetsForOwner(user.getId()));
+        model.addAttribute("fullName", user.getFullName());
         return "pets"; // pets.html
     }
 

@@ -49,24 +49,24 @@
                 <!-- Μηνύματα status -->
                 <div class="pc-login__status">
                     <div th:if="${param.registered}">
-                        <div th:replace="fragments/components/status :: status(
+                        <div th:replace="~{fragments/components/status :: status(
                             'Registration completed successfully. You can log in.',
                             'success'
-                        )"></div>
+                        )}"></div>
                     </div>
 
                     <div th:if="${param.error}">
-                        <div th:replace="fragments/components/status :: status(
+                        <div th:replace="~{fragments/components/status :: status(
                             'Incorrect email or password',
                             'error'
-                        )"></div>
+                        )}"></div>
                     </div>
 
                     <div th:if="${param.logout}">
-                        <div th:replace="fragments/components/status :: status(
+                        <div th:replace="~{fragments/components/status :: status(
                             'You have logged out successfully.',
                             'success'
-                        )"></div>
+                        )}"></div>
                     </div>
                 </div>
 

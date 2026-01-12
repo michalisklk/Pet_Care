@@ -1,37 +1,50 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head('PetCare | My-Pets', null, null)}"></head>
+<head th:replace="~{fragments/head :: head('PetCare | My-Pets', '/css/pages/pets.css', null)}"></head>
 
 <body class="pc-page pc-pets">
 
-<h1>My Pets</h1>
+<div class="pc-pets__topbar">
 
-<div>
-    <a th:href="@{/pets/new}">Add New Pet</a>
-    <a th:href="@{/appointments}">Book Appointment</a>
-    <a th:href="@{/appointments/owners}">
-        <button type="button">Δες όλα τα ραντεβού σου</button>
-    </a>
-    <p th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;"></p>
-</div>
+    <!-- LEFT: logout (arrow + name) -->
+    <form th:action="@{/logout}" method="post" class="pc-pets__logout">
+        <button type="submit" aria-label="Logout">
+            <img class="pc-pets__logout-icon"
+                 th:src="@{/css/assets/icons/logout.svg}"
+                 alt="">
+        </button>
 
-<div th:if="${#lists.isEmpty(pets)}">
-    <p>You haven’t registered any pets.</p>
-</div>
+        <span class="pc-pets__user-name"
+              th:text="${fullName}">
+            User
+        </span>
 
-<div th:if="${!#lists.isEmpty(pets)}">
-    <th:block th:replace="~{fragments/components/table-card :: tableCard(
-        'My Pets:',
-        ~{fragments/tables/pets-table :: headers},
-        ~{fragments/tables/pets-table :: rows(pets=${pets})}
-    )}"/>
-</div>
-
-<div>
-    <form th:action="@{/logout}" method="post">
-        <button type="submit">Logout</button>
     </form>
+
+    <!-- RIGHT: only logo-->
+    <div class="pc-pets__brand">
+        <img class="pc-pets__logo"
+             th:src="@{/css/assets/brand/petcare_logo_horizontal.svg}"
+             alt="PetCare">
+    </div>
 </div>
 
+<main class="pc-pets__main">
+    <div class="pc-pets__container" th:with="emptyMsg=|You haven’t registered any pets yet.|">
+
+        <div class="pc-pets__actions">
+            <div th:replace="~{fragments/components/button :: button('My appointments', 'secondary', false, @{/appointments/owners})}"></div>
+            <div th:replace="~{fragments/components/button :: button('Book an appointment', 'secondary', false, @{/appointments})}"></div>
+            <div th:replace="~{fragments/components/button :: button('Add New Pet', 'primary', false, @{/pets/new})}"></div>
+        </div>
+
+        <th:block th:replace="~{fragments/components/table-card :: tableCard(
+            'My Pets:',
+            ~{fragments/tables/pets-table :: headers},
+            ~{fragments/tables/pets-rows-or-empty :: rowsOrEmpty(pets=${pets}, emptyMessage=${emptyMsg})}
+        )}"/>
+
+    </div>
+</main>
 </body>
 </html>
