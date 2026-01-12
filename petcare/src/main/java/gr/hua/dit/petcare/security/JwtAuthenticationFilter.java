@@ -50,7 +50,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         if (token == null || token.isBlank()) {
-            token = request.getParameter("t"); // <-- per-tab token
+            token = request.getParameter("t");
         }
 
         // Αν δεν υπάρχει token, συνεχίζει κανονικά

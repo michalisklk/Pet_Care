@@ -25,11 +25,6 @@ public class AppointmentDto {
     @NotNull
     private AppointmentReason reason;
 
-
-    // Προαιρετικό κείμενο
-    @Size(max = 500, message = "Reason must be at most 500 characters")
-
-
     public AppointmentDto() {}
 
     public Long getPetId() { return petId; }
