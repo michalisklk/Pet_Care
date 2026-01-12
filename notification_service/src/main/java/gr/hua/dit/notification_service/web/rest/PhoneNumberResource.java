@@ -30,16 +30,16 @@ public class PhoneNumberResource {
 
     /**
      * Endpoint:
-     * GET /api/v1/phone-numbers/{phoneNumber}/validations
+     * GET /api/v1/phone-numbers/validations?phone={phoneNumber}
      *
      * Παράδειγμα:
-     * GET /api/v1/phone-numbers/6940000000/validations
+     * GET /api/v1/phone-numbers/validations?phone=6940000000
      */
-    @GetMapping("/{phoneNumber}/validations")
+    @GetMapping("/validations")
     public ResponseEntity<PhoneNumberValidationResult> phoneNumberValidation(
-            @PathVariable String phoneNumber
+            @RequestParam("phone") String phoneNumber
     ) {
-        // Καλούμε το service για να κάνει validate ή normalize
+        // Καλούμε το service για να κάνει validate και normalize τον αριθμό
         PhoneNumberValidationResult result = phoneNumberService.validatePhoneNumber(phoneNumber);
 
         // Επιστρέφουμε 200 OK και το αποτέλεσμα σαν JSON

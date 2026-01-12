@@ -37,16 +37,21 @@ public class NocPhoneNumberValidationAdapter implements PhoneNumberValidationPor
     @Override
     public PhoneNumberValidationResult validate(String rawPhoneNumber) {
         try {
+            // Κανονικοποίηση του raw input (αφαίρεση κενών, παυλών, παρενθέσεων)
+            String normalized = rawPhoneNumber == null
+                    ? null
+                    : rawPhoneNumber.replaceAll("[\\s\\-()]", "");
+
             // Φτιάχνουμε το τελικό URL του endpoint:
-            // GET {baseUrl}/{phone}/validations
-            // π.χ. http://localhost:8081/api/v1/phone-numbers/6940000000/validations
+            // GET {baseUrl}/validations?phone={phone}
+            // π.χ. http://localhost:8081/api/v1/phone-numbers/validations?phone=6940000000
             String url = UriComponentsBuilder
                     .fromHttpUrl(phoneNumbersBaseUrl)
-                    .path("/{phone}/validations")
-                    .buildAndExpand(rawPhoneNumber)
+                    .path("/validations")
+                    .queryParam("phone", normalized)
+                    .build()
                     .toUriString();
 
-            // Κάνουμε GET request και ο Spring μετατρέπει το JSON σε PhoneNumberValidationResult
             return restTemplate.getForObject(url, PhoneNumberValidationResult.class);
 
         } catch (Exception e) {

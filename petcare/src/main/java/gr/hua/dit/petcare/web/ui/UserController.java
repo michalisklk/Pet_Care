@@ -61,7 +61,7 @@ public class UserController {
             userService.registerUser(dto); // κλήση του service για δημιουργία χρήστη
 
         } catch (Exception e) {
-            model.addAttribute("errorMessage", e.getMessage()); // error αν υπάρχει ήδη χρήστης μ αυτο το email
+            bindingResult.rejectValue("email", "email.exists", e.getMessage()); // error αν υπάρχει ήδη χρήστης μ αυτο το email
             return "register";
         }
 

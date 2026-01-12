@@ -25,42 +25,43 @@
 
                     <!-- text fields -->
                     <div class="pc-register__fields">
-                        <div th:replace="~{fragments/components/raw-input :: rawInput(
+                        <div th:replace="~{fragments/components/field-input :: fieldInput(
                             'Full Name',
                             'fullName',
                             'text',
                             'Enter Full Name',
-                            *{fullName},
-                            false
+                            false,
+                            true
                         )}"></div>
 
-                        <div th:replace="~{fragments/components/raw-input :: rawInput(
+                        <div th:replace="~{fragments/components/field-input :: fieldInput(
                             'Email',
                             'email',
                             'email',
                             'Enter Email',
-                            *{email},
-                            false
+                            false,
+                            true
                         )}"></div>
 
-                        <div th:replace="~{fragments/components/raw-input :: rawInput(
+                        <div th:replace="~{fragments/components/field-input :: fieldInput(
                             'Phone',
                             'mobile',
                             'tel',
                             'Enter Phone',
-                            *{mobile},
-                            false
+                            false,
+                            true
                         )}"></div>
 
-                        <div th:replace="~{fragments/components/raw-input :: rawInput(
+                        <div th:replace="~{fragments/components/field-input :: fieldInput(
                             'Password',
                             'password',
                             'password',
                             'Enter Password',
-                            *{password},
+                            true,
                             true
                         )}"></div>
                     </div>
+
 
                     <p class="pc-register__link">
                         Already have an account?
@@ -69,8 +70,11 @@
 
                     <!-- Μηνύματα status -->
                     <div class="pc-register__status">
-                        <div th:if="${errorMessage}">
-                            <div th:replace="~{fragments/components/status :: status(${errorMessage}, 'error')}"></div>
+                        <div th:if="${#fields.hasErrors('*')}">
+                            <div th:replace="~{fragments/components/status :: status(
+                            ${#strings.listJoin(#fields.errors('*'), ' • ')},
+                            'error'
+                        )}"></div>
                         </div>
                     </div>
 
