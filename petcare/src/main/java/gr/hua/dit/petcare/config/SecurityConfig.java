@@ -109,6 +109,8 @@ public class SecurityConfig {
                         .requestMatchers("/vet/**").hasRole("VET")
                         .requestMatchers("/appointments/**").hasRole("PET_OWNER")
                         .requestMatchers("/pets/**").hasRole("PET_OWNER")
+                        .requestMatchers("/vaccines/**").hasRole("PET_OWNER")
+
 
 
 

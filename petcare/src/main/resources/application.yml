@@ -57,6 +57,15 @@ external:
     # GET {url}/{phone}/validations
     url: http://localhost:8081/api/v1/phone-numbers
 
+  vaccines-service:
+    # Base URL για mock λίστα τυπικών εμβολίων ανά είδος ζώου
+    # GET {url}/{species}
+    url: http://localhost:8081/api/v1/vaccines
+
+
+
+
+
 security:
   jwt:
     issuer: petcare

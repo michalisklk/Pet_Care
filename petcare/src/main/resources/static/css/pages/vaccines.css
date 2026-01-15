@@ -1,0 +1,80 @@
+/* Logo πάνω αριστερά */
+.pc-vaccines__logo {
+    position: absolute;
+    z-index: 1;
+    top: 15px;
+    left: 15px;
+    padding: 0;
+}
+
+.pc-vaccines__logo img {
+    display: block;
+    height: 150px;
+    width: auto;
+}
+
+
+.pc-vaccines__main{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 20px;
+}
+
+.pc-vaccines__card{
+    position: relative;
+    width: max-content;
+    background: var(--color-bg-surface);
+    border-radius: 28px;
+    padding: 32px 38px 36px;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+    overflow: hidden;
+}
+
+.pc-vaccines__title{
+    font-size: 52px;
+    margin: 0 0 8px;
+}
+
+.pc-vaccines__subtitle{
+    font-size: 26px;
+    margin: 0 0 18px;
+    opacity: 0.9;
+}
+
+.pc-vaccines__h2{
+    font-size: 32px;
+    margin: 20px 0 10px;
+}
+
+.pc-vaccines__list{
+    font-size: 24px;
+    margin: 0 0 18px 24px;
+}
+
+.pc-vaccines__status{
+    margin: 14px 0;
+}
+
+.pc-vaccines__table{
+    margin-top: 18px;
+}
+
+.pc-vaccines__actions{
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 22px;
+}
+
+.pc-vaccines__bunny{
+    position: absolute;
+    right: -10px;
+    bottom: -10px;
+    width: 260px;
+    opacity: 0.25;
+    pointer-events: none;
+}
+
+

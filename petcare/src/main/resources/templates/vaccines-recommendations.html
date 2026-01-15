@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('PetCare | Vaccines', '/css/pages/vaccines.css', null)}"></head>
+
+<body class="pc-page pc-vaccines">
+
+<div class="pc-vaccines__logo">
+    <img th:src="@{/css/assets/brand/petcare_logo.svg}" alt="PetCare logo">
+</div>
+
+<main class="pc-vaccines__main">
+
+    <section class="pc-vaccines__card">
+        <div class="pc-vaccines__content">
+
+            <h1 class="pc-vaccines__title" th:text="${pageTitle}">Suggested vaccines</h1>
+            <p class="pc-vaccines__subtitle" th:text="${pageSubtitle}">Subtitle</p>
+
+            <div class="pc-vaccines__status">
+                <div th:replace="~{fragments/components/status :: status(${disclaimer}, 'success')}"></div>
+            </div>
+
+            <h2 class="pc-vaccines__h2">Age-based note (mock)</h2>
+
+            <div class="pc-vaccines__status">
+                <div th:replace="~{fragments/components/status :: status(${planSummary}, ${planSummaryType})}"></div>
+            </div>
+
+            <div class="pc-vaccines__status" th:if="${emptyMessage}">
+                <div th:replace="~{fragments/components/status :: status(${emptyMessage}, 'error')}"></div>
+            </div>
+
+            <div class="pc-vaccines__table"
+                 th:replace="~{fragments/components/table-card :: tableCard('Typical vaccines (mock)', ~{::headers}, ~{::rows})}">
+                <th:block th:fragment="headers">
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Notes</th>
+                    <th>What to do now?</th>
+                </th:block>
+
+                <th:block th:fragment="rows">
+                    <tr th:each="v : ${vaccines}">
+                        <td th:text="${v.code()}">CODE</td>
+                        <td th:text="${v.name()}">NAME</td>
+                        <td th:text="${v.notes()}">NOTES</td>
+                        <td th:text="${perVaccineAdvice != null and perVaccineAdvice.containsKey(v.code())
+        ? perVaccineAdvice.get(v.code())
+        : defaultRowAdvice}">
+                            Advice
+                        </td>
+                    </tr>
+
+                    <tr th:if="${vaccines == null or #lists.isEmpty(vaccines)}">
+                        <td colspan="4">
+                            <em>No vaccines found for this species (mock).</em>
+                        </td>
+                    </tr>
+                </th:block>
+            </div>
+
+            <div class="pc-vaccines__actions">
+                <div th:replace="~{fragments/components/button :: button('Book an appointment', 'secondary', false, @{/appointments})}"></div>
+                <div th:replace="~{fragments/components/button :: button('Back to pets', 'secondary', false, @{/pets})}"></div>
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+</html>

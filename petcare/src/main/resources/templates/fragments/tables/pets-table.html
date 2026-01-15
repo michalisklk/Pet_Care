@@ -27,6 +27,14 @@
                         @{/pets/edit/{id}(id=${pet.id})}
                     )}"/>
 
+                    <!-- vaccines suggestions for this pet -->
+                    <th:block th:replace="~{fragments/components/button :: button(
+                        'Vaccines',
+                        'secondary-inverse',
+                        false,
+                        @{/vaccines/recommendations(petId=${pet.id})}
+                    )}"/>
+
                     <form th:action="@{/pets/delete/{id}(id=${pet.id})}" method="post">
                         <th:block th:replace="~{fragments/components/button :: button(
                             'Delete',
