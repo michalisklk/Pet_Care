@@ -117,7 +117,7 @@ public class AppointmentNotificationServiceImpl implements AppointmentNotificati
                 "PetCare: The appointment for "
                 + petName(a) + " on " + time(a)
                 + " has been cancelled."
-                + reasonPart(a) + ".";
+                + reasonPart(a) + cancelNotesPart(a) +  ".";
     }
 
 
@@ -177,6 +177,30 @@ public class AppointmentNotificationServiceImpl implements AppointmentNotificati
         if (oneLine.length() <= 160) return oneLine;
         return oneLine.substring(0, 157) + "...";
     }
+
+    /**
+     * Αν ο vet έβαλε σημείωση (notes) στην ακύρωση,
+     * τη βάζουμε στο SMS του owner.
+     */
+    private String cancelNotesPart(Appointment a) {
+        if (a == null) return "";
+        String notes = a.getVetNotes();
+        if (isBlank(notes)) return "";
+        return " | Notes from vet: " + safeSnippet(notes, 80);
+    }
+
+
+    /**
+     * Μικρό helper για να χωράει το πιο σημαντικό κομμάτι (π.χ. notes) μέσα σε SMS.
+     */
+    private static String safeSnippet(String msg, int maxLen) {
+        if (msg == null) return "";
+        String oneLine = msg.replaceAll("\\s+", " ").trim();
+        if (oneLine.length() <= maxLen) return oneLine;
+        if (maxLen <= 3) return oneLine.substring(0, Math.max(0, maxLen));
+        return oneLine.substring(0, maxLen - 3) + "...";
+    }
+
 
 
 }

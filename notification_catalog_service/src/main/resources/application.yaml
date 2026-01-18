@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: petcare-notification-catalog-service
+
+
+  cache:
+    type: caffeine
+    caffeine:
+      # Token cache (10 λεπτά)
+      spec: maximumSize=1000,expireAfterWrite=10m
+
+server:
+  port: 8081
+
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+# Routee settings
+# Αν ΔΕΝ υπάρχουν app-id/app-secret πάει Mock
+# Αν υπάρχουν πάει Routee και στέλνει πραγματικό SMS
+routee:
+  app-id: 5bba56ece4b0a43fbf239aae
+  app-secret: kDsvtwHe3w
+  sender: HUANOC

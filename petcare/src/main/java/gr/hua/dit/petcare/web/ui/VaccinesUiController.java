@@ -117,7 +117,7 @@ public class VaccinesUiController {
         if (vaccines == null || vaccines.isEmpty()) {
             model.addAttribute(
                     "emptyMessage",
-                    "No vaccine list found for species: " + finalSpecies + " (mock).\n" +
+                    "No vaccine list found for species: " + finalSpecies + " \n" +
                             "Try another species or ask your veterinarian."
             );
         }
@@ -125,7 +125,7 @@ public class VaccinesUiController {
         // disclaimer
         model.addAttribute(
                 "disclaimer",
-                "Demo only: this page shows indicative (mock) suggestions and is not medical advice. Always ask your veterinarian."
+                "This page shows indicative suggestions and is not medical advice. Always ask your veterinarian."
         );
 
         return "vaccines-recommendations";
@@ -176,7 +176,7 @@ public class VaccinesUiController {
         // αν δεν έχω vaccines, βγάζω error-type summary
         if (vaccines == null || vaccines.isEmpty()) {
             return new AgeBasedPlan(
-                    "No vaccine list was returned for this species (mock). Please ask your veterinarian.",
+                    "No vaccine list was returned for this species. Please ask your veterinarian.",
                     "error",
                     map,
                     "Ask your veterinarian."
