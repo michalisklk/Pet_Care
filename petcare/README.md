@@ -1,4 +1,4 @@
-# PetCare (Spring Boot) 
+# PetCare (Spring Boot)
 
 Web εφαρμογή για διαχείριση κατοικιδίων και ραντεβού σε κτηνίατρο, με:
 - UI (Thymeleaf) για ιδιοκτήτες/κτηνιάτρους (cookie/session auth)
@@ -74,20 +74,89 @@ Web εφαρμογή για διαχείριση κατοικιδίων και �
 ---
 
 ## 6) Εκτέλεση
-Από φάκελο `Pet_Care\petcare`:
+Από φάκελο `petcare/`:
+
+```powershell
+.\mvnw.cmd spring-boot:run 
+
+```
+
+### 6.1) Εκτέλεση (πλήρης ροή – Windows)
+1) **Τρέχουμε πρώτα** την εξωτερική υπηρεσία (`notification_catalog_service`) στο port **8081**:
+```powershell
+cd notification_catalog_service
+.\mvnw.cmd clean spring-boot:run
+```
+
+2) Μετά τρέχουμε την PetCare στο port **8080**:
 ```powershell
 cd petcare
+.\mvnw.cmd clean spring-boot:run
 ```
 
-```powershell
-.\mvnw.cmd spring-boot:run
+### 6.2) Εκτέλεση (Linux/macOS)
+```bash
+cd notification_catalog_service
+./mvnw clean spring-boot:run
+```
+και σε άλλο terminal:
+```bash
+cd petcare
+./mvnw clean spring-boot:run
 ```
 
-### Σημαντικά URLS
+> Αν δεν υπάρχει Maven Wrapper, χρησιμοποιούμε`mvn clean spring-boot:run`.
 
-UI (Thymeleaf): http://localhost:8080
+### 6.3) Έλεγχος ότι “τρέχει”
+- PetCare UI: `http://localhost:8080/`
+- PetCare Swagger: `http://localhost:8080/swagger-ui.html`
+- H2 Console: `http://localhost:8080/h2-console`
+- External Swagger: `http://localhost:8081/swagger-ui.html`
+- External Monitor UI: `http://localhost:8081/`
 
-Swagger UI (REST API docs): http://localhost:8080/swagger-ui/index.html
+---
 
-H2 Console: http://localhost:8080/h2-console
+## 7) Ρυθμίσεις (application.yml) – External services & DB
+Η PetCare καλεί την εξωτερική υπηρεσία μέσω των παρακάτω properties:
+
+```yaml
+external:
+  sms-service:
+    url: http://localhost:8081/api/v1/sms
+  phone-service:
+    url: http://localhost:8081/api/v1/phone-numbers
+  vaccines-service:
+    url: http://localhost:8081/api/v1/vaccines
+```
+
+**Phone validation endpoint που καλείται από την PetCare**
+- `GET {external.phone-service.url}/validations?phone=...`
+
+**H2 DB (file-based)**
+- `jdbc:h2:file:./LOCAL_DATA/h2/app`
+- Με `spring.jpa.hibernate.ddl-auto=create-drop` η βάση φτιάχνεται σε κάθε run και στο τέλος σβήνεται.
+
+---
+
+## 8) Demo χρήστες (DevDataConfig)
+Με το `DevDataConfig` δημιουργούνται demo accounts (password: **password**):
+
+- **PET_OWNER**
+    - `owner1@gmail.com`
+    - `owner2@gmail.com`
+- **VET**
+    - `vet1@gmail.com`
+    - `vet2@gmail.com`
+
+---
+
+## 9) REST API Authentication (JWT)
+- **Login (API):** `POST /api/v1/auth/login`
+    - body: `{ "email": "...", "password": "..." }`
+    - response: `{ "token": "..." }`
+- Για protected endpoints του API βάλε header:
+    - `Authorization: Bearer <token>`
+- Public endpoints: `/api/v1/auth/**`
+- UI παραμένει **session-based** (form login + cookie).
+
 
