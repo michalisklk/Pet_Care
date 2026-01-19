@@ -80,8 +80,8 @@ public class DevDataConfig {
             pet3 = petRepository.save(pet3);
 
             // Dummy appointments
-            LocalDateTime start1 = LocalDateTime.parse("2026-12-12T22:33:00");
-            AppointmentReason reason1 = AppointmentReason.VACCINES;
+            LocalDateTime start1 = LocalDateTime.parse("2026-02-12T12:33:00");
+            AppointmentReason reason1 = AppointmentReason.BEHAVIOR_COUNSELING;
 
             // Δημιουργία appointment
             LocalDateTime end1 = start1.plusMinutes(30);
@@ -91,7 +91,7 @@ public class DevDataConfig {
 
 
             // Dummy appointments
-            LocalDateTime start2 = LocalDateTime.parse("2026-12-13T10:00:00");
+            LocalDateTime start2 = LocalDateTime.parse("2026-02-13T10:00:00");
             AppointmentReason reason2 = AppointmentReason.GENERAL_CHECKUP;
 
             // Δημιουργία appointment
@@ -102,7 +102,7 @@ public class DevDataConfig {
 
 
             // Dummy appointments
-            LocalDateTime start3 = LocalDateTime.parse("2026-12-14T18:30:00");
+            LocalDateTime start3 = LocalDateTime.parse("2026-02-14T18:30:00");
             AppointmentReason reason3 = AppointmentReason.DIET;
 
             // Δημιουργία appointment

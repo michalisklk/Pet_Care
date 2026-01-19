@@ -74,7 +74,20 @@ Web εφαρμογή για διαχείριση κατοικιδίων και �
 ---
 
 ## 6) Εκτέλεση
-Από φάκελο `petcare/`:
+Από φάκελο `Pet_Care\petcare`:
+```powershell
+cd petcare
+```
 
 ```powershell
 .\mvnw.cmd spring-boot:run
+```
+
+### Σημαντικά URLS
+
+UI (Thymeleaf): http://localhost:8080
+
+Swagger UI (REST API docs): http://localhost:8080/swagger-ui/index.html
+
+H2 Console: http://localhost:8080/h2-console
+

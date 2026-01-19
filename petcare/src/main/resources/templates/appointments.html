@@ -62,17 +62,11 @@
                     <!-- Μηνύματα status -->
                     <div class="pc-appointment__status">
                         <div th:if="${successMessage}">
-                            <div th:replace="fragments/components/status :: status(
-                                ${successMessage},
-                                'success'
-                            )"></div>
+                            <div th:replace="~{fragments/components/status :: status(${successMessage}, 'success')}"></div>
                         </div>
 
                         <div th:if="${errorMessage}">
-                            <div th:replace="fragments/components/status :: status(
-                                ${errorMessage},
-                                'error'
-                            )"></div>
+                            <div th:replace="~{fragments/components/status :: status(${errorMessage}, 'error')}"></div>
                         </div>
                     </div>
 

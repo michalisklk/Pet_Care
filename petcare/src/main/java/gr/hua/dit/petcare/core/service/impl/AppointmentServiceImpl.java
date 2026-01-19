@@ -8,7 +8,9 @@ import gr.hua.dit.petcare.core.service.AppointmentService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.Period;
 import java.util.List;
 
@@ -59,16 +61,37 @@ public class AppointmentServiceImpl implements AppointmentService {
             throw new IllegalStateException("Reason is required");
         }
 
+        LocalTime t = start.toLocalTime();
+        LocalTime OPEN = LocalTime.of(8, 0);
+        LocalTime CLOSE = LocalTime.of(22, 0);
+
+        // επιτρέπεται ραντεβού μόνο από 08:00 έως 22:00
+        boolean withinWorkingHours = !t.isBefore(OPEN) && t.isBefore(CLOSE);
+
+        if (!withinWorkingHours) {
+            throw new IllegalStateException("Appointments cannot be booked between 22:00 and 08:00");
+        }
+
         LocalDateTime now = LocalDateTime.now();
 
+        if(start.getYear()>now.getYear()){
+            throw new IllegalStateException("Appointments cannot be booked after year " + now.getYear());
+        }
 
-        //Ο χρήστης θα πρέπει αν Κλείνει ραντεβού Μέτα απο μια ωρα καθώς δεν γίνεται να κλάσει ραντεβού για εκείνο ακριβώς τον χρόνο.
+            //Ο χρήστης θα πρέπει αν Κλείνει ραντεβού Μέτα απο μια ωρα καθώς δεν γίνεται να κλάσει ραντεβού για εκείνο ακριβώς τον χρόνο.
         if (start.isBefore(now.plusHours(1))) {
             throw new IllegalStateException("The appointment must be booked at least 1 hour from now");
         }
 
-        //διάρκειά κάθε ραντεβού 30 Είναι λεπτά
-        LocalDateTime end = start.plusMinutes(30);
+        //διάρκειά κάθε ραντεβού
+        Duration duration = reason.duration();
+        LocalDateTime end = start.plus(duration);
+
+        //το ραντεβού πρέπει να έχει τελειώσει μέχρι της 10
+        LocalDateTime closeBoundary = start.toLocalDate().atTime(22, 0);
+        if (end.isAfter(closeBoundary)) {
+            throw new IllegalStateException("Appointment must end by 22:00");
+        }
 
         if (vet.getRole() != Role.VET) {
             throw new IllegalStateException("Selected user is not a vet");
