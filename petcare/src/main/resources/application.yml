@@ -2,23 +2,7 @@ spring:
   application:
     name: PetCare
 
-  #Για χρήση postgrase:
-#  datasource:
-#    url: jdbc:postgresql://dpg-d5jr16ur433s73b87140-a.frankfurt-postgres.render.com:5432/petcaredb_n3dc
-#    username: petcareuser
-#    password: FLKGrdjOVunzzbjhjBD75LSxeQduxw63
-#    driver-class-name: org.postgresql.Driver
-#
-#    jpa:
-#      hibernate:
-#        # κάθε φορά που τρέχουμε την εφαρμογή,
-#        # φτιάχνει ξανά τους πίνακες και στο τέλος τους σβήνει.
-#        ddl-auto: create-drop
-#      open-in-view: false
-#      properties:
-#        hibernate:
-#          dialect: org.hibernate.dialect.PostgreSQLDialect
-#          format_sql: true
+
   datasource:
     # H2 database - κρατάει δεδομένα στον φάκελο LOCAL_DATA
     url: jdbc:h2:file:./LOCAL_DATA/h2/app;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE
