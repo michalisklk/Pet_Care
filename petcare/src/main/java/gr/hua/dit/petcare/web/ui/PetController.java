@@ -10,12 +10,14 @@ import gr.hua.dit.petcare.core.service.PetService;
 import jakarta.validation.Valid;
 import jakarta.validation.ValidationException;
 
+import jakarta.validation.groups.Default;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -69,7 +71,7 @@ public class PetController {
     @PostMapping("/new")
     public String createPet(
             @AuthenticationPrincipal Person user,
-            @Valid @ModelAttribute("pet") PetDto dto,
+            @Validated({PetDto.Create.class, Default.class}) @ModelAttribute("pet") PetDto dto,
             BindingResult bindingResult
     ) {
         if (bindingResult.hasErrors()) {
@@ -77,8 +79,9 @@ public class PetController {
         }
 
         petService.createPet(user.getId(), dto);
-        return "redirect:/pets"; // επιστρέφει ξανά στο pets
+        return "redirect:/pets";
     }
+
 
     /**
      * Φόρμα για επεξεργασία κατοικιδίου.
@@ -112,7 +115,7 @@ public class PetController {
 
     /**
      * Αποθήκευση αλλαγών κατοικιδίου.
-     * (POST /pets/edit/{id})
+     * (PATCH /pets/edit/{id})
      */
     @PostMapping("/edit/{id}")
     public String updatePet(
@@ -123,11 +126,20 @@ public class PetController {
             Model model
     ) {
         if (bindingResult.hasErrors()) {
+            Pet pet = petService.getPetById(id);
+            if (pet == null || !pet.getOwner().getId().equals(user.getId())) {
+                return "redirect:/pets";
+            }
+
+            dto.setName(pet.getName());
+            dto.setSpecies(normalizeSpecies(pet.getSpecies()));
+            dto.setBreed(pet.getBreed());
+
             model.addAttribute("petId", id);
             return "pet-form";
         }
 
-        petService.updatePet(id, user.getId(), dto);
+        petService.updatePet(id, user.getId(), dto); // service ενημερώνει ΜΟΝΟ age
         return "redirect:/pets";
     }
 

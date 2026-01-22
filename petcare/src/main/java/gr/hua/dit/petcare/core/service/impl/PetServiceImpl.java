@@ -78,10 +78,6 @@ public class PetServiceImpl implements PetService {
         }
 
         // ενημέρωση των στοιχείων
-        pet.setName(dto.getName());
-        pet.setSpecies(normalizeSpecies(dto.getSpecies()));
-
-        pet.setBreed(dto.getBreed());
         pet.setAge(dto.getAge());
 
         return petRepository.save(pet);

@@ -4,10 +4,12 @@ import jakarta.validation.constraints.*;
 
 public class PetDto {
 
-    @NotBlank(message = "Name is required")
+    public interface Create {}
+
+    @NotBlank(message = "Name is required", groups = Create.class)
     private String name;
 
-    @NotBlank(message = "Specie is required")
+    @NotBlank(message = "Specie is required", groups = Create.class)
     private String species;
 
     // Η ράτσα μπορεί να είναι κενή
@@ -21,7 +23,6 @@ public class PetDto {
     public PetDto() {}
 
     // Getters / Setters
-
     public String getName() {
         return name;
     }

@@ -102,3 +102,26 @@
     height: 78px;
     width: auto;
 }
+/* Read-only blocks (Edit mode) */
+.pc-petform__readonly {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.pc-petform__readonly label {
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0.85;
+}
+
+.pc-petform__readonly div {
+    font-size: 18px;          /* κάνει την τιμή μεγαλύτερη */
+    font-weight: 700;
+    padding: 12px 14px;       /* κάνει το “κουτί” μεγαλύτερο */
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 12px;
+    background: rgba(0,0,0,0.03);
+    line-height: 1.2;
+}

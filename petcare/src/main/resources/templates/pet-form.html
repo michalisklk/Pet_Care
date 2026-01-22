@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head('PetCare | Pet-form', '/css/pages/pet-form.css', null)}"></head>
 
@@ -12,23 +11,18 @@
             <!-- title -->
             <h1 class="pc-petform__title" th:text="${petId == null ? 'New Pet' : 'Edit Pet’s info'}"></h1>
 
+            <!-- CREATE FORM (New Pet)     -->
             <form class="pc-petform__form"
-                  th:action="${petId == null} ? @{/pets/new} : @{/pets/edit/{id}(id=${petId})}"
+                  th:if="${petId == null}"
+                  th:action="@{/pets/new}"
                   th:object="${pet}"
                   method="post">
 
-                <!-- text fields -->
                 <div class="pc-petform__fields">
                     <div th:replace="~{fragments/components/raw-input :: rawInput(
-                            'Name',
-                            'name',
-                            'text',
-                            'Enter pet’s Name',
-                            *{name},
-                            false
-                        )}"></div>
+                            'Name','name','text','Enter pet’s Name',*{name},false)}"></div>
 
-                    <div th:replace="~{fragments/components/field-select :: fieldSelect('Specie', 'species', 'Choose specie', ~{::speciesOptions})}">
+                    <div th:replace="~{fragments/components/field-select :: fieldSelect('Specie','species','Choose specie',~{::speciesOptions})}">
                         <th:block th:fragment="speciesOptions">
                             <option value="DOG">DOG</option>
                             <option value="CAT">CAT</option>
@@ -40,44 +34,70 @@
                         </th:block>
                     </div>
 
-
+                    <div th:replace="~{fragments/components/raw-input :: rawInput(
+                            'Breed','breed','text','Enter Pet’s Breed',*{breed},false)}"></div>
 
                     <div th:replace="~{fragments/components/raw-input :: rawInput(
-                            'Breed',
-                            'breed',
-                            'text',
-                            'Enter Pet’s Breed',
-                            *{breed},
-                            false
-                        )}"></div>
-
-                    <div th:replace="~{fragments/components/raw-input :: rawInput(
-                            'Age',
-                            'age',
-                            'number',
-                            'Enter Pet’s Age',
-                            *{age},
-                            false
-                        )}"></div>
+                            'Age','age','number','Enter Pet’s Age',*{age},false)}"></div>
                 </div>
 
-                <!-- Μηνύματα status -->
                 <div class="pc-petform__status">
                     <div th:if="${#fields.hasErrors()}">
                         <div th:replace="~{fragments/components/status :: status(
-                        ${#fields.errors('*')[0]},
-                        'error')}"></div>
+                                ${#fields.errors('*')[0]},
+                                'error')}"></div>
                     </div>
                 </div>
 
-                <!-- Actions -->
                 <div class="pc-petform__actions">
-                    <div th:replace="~{fragments/components/button :: button('Back to pets', 'secondary', false, @{/pets})}"></div>
+                    <div th:replace="~{fragments/components/button :: button('Back to pets','secondary',false,@{/pets})}"></div>
+                    <div th:replace="~{fragments/components/button :: button('Save','primary',true,null)}"></div>
+                </div>
+            </form>
 
-                    <div th:replace="~{fragments/components/button :: button('Save', 'primary', true, null)}"></div>
+            <!-- EDIT FORM (Age only)      -->
+            <form class="pc-petform__form"
+                  th:if="${petId != null}"
+                  th:action="@{/pets/edit/{id}(id=${petId})}"
+                  th:object="${pet}"
+                  method="post">
+
+                <div class="pc-petform__fields">
+                    <!-- Read-only fields (ΔΕΝ είναι inputs, άρα δεν αλλάζουν) -->
+                    <div class="pc-petform__readonly">
+                        <label>Name</label>
+                        <div th:text="*{name}"></div>
+                    </div>
+
+                    <div class="pc-petform__readonly">
+                        <label>Species</label>
+                        <div th:text="*{species}"></div>
+                    </div>
+
+                    <div class="pc-petform__readonly">
+                        <label>Breed</label>
+                        <div th:text="*{breed}"></div>
+                    </div>
+
+                    <!-- Only editable -->
+                    <div th:replace="~{fragments/components/raw-input :: rawInput(
+                            'Age','age','number','Enter Pet’s Age',*{age},false)}"></div>
                 </div>
 
+                <div class="pc-petform__status">
+                    <div th:if="${#fields.hasErrors()}">
+                        <div th:replace="~{fragments/components/status :: status(
+                                ${#fields.errors('*')[0]},
+                                'error')}"></div>
+                    </div>
+                </div>
+
+                <div class="pc-petform__actions">
+                    <div th:replace="~{fragments/components/button :: button('Back to pets','secondary',false,@{/pets})}"></div>
+                    <div th:replace="~{fragments/components/button :: button('Save','primary',true,null)}"></div>
+                </div>
             </form>
+
         </div>
 
         <!-- Bunny overlay -->
